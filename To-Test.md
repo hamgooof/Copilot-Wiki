@@ -6,6 +6,23 @@
 
 This page turns uncertain or surface-specific behaviour into reproducible tests. Do not publish a numeric claim from one run. Repeat tests, record client and extension versions, and separate model variability from product behaviour.
 
+Terminology in this page:
+
+- A **test run** is one complete execution of an experiment.
+- A **user turn** runs from one submitted message to its final response.
+- An **agent round** is one internal model-and-tool iteration inside that turn.
+
+## On this page
+
+- [Test harness requirements](#test-harness-requirements)
+- [Instruction and skill experiments](#t01--always-on-instruction-cost)
+- [Agent and subagent experiments](#t06--selected-custom-agent-context)
+- [Model, MCP and Memory experiments](#t10--parentchild-model-routing)
+- [Bloat and technology-comparison experiments](#t14--quality-impact-of-bloated-customization)
+- [Azure DevOps SVG rendering](#t16--azure-devops-svg-rendering)
+- [Suggested first automated suite](#suggested-first-automated-suite)
+- [Evidence standard](#evidence-standard)
+
 ## Test harness requirements
 
 Record for every run:
@@ -25,9 +42,9 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 ## T01 — Always-on instruction cost
 
-**Question:** How much context and usage does a repository instruction file add across turns?
+**Question:** How much context and usage does a repository instruction file add across successive user turns and agent rounds?
 
-**Method:** run the same fixed conversation with no instructions, a 100-token file, a 1,000-token file and a 5,000-token file. Use unique canaries and record context/usage after each turn.
+**Method:** run the same scripted conversation with no instructions, a 100-token file, a 1,000-token file and a 5,000-token file. Use unique canaries and record context and usage after each user turn; capture individual agent rounds where the surface exposes them.
 
 **Measure:** initial context, incremental tokens, cache hits, credits, latency, compaction point and answer quality.
 
@@ -51,11 +68,11 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 ## T04 — Skill activation and persistence
 
-**Question:** When is `SKILL.md` injected, and does its content remain available on later turns or after compaction?
+**Question:** When is `SKILL.md` injected, and does its content remain available in later agent rounds, later user turns or after compaction?
 
-**Method:** invoke a canary skill, refer indirectly to its rule over several turns, change tasks, manually compact and test again.
+**Method:** invoke a canary skill, refer indirectly to its rule over several user turns, change tasks, manually compact and test again.
 
-**Measure:** context view, correct recall, false persistence and usage per turn.
+**Measure:** context view, correct recall, false persistence and usage per user turn and observable agent round.
 
 ## T05 — Supporting skill resources
 
@@ -145,6 +162,16 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** routing reliability, task quality, context size, credits, latency, tool safety and maintainability.
 
+## T16 — Azure DevOps SVG rendering
+
+**Question:** Does the target Azure DevOps code-wiki renderer display repository-hosted SVG diagrams correctly?
+
+**Method:** after registering the wiki, open the context and turn/round diagrams in both light and dark themes. Check the page view, direct image view, browser zoom and mobile-width layout. Repeat on the actual Azure DevOps Server version rather than assuming Azure DevOps Services behaviour.
+
+**Measure:** image displayed, text readable, alt text available when blocked, links resolved and no active-content warning.
+
+**Fallback:** retain SVG as the editable source, render a PNG copy and update the Markdown image targets if the server blocks SVG.
+
 ## Suggested first automated suite
 
 Prioritise T01, T03, T04, T07, T08, T10 and T14. Together they test the claims most likely to change team behaviour: instruction bloat, just-in-time skills, isolated subagents, model routing and real quality/usage impact.
@@ -163,7 +190,9 @@ Publish findings with scope. “Copilot does X” is rarely precise enough; pref
 ## Sources
 
 - [Managing context in Copilot CLI](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-cli/context-management)
-- [The Copilot SDK agent loop and turn events](https://docs.github.com/en/copilot/how-tos/copilot-sdk/features/agent-loop)
+- [The coding harness behind GitHub Copilot in VS Code: turns and rounds](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode)
+- [The Copilot SDK agent loop and SDK-specific turn events](https://docs.github.com/en/copilot/how-tos/copilot-sdk/features/agent-loop)
 - [VS Code February 2026 release notes: context compaction](https://code.visualstudio.com/updates/v1_110)
 - [Monitoring GitHub AI Credits usage](https://docs.github.com/en/copilot/how-tos/manage-and-track-spending/monitor-ai-usage)
 - [Copilot CLI command reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference)
+- [Markdown and image support in Azure DevOps wikis](https://learn.microsoft.com/en-us/azure/devops/project/wiki/markdown-guidance?view=azure-devops)

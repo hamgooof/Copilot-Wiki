@@ -8,6 +8,17 @@
 
 An agent skill is a folder containing a required `SKILL.md` and optional scripts, examples and reference material. Copilot loads it when the task is relevant, giving the current agent specialist instructions without making the whole workflow permanently active.
 
+## On this page
+
+- [Why skills matter](#why-skills-matter)
+- [Typical layout](#typical-layout)
+- [Minimal skill](#minimal-skill)
+- [What is loaded into context](#what-is-loaded-into-context)
+- [Skills versus other options](#skills-versus-other-options)
+- [Good skill candidates](#good-skill-candidates)
+- [Common mistakes](#common-mistakes)
+- [Design checklist](#design-checklist)
+
 ## Why skills matter
 
 Skills solve two problems at once:

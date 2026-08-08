@@ -8,6 +8,16 @@
 
 Custom instructions are persistent guidance that Copilot applies automatically. They are ideal for concise facts and expectations that are useful across a broad scope.
 
+## On this page
+
+- [Common forms](#common-forms)
+- [What belongs in always-on instructions](#what-belongs-in-always-on-instructions)
+- [What should move elsewhere](#what-should-move-elsewhere)
+- [Context and usage impact](#context-and-usage-impact)
+- [Path-specific instructions](#path-specific-instructions)
+- [`AGENTS.md` and surface differences](#agentsmd-requires-surface-awareness)
+- [Review checklist](#review-checklist)
+
 ## Common forms
 
 | Form | Typical location | Intended scope |
@@ -54,9 +64,9 @@ Example:
 
 **Documented:** Copilot CLI loads custom instruction files at session start. Current CLI documentation says supported instruction locations are merged simultaneously. In IDE chat, repository instructions are automatically added to relevant requests and can appear in the response's References list.
 
-**Practical consequence:** every always-on line competes with the user request, history, code and tool results for context. It may also be sent repeatedly across turns, though provider caching and product-specific request assembly affect billed usage and latency.
+**Practical consequence:** every always-on line competes with the user message, history, code and tool results for context. It may also be sent repeatedly across rounds, though provider caching and product-specific prompt assembly affect billed usage and latency.
 
-This does **not** mean a 1,000-token instruction file always creates exactly 1,000 newly billed tokens on every turn. It means the file is eligible to occupy context repeatedly. Exact credit and cache behaviour is a **To Test** item.
+This does **not** mean a 1,000-token instruction file always creates exactly 1,000 newly billed tokens on every round. It means the file is eligible to occupy context repeatedly. Exact credit and cache behaviour is a **To Test** item.
 
 ## Path-specific instructions
 

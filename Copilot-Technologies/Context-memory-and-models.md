@@ -8,6 +8,18 @@
 
 “Context” is the information available to a model for the current request. It is not the same as durable memory, repository access or a model's trained knowledge.
 
+## On this page
+
+- [What may occupy context](#what-may-occupy-a-context-window)
+- [Context is not memory](#context-is-not-memory)
+- [What happens as a chat grows](#what-happens-as-a-chat-grows)
+- [Skills and context](#do-skills-maintain-context)
+- [Custom agents and context](#do-custom-agents-maintain-context)
+- [Changing models](#what-happens-when-the-model-changes)
+- [Parent and child models](#parent-and-child-models)
+- [Copilot Memory](#copilot-memory)
+- [Reducing context bloat](#reducing-context-bloat)
+
 ## What may occupy a context window
 
 - System and product instructions.
@@ -21,7 +33,7 @@
 - A custom agent's profile instructions.
 - Results returned by subagents.
 
-The product assembles this context; it does not simply send the entire repository on every turn.
+The product assembles this context; it does not simply send the entire repository on every round.
 
 ## Context is not memory
 
@@ -45,7 +57,7 @@ A skill does not have its own independent memory simply because it is a skill.
 
 **Documented:** when used, its `SKILL.md` is injected into the invoking agent's context. The agent can use the resources bundled with the skill.
 
-**Not fully documented across surfaces:** whether that injected text is resent unchanged on later turns, represented in a compacted summary, or discarded when the task changes. Do not use a skill as the only store for state produced during a task.
+**Not fully documented across surfaces:** whether that injected text is resent unchanged on later rounds, represented in a compacted summary, or discarded when the task changes. Do not use a skill as the only store for state produced during a task.
 
 ## Do custom agents maintain context?
 
@@ -107,7 +119,7 @@ Memory is useful for learned conventions, but it should not replace reviewed ins
 
 - Tokens added by each discovered instruction file on each surface.
 - Metadata cost of installed but uninvoked skills and custom agents.
-- Skill content retention across turns and compaction.
+- Skill content retention across rounds and compaction.
 - Parent-to-child context seeding and child-to-parent result size.
 - Cache-hit changes after switching agent or model.
 - Whether a lower-cost child model reduces total credits after retries and parent integration.

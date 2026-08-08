@@ -4,9 +4,19 @@
 | --- | --- | --- |
 | Draft technology page | Developers using Copilot agent mode or CLI | 8 August 2026 |
 
-> Read [Requests, turns, tools and the agent loop](../Requests-Turns-Tools-and-Agent-Loops.md) first if agent execution is unfamiliar.
+> Read [One prompt, many rounds](../One-Prompt-Many-Rounds.md) first if agent execution is unfamiliar.
 
 A **custom agent** is a reusable specialist definition. A **subagent** is a separate runtime worker created to complete delegated work. The main agent can invoke a custom agent as a subagent, but the terms describe different things.
+
+## On this page
+
+- [Custom agents](#custom-agent)
+- [Subagents](#subagent)
+- [What context a subagent receives](#does-a-subagent-inherit-the-parents-context)
+- [When to use a custom agent](#when-to-use-a-custom-agent)
+- [When to use a subagent](#when-to-use-a-subagent)
+- [Model selection](#model-selection)
+- [Coordination risks](#coordination-risks)
 
 ## Custom agent
 

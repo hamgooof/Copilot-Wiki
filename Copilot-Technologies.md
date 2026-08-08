@@ -14,9 +14,9 @@ The aim is not to enable everything. Too much irrelevant context or capability c
 
 If these concepts are unfamiliar, read:
 
-- [Copilot terminology](Copilot-Terminology.md)
+- [Copilot terminology without the headache](Copilot-Terminology.md)
 - [Tokens and context windows](Tokens-and-Context-Windows.md)
-- [Requests, turns, tools and the agent loop](Requests-Turns-Tools-and-Agent-Loops.md)
+- [One prompt, many rounds: turns, tools and the agent loop](One-Prompt-Many-Rounds.md)
 
 ## Technology breakdown
 

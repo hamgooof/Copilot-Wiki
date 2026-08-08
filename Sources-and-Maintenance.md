@@ -6,6 +6,17 @@
 
 This wiki is stored as Markdown so that changes can be reviewed through Git and published as an Azure DevOps code wiki.
 
+## On this page
+
+- [Source policy](#source-policy)
+- [How to phrase claims](#how-to-phrase-claims)
+- [Source register](#source-register)
+- [Features with high change risk](#features-with-high-change-risk)
+- [Azure DevOps code-wiki conventions](#azure-devops-code-wiki-conventions)
+- [Visual assets](#visual-assets)
+- [Review procedure](#review-procedure)
+- [Suggested commit evidence](#suggested-commit-evidence)
+
 ## Source policy
 
 Use primary sources wherever possible:
@@ -48,7 +59,8 @@ The first claim is scoped to a surface and a reviewable source. The second is li
 | Core model/context/tool concepts | [Agents and the agent loop in VS Code](https://code.visualstudio.com/docs/agents/concepts/agents) | VS Code or Copilot architecture changes |
 | Context composition | [Context in VS Code](https://code.visualstudio.com/docs/agents/concepts/context) | Context UI, indexing or compaction changes |
 | CLI context and compaction | [Managing context in Copilot CLI](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-cli/context-management) | CLI context commands or thresholds change |
-| Agent loop and turn definition | [Copilot SDK agent loop](https://docs.github.com/en/copilot/how-tos/copilot-sdk/features/agent-loop) | SDK event semantics change |
+| User-facing turn, round and agent-loop terminology | [The coding harness behind GitHub Copilot in VS Code](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode) | VS Code harness terminology changes |
+| Copilot SDK event semantics | [Copilot SDK agent loop](https://docs.github.com/en/copilot/how-tos/copilot-sdk/features/agent-loop) | SDK event names or counting semantics change |
 | Customization comparison | [Copilot customization cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet) | A feature becomes GA or gains another surface |
 | Instruction support | [Custom-instructions support](https://docs.github.com/en/copilot/reference/custom-instructions-support) | IDE or agent support changes |
 | Skills | [Adding agent skills](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills) | Skill discovery or loading behaviour changes |
@@ -82,11 +94,24 @@ This wiki follows Microsoft's documented code-wiki conventions:
 - Relative links connect pages within the repository.
 - The `.order` file defines navigation order.
 - External sources use full HTTPS links.
-- Images or other attachments should be stored in a `.attachments` folder if added later.
+- Wiki-owned diagrams are stored under `Media/` and referenced with relative paths.
+- Files pasted or uploaded through the Azure DevOps editor may instead be placed in `.attachments/` by Azure DevOps.
 
 The intended setup is a dedicated Git repository initialised inside the local `Confluence/` directory. With that setup, publish the repository root (`/`): the repository root is already the wiki root, and its `.order` file selects `Home.md` as the home page. Do not publish the parent `AIPresentations` workspace repository.
 
 If this content is ever stored as a folder inside a larger repository instead, map that repository's `/Confluence` folder rather than `/`. The peer `Copilot-Technologies.md` file and `Copilot-Technologies/` folder create a section with subpages in either setup.
+
+## Visual assets
+
+Prefer diagrams that remain reviewable in Git:
+
+- Store the editable source alongside the wiki.
+- Add meaningful Markdown alt text and an SVG `<title>` and `<desc>`.
+- Keep text large enough to read without opening the image separately.
+- Avoid animation unless motion genuinely explains something a static diagram cannot.
+- Do not rely on colour alone to communicate meaning.
+
+The current diagrams use SVG because it stays sharp at different sizes and is straightforward to edit. Azure DevOps documents relative image paths and animated GIFs, but explicit SVG support can vary by Azure DevOps Server version and renderer. Complete [T16](To-Test.md#t16--azure-devops-svg-rendering) after the code wiki is registered. If SVG is blocked, render the committed SVG source to PNG and change only the Markdown image target.
 
 ## Review procedure
 

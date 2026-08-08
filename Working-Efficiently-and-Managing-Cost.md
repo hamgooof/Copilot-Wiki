@@ -8,6 +8,20 @@ Efficient Copilot use is not about making every request as cheap as possible. It
 
 The biggest savings usually come from better task definition, cleaner context and an appropriate model—not from making prompts artificially short.
 
+## On this page
+
+- [What currently drives cost](#what-currently-drives-cost)
+- [Use the lightest interaction that fits](#1-use-the-lightest-interaction-that-fits)
+- [Define the finish line](#2-define-the-finish-line-before-starting)
+- [Keep sessions and instructions focused](#3-start-a-new-session-for-unrelated-work)
+- [Choose a model for the task](#5-choose-a-model-for-the-task)
+- [Control tools and subagents](#7-control-tools-and-their-output)
+- [Preserve useful cache boundaries](#9-preserve-useful-cache-boundaries)
+- [Detect and stop wasteful loops](#10-detect-and-stop-wasteful-loops)
+- [A compact working pattern](#a-compact-working-pattern)
+
+> **If you change only three habits:** start a fresh session for unrelated work; describe the outcome, scope, constraints and evidence; keep always-on instructions short. Those changes usually matter more than shaving a few words from a prompt.
+
 ## What currently drives cost
 
 GitHub's usage-based billing measures model interactions in AI credits. The cost of an interaction depends primarily on:
@@ -16,7 +30,7 @@ GitHub's usage-based billing measures model interactions in AI credits. The cost
 - Input tokens sent to the model.
 - Output and reasoning tokens generated.
 - Cached-token pricing for that model.
-- The number of model turns needed to complete the work.
+- The number of model rounds or calls needed to complete the turn.
 
 One GitHub AI Credit corresponds to USD $0.01, but a credit is a billing unit, not a token. Different models price tokens differently.
 
@@ -35,7 +49,7 @@ Some existing annual individual subscriptions may remain on legacy premium-reque
 | Perform noisy research separately | Subagent |
 | Apply a repeatable specialist process | Skill or custom agent |
 
-Agent mode is valuable because it can work independently. That same autonomy can cause more turns and tool output than a small task needs.
+Agent mode is valuable because it can work independently. That same autonomy can cause more rounds and tool output than a small task needs.
 
 ## 2. Define the finish line before starting
 
@@ -54,7 +68,7 @@ Limit changes to the orders API and its tests. Preserve the existing error schem
 Add a regression test and run the orders unit-test command.
 ```
 
-This may be longer than “fix quantity validation,” but it can avoid several exploratory and corrective turns.
+This may be longer than “fix quantity validation,” but it can avoid several exploratory and corrective rounds.
 
 ## 3. Start a new session for unrelated work
 

@@ -4,9 +4,20 @@
 | --- | --- | --- |
 | Draft technology overview | Developers extending or governing Copilot | 8 August 2026 |
 
-> If tools and agent execution are new, begin with [Requests, turns, tools and the agent loop](../Requests-Turns-Tools-and-Agent-Loops.md).
+> If tools and agent execution are new, begin with [One prompt, many rounds](../One-Prompt-Many-Rounds.md).
 
 Instructions, skills and agents are only part of the design. Tools, MCP, hooks, prompt files, plugins, Spaces and Memory solve different problems.
+
+## On this page
+
+- [Prompt files](#prompt-files)
+- [Tools and MCP servers](#tools-and-mcp-servers)
+- [Hooks](#hooks)
+- [Plugins](#plugins)
+- [Copilot Spaces](#copilot-spaces)
+- [Copilot Memory](#copilot-memory)
+- [Repository indexing and explicit context](#repository-indexing-and-explicit-context)
+- [Content exclusion](#content-exclusion)
 
 ## Prompt files
 

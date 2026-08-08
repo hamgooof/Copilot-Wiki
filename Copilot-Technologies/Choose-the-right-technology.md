@@ -8,6 +8,15 @@
 
 The choice is mainly about **activation**, **scope**, **capability** and **context isolation**.
 
+## On this page
+
+- [Decision guide](#decision-guide)
+- [Side-by-side comparison](#comparison)
+- [Skill versus custom agent](#skill-versus-custom-agent)
+- [Instructions versus skills](#instructions-versus-skills)
+- [Rule of thumb](#a-useful-rule-of-thumb)
+- [Surface support](#surface-support-changes-the-answer)
+
 ## Decision guide
 
 Ask these questions in order:

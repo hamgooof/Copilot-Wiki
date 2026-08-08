@@ -1,125 +1,153 @@
-# How Copilot works
+# How Copilot actually works
 
 | Page status | Intended audience | Last reviewed |
 | --- | --- | --- |
-| Draft for internal review | Existing Copilot users new to agentic features | 8 August 2026 |
+| Draft foundation page | Existing Copilot users new to agentic features | 8 August 2026 |
 
-You do not need to understand how a large language model is built to use Copilot well. You do need a useful mental model of what happens after you submit a request.
+You do not need to know how a language model is trained. You do need to know that the model is only one component in the Copilot experience.
 
-## The simple mental model
+The practical mental model is:
 
-```text
-Your request
-    + relevant conversation history
-    + instructions
-    + selected or retrieved code
-    + descriptions of available tools
-            |
-            v
-      language model
-            |
-       chooses either
-       /            \
-final response    tool request
-                       |
-                 tool produces a result
-                       |
-                 result returns to model
-                       |
-                 repeat until finished
-```
+> **Copilot agent = language model + harness + context + tools**
 
-A language model generates a response from the information it is given. It does not directly open files, execute code or browse a system. Copilot provides an agent around the model that can call tools to perform those actions.
+The model supplies the reasoning and generation. The harness supplies the working environment: it builds prompts, offers tools, executes actions and keeps the model working through multiple rounds.
+
+## On this page
+
+- [The 30-second explanation](#the-30-second-explanation)
+- [What reaches the model](#what-reaches-the-model)
+- [The five building blocks](#the-five-building-blocks)
+- [Chat, edit and agent work](#chat-edit-and-agent-work)
+- [What Copilot does not automatically know](#what-copilot-does-not-automatically-know)
+- [Follow a real task](#follow-a-real-task)
+- [What to read next](#what-to-read-next)
+
+## The 30-second explanation
+
+1. You give Copilot a message.
+2. The harness combines it with instructions, history, relevant files and tool descriptions.
+3. The model reads that assembled context and returns text or a request to use a tool.
+4. If it requests a tool, the harness executes it and records the result.
+5. Copilot sends the updated context back to the model for another round.
+6. When the model stops requesting tools, the final text becomes the response you see.
+
+A small question may need only one model call. A feature implementation may need many rounds of searching, reading, editing, testing and correcting.
+
+## What reaches the model
+
+![The context sources Copilot assembles before calling a language model](Media/context-assembly.svg)
+
+The chat box shows only the message you typed. The model can receive a much larger prompt containing system instructions, customizations, conversation history, files and tool results.
+
+The opposite is equally important: the model cannot reason about information that the harness did not put into the current context. Access to a repository does not mean every file is loaded into every request.
 
 ## The five building blocks
 
 ### 1. The model reasons and generates
 
-The language model reads an assembled prompt and generates text. That text might be an explanation, code, an edit or a request to use a tool.
+The language model reads tokens and generates tokens. Its output might be an explanation, code, an edit description or a structured request to use a tool.
 
-Models differ in reasoning ability, speed, context-window size and cost. The most capable model is not automatically the best choice for every task.
+Models differ in capability, speed, context-window size, tool use and cost. Think of them like vehicles: a forklift and a car are both useful, but they are designed for different jobs. The biggest model is not automatically the best choice for every task.
 
-### 2. Context supplies what the model can see
+### 2. The harness turns model output into useful work
 
-Context can contain your current message, earlier messages, relevant files, instructions and tool results. The model can reason only about information that has been placed in its current context.
+The agent harness is the bridge between the model and VS Code. It:
 
-Copilot may retrieve relevant code through workspace indexing, but it does not simply load an entire repository into every request.
+- Assembles context.
+- Describes the available tools.
+- Validates and executes tool calls.
+- Feeds results back to the model.
+- Applies loop limits, approvals and hooks.
+- Adapts prompts and tool behaviour for different model families.
 
-### 3. Tools let Copilot act
+The model is the engine; the harness is the rest of the vehicle.
 
-Tools can read and edit files, search a repository, run terminal commands and connect to other systems. Each tool has a description that helps the model decide when to use it.
+### 3. Context supplies what the model can see
 
-The output from a tool becomes more context for the next model decision.
+Context can contain your message, previous messages, selected or retrieved files, instructions and tool results. It has a token limit, so relevance matters more than sheer volume.
 
-### 4. The agent coordinates the work
+Good context says what outcome you want, where to work, which constraints matter and how success should be checked.
 
-An agent combines the model, context and tools. It can inspect the task, select an action, observe the result and continue until it produces a final response.
+### 4. Tools let Copilot act
 
-This repeated process is the **agent loop**. A simple question might require no tools. Implementing a feature can require many loops through reading, editing, testing and correcting.
+Tools can search, read and edit files, run terminal commands, inspect source control or connect to external systems. The model chooses a tool; the harness executes it.
 
-### 5. Customizations shape the agent
+A tool's output becomes potential input for the next round. This is how the agent can react to a failed test rather than merely claim that the code should work.
 
-Instructions, skills and custom agents do not replace the language model. They change the guidance, resources, tools or execution profile available to it.
+### 5. Customizations shape the work
 
-- Instructions say what broadly applicable rules to follow.
-- Skills provide a workflow for a particular kind of task.
-- Custom agents define a specialised worker with its own instructions and tools.
-- MCP servers add external tools and data.
-- Hooks execute commands at defined lifecycle events.
+Customizations change the guidance or capabilities available to the agent:
 
-## Completion, chat and agent work are different
+| Customization | Think of it as… |
+| --- | --- |
+| Instructions | Standing rules that apply automatically |
+| Skill | A task-specific playbook with optional scripts and references |
+| Custom agent | A named specialist with its own brief and tools |
+| MCP server | An adaptor that exposes another system's tools or data |
+| Hook | A deterministic command at a lifecycle event |
+
+They do not replace the language model; they shape the environment in which it works.
+
+## Chat, edit and agent work
+
+Use the lightest interaction that fits the task:
 
 | Experience | What happens | Good for |
 | --- | --- | --- |
-| Inline suggestion | A specialised model predicts code while you type | Completing the current line or nearby code |
-| Chat/question | A model answers using supplied and retrieved context | Explanation, advice and focused questions |
+| Inline suggestion | A specialised model predicts code as you type | Completing the current line or nearby code |
+| Chat or question | A model answers using supplied and retrieved context | Explanations, advice and focused questions |
 | Edit | Copilot makes a targeted change to selected code | Small, bounded modifications |
-| Agent task | An agent uses tools and iterates | Multi-file work, investigation, implementation and validation |
+| Agent task | The harness lets a model use tools and iterate | Investigation, multi-file changes and validation |
 
-Do not use full agent autonomy for every small edit. More autonomy usually means more model calls, tools, context and validation work.
+Full agent autonomy is powerful, but it also creates more opportunities for tool calls, additional rounds and unwanted changes. Do not send a forklift to move a coffee mug.
 
 ## What Copilot does not automatically know
 
-- Details that are not in its training data or current context.
-- The contents of a file it has not been shown or retrieved.
+Copilot does not automatically know:
+
+- The contents of a file it has not been given or retrieved.
 - A decision made in another independent session.
 - Your team's unwritten preferences.
+- Whether an external fact is still current without retrieving a current source.
 - Whether generated code is correct without suitable validation.
-- Whether an external fact is still current unless it can retrieve a current source.
+- Whether you meant “improve everything” or one specific behaviour.
 
-This is why good Copilot use is mostly good context management: give it a clear goal, the relevant constraints and a way to verify success.
+Clear context is not bureaucratic ceremony. It is how you reduce guessing.
 
-## A worked example
+## Follow a real task
 
-Request:
+You submit:
 
 ```text
-Add validation to the registration endpoint. Reject duplicate email addresses,
-preserve the existing error format, add tests, and run the relevant test suite.
+Add duplicate-email validation to the registration endpoint.
+Preserve the existing error format, add a regression test and run the relevant tests.
 ```
 
-A capable agent might:
+One turn might then contain these rounds:
 
 1. Search for the endpoint and existing validation patterns.
 2. Read the error-response and data-access code.
-3. Edit the endpoint.
-4. Add or update tests.
-5. Run the relevant test command.
-6. Read the failure output if a test fails.
-7. Correct the implementation and test again.
-8. Summarise the changes and evidence.
+3. Edit the endpoint and test.
+4. Run the focused test command.
+5. Read a failure and correct the implementation.
+6. Run the test again.
+7. Produce the final summary and evidence.
 
-Each search, file read and test result adds working context. A clear request helps the agent select fewer irrelevant actions.
+![One user turn containing several internal rounds](Media/turns-rounds-agent-loop.svg)
+
+Each round sees an updated prompt. A clear starting request helps the agent spend those rounds on useful work rather than discovering what you meant.
 
 ## What to read next
 
-- [Copilot terminology](Copilot-Terminology.md)
-- [Tokens and context windows](Tokens-and-Context-Windows.md)
-- [Requests, turns, tools and the agent loop](Requests-Turns-Tools-and-Agent-Loops.md)
+- New vocabulary: [Copilot terminology without the headache](Copilot-Terminology.md)
+- Context and usage: [Tokens and context windows](Tokens-and-Context-Windows.md)
+- The internal workflow: [One prompt, many rounds](One-Prompt-Many-Rounds.md)
+- Choosing a customization: [Choose the right Copilot technology](Copilot-Technologies/Choose-the-right-technology.md)
 
 ## Sources
 
+- [The coding harness behind GitHub Copilot in VS Code](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode)
 - [Language models in VS Code](https://code.visualstudio.com/docs/agents/concepts/language-models)
 - [Agents and the agent loop](https://code.visualstudio.com/docs/agents/concepts/agents)
 - [Tools in VS Code](https://code.visualstudio.com/docs/agents/concepts/tools)
-- [Context in VS Code](https://code.visualstudio.com/docs/agents/concepts/context)
+- [Context assembly in VS Code](https://code.visualstudio.com/docs/agents/concepts/context)
