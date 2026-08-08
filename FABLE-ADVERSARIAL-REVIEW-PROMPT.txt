@@ -1,0 +1,230 @@
+You are performing an adversarial review of a proposed internal Azure DevOps wiki about GitHub Copilot.
+
+Your job is to find material problems before the content is published. Do not reassure the author, rewrite the wiki, or make edits during this review. Be sceptical, evidence-driven and precise. A short list of well-supported findings is more useful than a long list of stylistic preferences.
+
+## Repository and scope
+
+The local wiki root is:
+
+Confluence/
+
+The intended deployment is a separate Git repository initialized inside this `Confluence/` directory. Therefore, within the future Azure DevOps repository, `Home.md`, `.order`, and the other current contents of `Confluence/` will be at repository root. The surrounding `AIPresentations/` workspace is not intended to be pushed as part of the wiki repository.
+
+The `Confluence/` directory will become the root of an Azure DevOps code wiki.
+
+The `Confluence/Copilot-Technologies.md` page and the peer `Confluence/Copilot-Technologies/` folder form a parent page with subpages. General foundation pages belong at the wiki root. Technology-specific breakdowns such as skills, custom instructions, custom agents and MCP belong under `Copilot-Technologies/`.
+
+Review all of the following:
+
+- Every Markdown page under `Confluence/`.
+- The root `Confluence/.order` file.
+- Every nested `.order` file.
+- Relative links between pages.
+- External sources cited by the pages.
+
+Exclude this prompt and any previous review output from the wiki-content assessment.
+
+## Intended audience and purpose
+
+The readers have typically used GitHub Copilot for a few months. They can use completions and chat, but are unlikely to understand advanced concepts such as context-window management, agent loops, tools, skills, custom agents, subagents, MCP, hooks or model routing.
+
+The wiki should:
+
+1. Introduce terminology and mental models before advanced features.
+2. Help readers get more useful work from Copilot.
+3. Explain when to use each customization or agentic technology.
+4. Compare overlapping technologies, especially skills versus instructions and skills versus custom agents.
+5. Explain context and cost implications without unsupported numeric claims.
+6. Distinguish VS Code, Visual Studio, JetBrains, GitHub.com, Copilot CLI, cloud coding agent and SDK behaviour where necessary.
+7. Clearly label uncertain or undocumented behaviour as `To Test`.
+8. Provide durable links to primary GitHub, VS Code and Microsoft documentation so claims can be rechecked later.
+9. Provide a useful high-level orientation to GH-600 without pretending the wiki is a complete exam guide.
+
+## Review method
+
+### 1. Establish the actual structure
+
+- Enumerate all pages and `.order` files.
+- Confirm that `Confluence/` functions as the wiki root.
+- Evaluate publishing guidance using the intended dedicated-repository setup above. Do not assume that `AIPresentations/` is the repository being published.
+- Confirm that the root `Home.md` is first in the root `.order` file.
+- Confirm that each page with subpages has a peer Markdown file and same-named folder.
+- Confirm that every intended page is present in the relevant `.order` file.
+- Identify pages that Azure DevOps would unexpectedly expose, omit, orphan or place at the wrong hierarchy level.
+- Check filenames against Azure DevOps code-wiki conventions.
+
+Use Microsoft's current Azure DevOps wiki documentation as the authority for structure and Markdown behaviour.
+
+### 2. Check navigation and rendering
+
+- Resolve every relative Markdown link from the source page's directory.
+- Identify broken anchors, missing pages, incorrect case and links that work locally but are likely to fail in Azure DevOps.
+- Look for Markdown constructs that Azure DevOps renders differently or does not support.
+- Check that headings, tables, block quotes and code fences are structurally valid.
+- Check whether navigation creates a coherent learning path for the intended audience.
+
+### 3. Verify factual claims adversarially
+
+Do not assume a claim is correct because it has a source link.
+
+- Open the cited source and confirm that it directly supports the nearby claim.
+- Use current official documentation, not search-result summaries, third-party blogs or model memory.
+- Prefer `docs.github.com`, `code.visualstudio.com` and `learn.microsoft.com`.
+- Check current feature status, supported surfaces, terminology and limitations.
+- Check whether a source is legacy, preview-specific, enterprise-only or restricted to one client.
+- Identify claims that improperly generalise CLI, VS Code or SDK behaviour to all Copilot surfaces.
+- Identify claims that were true previously but appear outdated as of the review date.
+- Flag sources that redirect, require unavailable authorization, are too broad, or do not prove the stated behaviour.
+
+Pay particular attention to:
+
+- What is automatically loaded into context.
+- Custom-instruction discovery, merging and precedence.
+- Skill discovery, invocation and context injection.
+- What supporting skill files are made available versus injected in full.
+- Whether custom agents preserve the current chat context.
+- Parent-to-subagent context inheritance and child-to-parent result transfer.
+- Model inheritance and model overrides for subagents.
+- Differences between manually changing the chat model and assigning a child model.
+- Context compaction thresholds and what compaction preserves.
+- Prompt caching claims.
+- Copilot Memory scope, validation, retention and supported surfaces.
+- AI Credits, token accounting and remaining legacy premium-request cases.
+- Hooks, plugins, Spaces, content exclusion and MCP support.
+- The current GH-600 objectives and weightings.
+
+### 4. Review audience calibration
+
+Assume the reader does not already know agentic terminology.
+
+For every page, ask:
+
+- Are unexplained terms used before the relevant foundation page introduces them?
+- Does the page lead with a plain-English explanation before configuration detail?
+- Are examples concrete enough to make the distinction understandable?
+- Is the page useful to a regular developer, or written mainly for a platform engineer?
+- Does it accidentally imply that readers should enable every advanced feature?
+- Does it clearly state when a simpler Copilot interaction is sufficient?
+- Is important guidance buried beneath reference material?
+
+Flag genuine comprehension barriers. Do not report personal wording preferences as defects.
+
+### 5. Review technology comparisons
+
+Check whether a reader could correctly decide between:
+
+- Repository-wide instructions and path-specific instructions.
+- `AGENTS.md` and Copilot-specific instructions.
+- Instructions and skills.
+- Skills and prompt files.
+- Skills and custom agents.
+- Custom agents and subagents.
+- Tools and skills.
+- MCP tools and built-in tools.
+- Hooks and natural-language instructions.
+- Copilot Memory and version-controlled documentation.
+- Copilot Spaces and repository instructions.
+
+Look for contradictory decision rules across different pages.
+
+### 6. Review context and cost guidance
+
+Challenge any statement that implies a simple one-to-one relationship between a file, prompt, tool call, token count, request or AI-credit cost.
+
+Check that the wiki distinguishes:
+
+- A user request from an internal model turn.
+- Tokens from words, requests and AI credits.
+- Context from persistent memory and repository storage.
+- Installed/discovered customization metadata from fully injected content.
+- A model call from a tool execution.
+- Cost reduction from merely shifting work to a subagent.
+- Current usage-based billing from legacy request-based billing.
+
+Unsupported quantitative claims should be marked `To Test` or removed.
+
+### 7. Review omissions and misplaced content
+
+Identify missing material only when its absence would cause the intended reader to misunderstand or misuse the documented features.
+
+Also identify pages placed in the wrong hierarchy. In particular:
+
+- General concepts and efficient-working guidance should normally be at the wiki root.
+- The `Copilot-Technologies/` section should contain technology breakdowns.
+- Review/test material should not masquerade as end-user technology guidance.
+
+Do not demand exhaustive coverage of every Copilot feature.
+
+## Finding standards
+
+Report a finding only when it is actionable and supported by evidence.
+
+Use these priorities:
+
+- P0 — Publishing blocker: the wiki cannot be published or would be materially unsafe.
+- P1 — High: a factual error, broken hierarchy/navigation, misleading cost claim, security problem, or advice likely to cause incorrect implementation.
+- P2 — Medium: meaningful ambiguity, unsupported generalisation, missing prerequisite, significant audience mismatch, or source that does not support the claim.
+- P3 — Low: minor but concrete usability, maintainability or consistency defect.
+
+Do not report:
+
+- Pure style preferences.
+- Suggestions to add more detail without explaining the reader harm.
+- Findings based only on your memory when a current primary source can be checked.
+- Multiple findings for the same root cause; group related instances.
+
+## Required output
+
+Write the review to:
+
+Confluence/FABLE-ADVERSARIAL-REVIEW.txt
+
+Do not create a Markdown file in `Confluence/`, because Markdown files in the published path become wiki pages.
+
+Use this structure:
+
+1. Executive verdict
+   - Ready / Ready with corrections / Not ready
+   - Three to six sentences explaining why.
+
+2. Confirmed findings
+   - Sort by priority, then file path and line.
+   - For each finding include:
+     - ID and priority.
+     - Short title.
+     - Exact file and tight line range.
+     - What is wrong.
+     - Why it matters to the intended reader.
+     - Direct supporting source URL or reproducible local evidence.
+     - Minimal recommended correction.
+
+3. Source-verification results
+   - Sources checked.
+   - Sources that did not support the claim.
+   - Sources that are legacy, preview, restricted or likely to change.
+
+4. Azure DevOps wiki validation
+   - Root and subsection hierarchy.
+   - `.order` coverage.
+   - Broken or risky links.
+   - Markdown/rendering concerns.
+
+5. Audience and learning-path assessment
+   - Where a regular Copilot user is likely to become lost.
+   - Where content is appropriately progressive.
+
+6. To-Test recommendations
+   - Only tests needed to resolve claims that cannot be confirmed from official documentation.
+   - Map them to existing test IDs where possible.
+
+7. Non-blocking opportunities
+   - Maximum five.
+   - Keep separate from defects.
+
+8. Validation summary
+   - Number of pages reviewed.
+   - Number of internal links checked.
+   - Number of external sources opened.
+   - Any checks you could not perform and why.
+
+Finish the review after writing the report. Do not modify the wiki content, `.order` files or source pages.

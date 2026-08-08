@@ -1,0 +1,418 @@
+ADVERSARIAL REVIEW — Copilot wiki (Confluence/)
+Reviewer: Claude (Fable), 2026-08-08
+Scope: 16 Markdown pages, 2 .order files, 39 internal links, 47 cited external sources.
+All external sources were opened live on 2026-08-08; no claim below rests on model memory.
+
+================================================================================
+1. EXECUTIVE VERDICT
+================================================================================
+
+READY WITH CORRECTIONS.
+
+The wiki is structurally sound for Azure DevOps publication, the learning path is
+genuinely progressive, and the large majority of factual claims — including every
+billing, CLI-compaction, skills-location, Memory, Spaces, content-exclusion and
+subagent-model-precedence claim I checked — are supported verbatim by the cited
+primary documentation. The hedging discipline ("current CLI documentation says…",
+To Test labels) is unusually good and repeatedly saved pages from findings.
+However, one publishing instruction on the maintenance page is wrong in a way that
+would expose non-wiki internal files if followed (ADV-01), the GH-600 page misquotes
+three of six exam domain names from the live study guide (ADV-02), and two clusters
+of VS Code claims are attributed to pages that do not contain them (ADV-03, ADV-04).
+Fix ADV-01 and ADV-02 before publishing; the rest are correction-pass items.
+
+================================================================================
+2. CONFIRMED FINDINGS
+================================================================================
+
+--------------------------------------------------------------------------------
+ADV-01  P0  Publishing instruction is wrong and would expose internal files
+--------------------------------------------------------------------------------
+File: Sources-and-Maintenance.md, line 87
+What is wrong: "Publish the repository root (`/`) so `Confluence/` is the wiki
+root." This is self-contradictory: in Azure DevOps you "select the repo, branch,
+and folder that contain the Markdown files", and "If you want to publish all
+Markdown files in the repo to your wiki, select the root of the repo (/) as the
+folder" (Microsoft docs). Publishing the root makes the REPOSITORY root the wiki
+root: Confluence becomes a subpage, the root .order inside Confluence/ no longer
+selects the wiki home page, and every other .md in the repository is published.
+The parent directory currently contains dozens of internal working files
+(CLAUDE.md, HANDOVER-*.md, OVERNIGHT-*.md, benchmark reports, review prompts) that
+would become wiki pages visible to all readers.
+Why it matters: following the wiki's own documented publish procedure breaks the
+intended hierarchy AND leaks internal material — a materially unsafe publication.
+Source: https://learn.microsoft.com/en-us/azure/devops/project/wiki/publish-repo-to-wiki?view=azure-devops
+("In the Publish code as wiki dialog, select the repo, branch, and folder that
+contain the Markdown files.")
+Correction: change the sentence to "Publish the `/Confluence` folder (not the
+repository root) so `Confluence/` is the wiki root." One-line fix.
+
+--------------------------------------------------------------------------------
+ADV-02  P1  Three of six GH-600 domain names are misquoted from the study guide
+--------------------------------------------------------------------------------
+File: GH-600-Certification-Map.md, lines 15–22 (table)
+What is wrong: the page states "Microsoft's study guide lists these domains" but
+three names differ from the live study guide (checked 2026-08-08):
+  - Wiki: "Establish agent architecture and SDLC processes"
+    Actual: "Prepare agent architecture and SDLC processes"
+  - Wiki: "Perform evaluation, failure analysis and tuning"
+    Actual: "Perform evaluation, error analysis, and tuning"
+  - Wiki: "Govern multi-agent coordination"
+    Actual: "Orchestrate multi-agent coordination"
+All six weight ranges and the domain count are correct.
+Why it matters: this is a direct misquote of a primary source on a certification
+page; candidates searching the actual study guide or exam objectives for the
+wiki's wording will not find it, and the mapping table (lines 28–35) inherits the
+wrong names.
+Source: https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/gh-600
+Correction: replace the three names verbatim; re-check the mapping-table row
+labels for the same wording.
+
+--------------------------------------------------------------------------------
+ADV-03  P2  AGENTS.md "nearest file takes precedence" attributed to VS Code docs
+            that do not say it
+--------------------------------------------------------------------------------
+File: CopilotTechnologies/Custom-instructions.md, line 82
+What is wrong: "VS Code documentation describes the nearest `AGENTS.md` in the
+directory tree as taking precedence." The current VS Code custom-instructions
+page says VS Code "automatically detects an AGENTS.md Markdown file in the root
+of your workspace", and — behind an experimental setting — "searches recursively
+in all subfolders of your workspace for AGENTS.md files and adds their relative
+path to the chat context". No nearest-wins precedence rule is stated anywhere I
+could find on code.visualstudio.com. Additionally, the page's own Sources list
+contains no VS Code link, so the attribution cannot be checked from the page.
+Why it matters: a reader designing a monorepo layout around nearest-file
+precedence would be building on an undocumented rule — exactly the failure mode
+the surrounding paragraph warns against.
+Source: https://code.visualstudio.com/docs/agent-customization/custom-instructions
+Correction: replace the bullet with what the doc actually says (root-level
+AGENTS.md applied to all requests; experimental subfolder discovery), add the
+VS Code source link, and map the open question to test T02.
+
+--------------------------------------------------------------------------------
+ADV-04  P2  VS Code context-indicator and compaction claims cite a page that
+            contains none of them
+--------------------------------------------------------------------------------
+Files: Tokens-and-Context-Windows.md, lines 59 and 122;
+       CopilotTechnologies/Context-memory-and-models.md, line 38
+What is wrong: three claims — "VS Code also supports automatic and manual
+compaction", "VS Code shows a context-window control with token usage and a
+category breakdown", "VS Code also displays context usage and automatically
+compacts conversations when needed" — are sourced (on both pages) to "Managing
+context in VS Code" → code.visualstudio.com/docs/chat/copilot-chat-context.
+That page is actually titled "Add context to chat" and contains no occurrence of
+"token", "context window" or "compact" (verified against the raw HTML). The
+VS Code concepts/context page carries only a passing "…when the conversation is
+summarized". The claims are plausibly true in the product but currently fail the
+wiki's own sourcing standard ("Direct source links close enough to identify what
+supports the page").
+Why it matters: these are the wiki's only concrete "how to observe context in
+VS Code" instructions; if the UI differs from the description there is no source
+to recheck against.
+Evidence: fetches of https://code.visualstudio.com/docs/chat/copilot-chat-context
+and https://code.visualstudio.com/docs/agents/concepts/context (2026-08-08).
+Correction: cite a VS Code page or release note that documents the context-window
+indicator and auto/manual compaction; if none is found, mark the three sentences
+To Test (see section 6, T16).
+
+--------------------------------------------------------------------------------
+ADV-05  P2  Glossary "Checkpoint" definition collides with VS Code's checkpoint
+            feature
+--------------------------------------------------------------------------------
+File: Copilot-Terminology.md, line 37
+What is wrong: "Checkpoint | A saved record associated with context compaction on
+supporting surfaces, such as current Copilot CLI." Correct for the CLI ("A
+checkpoint is a saved copy of the compaction summary…" — CLI context-management
+docs). But VS Code — the surface most readers use — uses the same word for
+session rollback: "checkpoints let you roll back a session" (VS Code
+trust-and-safety page, which this wiki cites elsewhere). A VS Code user reading
+this glossary will misinterpret the checkpoints they actually see in the UI.
+Why it matters: the glossary exists precisely to disambiguate overloaded terms;
+this entry creates the ambiguity it should resolve.
+Sources: https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-cli/context-management ;
+https://code.visualstudio.com/docs/agents/concepts/trust-and-safety
+Correction: split the entry: "In Copilot CLI, a saved copy of the compaction
+summary. In VS Code, a restore point for rolling back a session's file changes.
+Different mechanisms sharing one name."
+
+--------------------------------------------------------------------------------
+ADV-06  P3  Redirecting / duplicated VS Code source URLs
+--------------------------------------------------------------------------------
+Files: How-Copilot-Works.md, lines 122 and 124; Home.md, line 34;
+       Sources-and-Maintenance.md, line 48; Custom-agents-and-subagents.md, line 113
+What is wrong: code.visualstudio.com/docs/agents/concepts/overview now redirects
+to .../concepts/agents, so How-Copilot-Works.md's Sources list cites the same
+page twice under two titles ("How AI works in VS Code" and "Agents and the agent
+loop"). code.visualstudio.com/docs/agents/subagents redirects to
+/docs/agents/run/subagents. VS Code docs are visibly mid-restructure (a new
+/docs/agent-customization/* tree now exists), so these redirects are likely to
+churn further.
+Why it matters: dead or duplicated sources erode the wiki's re-checkability, its
+stated core value.
+Evidence: live fetches 2026-08-08 (redirects observed).
+Correction: point each link at the post-redirect URL, retitle "How AI works in
+VS Code" entries, and de-duplicate the two entries on How-Copilot-Works.md.
+
+--------------------------------------------------------------------------------
+ADV-07  P3  "Cache Explorer" is named three times but never explained or linked
+--------------------------------------------------------------------------------
+Files: Tokens-and-Context-Windows.md, line 125;
+       Working-Efficiently-and-Managing-Cost.md, lines 133 and 149
+What is wrong: the tool is recommended by name with no description, no source,
+and no access path. It is a Preview feature reachable only through the agent
+debug views, so the intended reader (a few months of Copilot use) cannot find it
+from the name alone. It is documented:
+https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer
+("The Cache Explorer view helps you diagnose prompt cache misses by comparing
+consecutive model requests in a chat session." — verified live 2026-08-08).
+Correction: add one sentence and the link at first mention, or drop the mentions.
+
+--------------------------------------------------------------------------------
+ADV-08  P3  Working-Efficiently makes CLI-specific claims without on-page sources
+--------------------------------------------------------------------------------
+File: Working-Efficiently-and-Managing-Cost.md, lines 105 and 150
+What is wrong: "Current Copilot CLI mitigates very large outputs by storing them
+in temporary files and supplying a preview" (true — "tool output larger than
+20 KiB is saved to a temporary file by default", CLI context-management) and
+"Use /context and /usage in Copilot CLI" (true — CLI command reference) are both
+verified claims, but neither supporting document appears in this page's Sources
+list; the reader must know to look on other pages.
+Why it matters: violates the wiki's own rule that sources sit close enough to
+identify what supports the page.
+Sources: https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-cli/context-management ;
+https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference
+Correction: add both links to the page's Sources block.
+
+--------------------------------------------------------------------------------
+ADV-09  P3  Detail-level claims live on sibling pages, not the cited page
+--------------------------------------------------------------------------------
+Files: CopilotTechnologies/Other-useful-technologies.md, line 15;
+       CopilotTechnologies/Agent-skills.md, lines 104 (context);
+       CopilotTechnologies/Custom-agents-and-subagents.md (config reference use)
+What is wrong (grouped — same root cause): several accurate details are cited to
+index/concept pages that no longer carry them:
+  - "Stored as .prompt.md files, commonly under .github/prompts" — the cited
+    prompt-files tutorial index contains neither string (the availability/preview
+    wording IS there; the file-format detail is not).
+  - The skills concept page (about-agent-skills) does not carry the SKILL.md
+    injection wording; the cloud add-skills how-to (also cited on the page) does
+    — "the SKILL.md file will be injected in the agent's context" / "makes them
+    available" — so Agent-skills.md survives, but only via its second citation.
+  - custom-agents-configuration documents frontmatter fields but not file
+    locations such as .github/agents/NAME.agent.md (used illustratively on
+    Choose-the-right-technology.md line 73).
+Why it matters: at the next scheduled review, a checker opening the named source
+will wrongly conclude these details are unsourced.
+Evidence: live fetches 2026-08-08 (see section 3).
+Correction: add the how-to page that carries each detail (VS Code prompt-files
+doc for .prompt.md paths; a custom-agents how-to for agent file locations).
+
+--------------------------------------------------------------------------------
+ADV-10  P3  "CopilotTechnologies" renders without spaces in navigation
+--------------------------------------------------------------------------------
+Files: CopilotTechnologies.md / CopilotTechnologies/ (names)
+What is wrong: Azure DevOps derives page titles from filenames, with hyphens
+rendered as spaces ("In the file name, a hyphen (-) represents a space in the
+page title" — Microsoft docs). Every other page will display with spaces
+("How Copilot Works"); this node will display as "CopilotTechnologies".
+Why it matters: cosmetic inconsistency on the wiki's main section node; renaming
+after publication breaks bookmarks, so decide before first publish.
+Source: https://learn.microsoft.com/en-us/azure/devops/project/wiki/wiki-file-structure?view=azure-devops
+Correction: rename to Copilot-Technologies.md + Copilot-Technologies/ and update
+both .order files and all relative links — or accept the rendering and note it.
+
+================================================================================
+3. SOURCE-VERIFICATION RESULTS
+================================================================================
+
+Sources checked: all 47 unique cited URLs were opened live on 2026-08-08, plus 6
+supplementary pages (VS Code concepts/context, concepts/customization,
+agent-customization/custom-instructions, cache-explorer; GitHub cloud add-skills
+and create-copilot-spaces re-checks). No cited URL returned 404.
+
+Verified verbatim (highlights — claims matched quoted doc text):
+- AI Credits: "1 AI credit = $0.01 USD"; billed on model + input/output/cached
+  tokens; "Code completions and next edit suggestions are not billed in AI
+  credits." (usage-based-billing)
+- Legacy premium requests: applies to "Copilot Pro and Copilot Pro+ subscribers
+  on an existing annual plan who remained on legacy premium request-based
+  billing after June 1, 2026."
+- CLI compaction: background compaction at ~80%, pause at ~95%; /context,
+  /compact, /usage; checkpoints; >20 KiB tool output to temp file with preview.
+- CLI instructions: locations incl. $HOME/.copilot/copilot-instructions.md and
+  $HOME/.copilot/instructions/**/*.instructions.md; "loads custom instructions
+  from these locations simultaneously (all are merged)".
+- CLI custom-agent model: "When unset, inherits the outer agent's model. When
+  the session model is set to Auto … subagents always inherit the resolved
+  session model regardless of this field."
+- Skills locations: .github/skills, .claude/skills, .agents/skills;
+  ~/.copilot/skills, ~/.agents/skills. Skill injection: "the SKILL.md file will
+  be injected in the agent's context"; supporting files "made available".
+- VS Code subagent model precedence: explicit invocation model → agent-configured
+  model → main model; "The requested model cannot exceed the cost tier of the
+  main model."
+- Auto model selection: "Routing occurs along natural cache boundaries to avoid
+  additional cache related costs."
+- Model change mid-chat: "The new response will use your selected model and
+  maintain the full context of the conversation"; inline suggestions unaffected.
+- Copilot Memory: public preview; cloud agent, code review and CLI; unused
+  items "automatically deleted after 28 days".
+- Spaces: repo attach = retrieval; "When you attach a file, its full contents
+  are loaded into Copilot's context window and considered for every query."
+- Content exclusion: "currently not supported in Edit and Agent modes of Copilot
+  Chat in Visual Studio Code and other editors."
+- Cheat sheet: prompt files not on GitHub.com/CLI; subagents VS Code + CLI (with
+  previews elsewhere).
+- SDK turn: "A turn is a single LLM API call and its consequences."
+- ADO wiki: folder-level publish supported; .order defines sequence; home page =
+  top line of root .order; hyphen = space; .attachments folder.
+
+Sources that did NOT support the nearby claim:
+- code.visualstudio.com/docs/chat/copilot-chat-context — cited as "Managing
+  context in VS Code"; actually "Add context to chat"; contains no token-usage,
+  context-window or compaction content (ADV-04).
+- VS Code docs (any page found) — no "nearest AGENTS.md takes precedence" rule
+  (ADV-03).
+- learn GH-600 study guide — contradicts three domain names as quoted (ADV-02).
+- prompt-files tutorial index — no ".prompt.md" / ".github/prompts" strings
+  (ADV-09).
+- about-agent-skills — no injection/"made available" wording (covered by the
+  cloud add-skills citation instead; ADV-09).
+- custom-agents-configuration — no agent file locations (ADV-09).
+- wiki-file-structure — does not itself state first-.order-entry-is-home (that
+  statement is on publish-repo-to-wiki, which the wiki also cites; no action).
+
+Legacy / preview / likely-to-change sources:
+- VS Code /docs/agents/concepts/overview and /docs/agents/subagents both
+  redirect today; a parallel /docs/agent-customization/* tree exists — expect
+  further URL churn (ADV-06).
+- Copilot Memory, prompt files, subagents on some surfaces, Cache Explorer: all
+  explicitly preview — the wiki flags Memory and prompt files correctly.
+- optimize-ai-usage has been rewritten ("Improving agent quality to optimize AI
+  usage") and no longer contains any cache-TTL wording. The wiki wisely never
+  cited it for TTL; do not re-introduce any cache-lifetime claim from memory of
+  its old text.
+- Sonnet/pricing-adjacent facts were deliberately kept out of the wiki — correct
+  call; rate tables change monthly.
+
+================================================================================
+4. AZURE DEVOPS WIKI VALIDATION
+================================================================================
+
+Hierarchy: Confluence/ works as a wiki root. CopilotTechnologies.md +
+CopilotTechnologies/ correctly form a parent page with 6 subpages. No orphan
+folders; no folder lacking a peer .md.
+
+.order coverage: root .order lists all 10 root pages, Home first (which per
+publish-repo-to-wiki makes Home.md the wiki home page). CopilotTechnologies/.order
+lists all 6 subpages. Entries correctly omit the .md extension. No page is
+missing from, or extra in, either .order.
+
+Links: 38 relative links resolve correctly with exact case from each source
+page's directory. The one apparent miss ([template.md](template.md) in
+Agent-skills.md line 43) is inside a fenced code block and does not render as a
+link — no action. No absolute /wiki-style links used; all cross-page links are
+relative Markdown paths, which ADO code wikis support.
+
+Rendering: tables, fenced code blocks (```text/```markdown), blockquotes and
+heading structure are all standard constructs ADO renders. No HTML, no
+Mermaid/TOC macros, no localStorage-style exotica. Two notes: (a) every page
+opens with an H1 that will appear under the filename-derived title in the nav —
+harmless, consistent; (b) non-Markdown files in the folder (the review prompt
+.txt and this report) are not rendered as pages — Microsoft's docs list
+non-Markdown artifacts as permissible repo contents; keep review artifacts .txt
+as the author has done.
+
+Risky items: ADV-01 (publish-folder instruction) and ADV-10 (unhyphenated
+section name) are the only structure-level risks found.
+
+================================================================================
+5. AUDIENCE AND LEARNING-PATH ASSESSMENT
+================================================================================
+
+Appropriately progressive: the root sequence (how it works → terminology →
+tokens/context → turns/tools/loop → efficiency) builds each concept before use;
+the glossary genuinely precedes the first heavy use of "subagent", "MCP" and
+"compaction"; every technology page opens with a plain-English one-liner and a
+"read this first" pointer; the Choose-the-right-technology decision list and the
+skill-vs-agent worked examples are exactly the comparisons the brief asked for;
+the wiki consistently says when the simpler interaction is enough ("Do not use
+full agent autonomy for every small edit"; "Avoid a custom agent when the only
+requirement is some guidance text").
+
+Where a regular user may still get lost:
+- Cache Explorer and the VS Code context indicator are named without any access
+  path (ADV-04, ADV-07) — the two places the wiki says "go observe it" are the
+  two places the reader can't follow.
+- "Checkpoint" will actively mislead VS Code users (ADV-05).
+- Choose-the-right-technology uses "hook" and "plugin" in the decision list one
+  page before Other-useful-technologies explains them; the glossary mitigates
+  this, but a "see Other useful technologies" pointer on first use would help.
+- The wiki distinguishes surfaces constantly (correctly) but never enumerates
+  them; see opportunity 1.
+
+No page reads as platform-engineer-only; To-Test.md is explicitly labelled for
+experimenters and does not masquerade as user guidance.
+
+================================================================================
+6. TO-TEST RECOMMENDATIONS
+================================================================================
+
+Only claims that could not be resolved from official documentation:
+
+1. VS Code context-window indicator + automatic/manual compaction (ADV-04).
+   If no citable doc page is found, add T16: "In VS Code, fill a session toward
+   the context limit; record whether a context-usage indicator with a category
+   breakdown is shown and whether automatic compaction occurs; record VS Code
+   and extension versions." Until then, mark the three sentences To Test.
+2. AGENTS.md precedence when multiple files exist (ADV-03). Already covered by
+   T02 — extend T02's method line to include nested AGENTS.md files in VS Code
+   with the experimental multi-file setting on and off. No new test needed.
+3. VS Code checkpoint semantics vs CLI checkpoints (ADV-05) — observational
+   sub-point of T04/T11; no new test ID needed once the glossary is split.
+
+Everything else the wiki marks To Test (instruction token cost, skill metadata
+overhead, subagent seeding, model routing) is correctly classified; no test in
+To-Test.md needs to be removed.
+
+================================================================================
+7. NON-BLOCKING OPPORTUNITIES
+================================================================================
+
+1. Add a short "Copilot surfaces" table (VS Code, Visual Studio, JetBrains,
+   GitHub.com, CLI, cloud coding agent, SDK) on Home or Terminology — the wiki's
+   most-repeated qualifier ("varies by surface") currently has no anchor page.
+2. Working-Efficiently recommends Auto but omits its strongest sourced
+   incentive: "you qualify for a 10% discount on model costs while using auto
+   model selection" (auto-model-selection doc). One sourced sentence.
+3. Cross-link each row of the Choose-the-right-technology comparison table to
+   its detail page, so the decision guide doubles as section navigation.
+4. A single end-to-end worked example (one team rule → instructions; one
+   workflow → skill; one reviewer → custom agent, all for the same fictional
+   repo) would tie the technology section together for the stated audience.
+5. Sources-and-Maintenance's review procedure could log the redirect-final URL
+   for each source at review time; today's VS Code restructure (ADV-06) shows
+   why.
+
+================================================================================
+8. VALIDATION SUMMARY
+================================================================================
+
+Pages reviewed:            16 Markdown pages + 2 .order files (all files under
+                           Confluence/ except the review prompt, excluded per
+                           instructions).
+Internal links checked:    39 relative links (38 rendered links resolved OK with
+                           correct case; 1 non-rendered link inside a code fence).
+External sources opened:   47 of 47 cited URLs, plus 6 supplementary pages.
+                           0 dead links; 2 redirects; 7 sources that do not
+                           support the specific nearby claim (section 3).
+Checks not performed:
+- No live Azure DevOps instance was available, so rendering and .order behaviour
+  were validated against Microsoft's documentation, not an actual published wiki.
+- No VS Code / Copilot CLI instance was available to this review, so product-UI
+  claims (context indicator, Cache Explorer visibility, checkpoint UI) were
+  checked only against documentation — hence ADV-04's To Test recommendation.
+- GH-600 was verified against the public study guide only; actual exam content
+  is not publicly checkable.
+
+END OF REVIEW
