@@ -41,22 +41,9 @@ Input, output and thinking tokens share the same context-window capacity. A prom
 
 ## What enters the assembled prompt
 
-The message you type is only one layer of the prompt:
+The message you type is only one layer of the prompt. Instructions, tool definitions, conversation history, editor signals, referenced files and earlier tool results can also consume input tokens.
 
-![System instructions, customisations, user messages, history and tool results assembled into the input prompt](Media/context-assembly.svg =900x)
-
-Depending on the surface and task, context can include:
-
-- Built-in system instructions and harness guidance
-- Definitions of the tools available for this round
-- Personal, organisation, repository and path-specific instructions
-- A selected custom-agent profile and an invoked skill
-- Your current message
-- Earlier user and assistant messages in the session
-- Active-editor signals and explicitly referenced files
-- Retrieved code, terminal output, search results and other tool results
-
-For each round, the model works with the task details inside the assembled prompt. It also has knowledge from training, which may be incomplete or outdated.
+The diagram and full breakdown live on [How Copilot works in your IDE](How-Copilot-Works.md#what-reaches-the-model). This page focuses on how that material is counted and grows.
 
 ## How context grows during a turn
 
@@ -87,23 +74,7 @@ Store important decisions in a file, issue or pull request when they need to sur
 
 ## Good context beats lots of context
 
-Vague request:
-
-```text
-Fix the authentication.
-```
-
-The agent has to discover which authentication flow, desired behaviour and validation command you meant.
-
-Focused request:
-
-```text
-Fix expired-refresh-token handling in src/auth/refresh.ts.
-Preserve the existing error response, add a regression test in the matching
-test file, and run the auth unit-test command from package.json.
-```
-
-The second request is longer but may consume less overall. It reduces unproductive searching, false starts and corrective rounds.
+A useful prompt can be longer than a vague one while costing less overall. Naming the relevant component, required behaviour and validation command can prevent searching, false starts and corrective rounds. See [Define the finish line before starting](Working-Efficiently-and-Managing-Cost.md#2-define-the-finish-line-before-starting) for a worked example.
 
 ## Common sources of context bloat
 
@@ -118,33 +89,9 @@ The second request is longer but may consume less overall. It reduces unproducti
 
 Context bloat affects both cost and quality. Irrelevant material competes for the model's attention and can reduce answer quality.
 
-## Practical context habits
+## Put this into practice
 
-### Start a fresh session for a new task
-
-Each session has its own history. Start a new session when you move to an unrelated task so the old conversation does not travel with you.
-
-### Reference the smallest useful scope
-
-Name the component, file, symbol, issue or error. Use repository search to retrieve related code and attach more only when it is needed.
-
-### Make important information durable
-
-- Put short, broadly applicable rules in custom instructions
-- Put occasional detailed workflows in skills
-- Put task state and decisions in a working file, issue or pull request
-
-### Control tool output
-
-Filter test output, search results and logs when practical. Retrieve the full result only when the detail is genuinely useful.
-
-### Compact at phase boundaries
-
-After a large discovery or planning phase, compaction can create room for implementation. Review the summary when the task contains critical constraints.
-
-### Steer broad investigation
-
-If the agent starts exploring unrelated areas, stop and narrow the question. Point it towards a known component, file, error or command and ask what evidence it still needs.
+The practical actions are collected in [Working efficiently and managing cost](Working-Efficiently-and-Managing-Cost.md): starting clean sessions, keeping instructions lean, controlling tool output, choosing models and steering broad investigations.
 
 ## Inspect context and usage
 

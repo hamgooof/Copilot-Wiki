@@ -15,22 +15,9 @@ A prompt file is a reusable request that a person starts deliberately. It suits 
 - Can contain instructions, variables and references to workspace context
 - Useful when the task is repeatable but should only run on demand
 
-Choose a prompt file when you mean **"run this request now"**. Choose a skill when you mean **"use this workflow whenever this type of task is relevant"**.
+The [customisation chooser](Choose-the-right-technology.md#prompt-file-or-skill) covers the boundary between prompt files and skills.
 
 Support and invocation differ between IDEs, so check the current documentation for the client used by your team.
-
-## Built-in tools
-
-Tools give the model hands in the workspace. Common IDE tools can search and read files, apply edits, inspect errors, run terminal commands and work with source control.
-
-Tool descriptions are part of the model input. Keeping the available set focused can make tool selection clearer and reduce unnecessary prompt content.
-
-Before approving an agent task, consider:
-
-- Which tools the task genuinely needs
-- Whether write or terminal access is appropriate
-- Which actions require confirmation
-- Whether a focused command can avoid returning a huge result
 
 ## Repository indexing
 

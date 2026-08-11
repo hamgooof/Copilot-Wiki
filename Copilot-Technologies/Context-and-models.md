@@ -8,20 +8,7 @@ _For regular Copilot users ready for the advanced detail · Last reviewed 11 Aug
 
 [[_TOC_]]
 
-## What may occupy a context window
-
-- System and product instructions
-- Personal, organisation, repository, path and agent instructions
-- The user's current prompt
-- Conversation history or a compacted summary of it
-- Selected files, symbols, terminal output and source-control changes
-- Retrieved repository content
-- Tool definitions, tool calls and tool results
-- An invoked skill's `SKILL.md`
-- A custom agent's profile instructions
-- Results returned by subagents
-
-The product assembles a selected set of context for each round. Input, generated output and supported thinking tokens share the model's context-window capacity.
+The basic context breakdown lives on [How Copilot works in your IDE](../How-Copilot-Works.md#what-reaches-the-model). This page deals with the less visible boundaries: transport, skills, agents and model changes.
 
 ## Effective context versus transport
 
@@ -39,12 +26,6 @@ Record provider-specific behaviour, including cache time-to-live and stateful re
 | Conversation history | Current chat/session, subject to compaction | Earlier messages and tool activity |
 | Subagent context | One delegated worker/session | Delegated task and child-specific working material |
 | Repository files | Persistent source of truth | Code, docs and instruction files retrieved when needed |
-
-## What happens as a chat grows
-
-Model context windows are finite. VS Code documents a context-window control together with automatic and manual compaction.
-
-Compaction summarises older history. It lets the session continue, but a summary cannot be assumed to preserve every detail. For long-running work, record key decisions, constraints and current state in a durable repository document.
 
 ## Do skills maintain context?
 
@@ -86,11 +67,7 @@ A parent can orchestrate while a different model handles a subtask on supported 
 - The returned result becomes new context for the parent
 - Availability, plan, cost tier and automatic model selection can override the intended routing
 
-## Reducing context bloat
-
-Keep always-on guidance short and retrieve large material only when it is needed. If VS Code delegates work to a subagent, the delegated question and expected result should be specific. The practical habits are collected in [Tokens and context windows](../Tokens-and-Context-Windows.md#practical-context-habits) and [Working efficiently and managing cost](../Working-Efficiently-and-Managing-Cost.md).
-
-Questions that still need measured, versioned evidence - including skill persistence, parent/child transfer and model routing - live in [To Test](../To-Test.md).
+Questions that still need measured, versioned evidence - including skill persistence, parent/child transfer and model routing - live in [To Test](../To-Test.md). Everyday context habits are collected in [Working efficiently and managing cost](../Working-Efficiently-and-Managing-Cost.md).
 
 ## Sources
 

@@ -59,15 +59,7 @@ Copilot loads supporting files when the workflow references them. Link them from
 
 ## Skills versus other options
 
-| Requirement | Skill? | Better choice when not |
-| --- | --- | --- |
-| A detailed workflow used sometimes | Yes |  -  |
-| Scripts/templates travel with the workflow | Yes |  -  |
-| Always-on coding rule | No | Custom instructions |
-| A human explicitly launches a single reusable prompt | Sometimes | Prompt file may be simpler |
-| Needs a separate context window | Experimental `context: fork` support in VS Code | Subagent/custom agent for an explicit delegated worker |
-| Needs a restricted toolset or different model | No, not by itself | Custom agent |
-| Must execute a command every time | No guarantee | CI or repository policy |
+Use a skill for an occasional detailed workflow and its supporting resources. The [customisation chooser](Choose-the-right-technology.md) covers the boundaries with instructions, prompt files, custom agents and deterministic controls.
 
 ## Good skill candidates
 

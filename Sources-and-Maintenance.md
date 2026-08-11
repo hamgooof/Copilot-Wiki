@@ -94,8 +94,17 @@ Prefer diagrams that remain reviewable in Git:
 - Keep text large enough to read without opening the image separately
 - Use basic SVG shapes, text and markers; avoid filters and other effects that an Azure DevOps sanitizer may remove
 - Set an explicit display width in the Markdown image reference so a diagram does not fill the entire wiki column
+- Give each diagram one canonical page; link to that page instead of repeating the image elsewhere
 - Avoid animation unless motion genuinely explains something a static diagram cannot
 - Do not rely on colour alone to communicate meaning
+
+The canonical pages are:
+
+| Diagram | Canonical page |
+| --- | --- |
+| Context assembly | [How Copilot works in your IDE](How-Copilot-Works.md#what-reaches-the-model) |
+| Turn and round flow | [One prompt, many rounds](One-Prompt-Many-Rounds.md#the-short-version) |
+| Context growth | [Tokens and context windows](Tokens-and-Context-Windows.md#how-context-grows-during-a-turn) |
 
 The current diagrams use SVG because it stays sharp at different sizes and is straightforward to edit. The target Azure DevOps wiki displayed basic SVG content but removed elements inside groups carrying drop-shadow filters during the 8 August 2026 review. The diagrams therefore avoid filters and use an explicit 900px display width. Complete [T16](To-Test.md#t16-azure-devops-svg-rendering) after each material diagram change. SVG is not listed among Microsoft's documented Azure DevOps Markdown image formats, so treat this as undocumented behaviour. If SVG remains unreliable, render the committed SVG source to PNG and change only the Markdown image target.
 

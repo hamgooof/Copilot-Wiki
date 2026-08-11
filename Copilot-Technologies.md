@@ -23,16 +23,7 @@ If the underlying ideas are unfamiliar, read:
 5. [Context and models](Copilot-Technologies/Context-and-models.md)
 6. [Prompt files and other useful IDE features](Copilot-Technologies/Prompt-files-and-other-IDE-features.md)
 
-## Quick orientation
-
-| Need | Start with |
-| --- | --- |
-| A short rule that applies broadly | Custom instructions |
-| Guidance for one component or file type | Path-specific instructions |
-| A detailed workflow used occasionally | Skill |
-| A reusable request started by a person | Prompt file |
-| A specialist role, model or restricted toolset | Custom agent |
-| Isolated research during a complex VS Code task | Let the main agent use a subagent, if enabled |
+The [chooser](Copilot-Technologies/Choose-the-right-technology.md) compares these options in one place. The remaining pages explain how to build and maintain the option you select.
 
 ## Sources
 

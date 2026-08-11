@@ -98,19 +98,6 @@ Customisations change the guidance or working setup available to Copilot:
 
 They shape how Copilot approaches the work. The [technology guide](Copilot-Technologies/Choose-the-right-technology.md) explains when each one is useful.
 
-## Chat, edit and agent work
-
-Choose the lightest interaction that suits the task:
-
-| Experience | What happens | Good for |
-| --- | --- | --- |
-| Inline suggestion | A specialised model predicts code as you type | Completing the current line or nearby code |
-| Chat or question | A model answers using the context available to it | Explanations, advice and focused questions |
-| Edit | Copilot makes a targeted change to selected code | Small, bounded modifications |
-| Agent task | The harness lets a model use tools and iterate | Investigation, multi-file changes and validation |
-
-Agent mode earns its keep when the task needs investigation or repeated actions. Chat or Edit is usually quicker for a focused explanation or small change.
-
 ## Information you may need to provide
 
 Copilot can draw on its training and the context assembled by the IDE. It may still need you to supply:
@@ -122,36 +109,13 @@ Copilot can draw on its training and the context assembled by the IDE. It may st
 - The command or evidence that proves the work is correct
 - A clear boundary when words such as "improve" could cover half the repository
 
-Writing those details into the request reduces discovery work and guessing.
-
-## Follow a real task
-
-You submit:
-
-```text
-Add duplicate-email validation to the registration endpoint.
-Preserve the existing error format, add a regression test and run the relevant tests.
-```
-
-One turn might contain these rounds:
-
-1. Search for the endpoint and existing validation patterns
-2. Read the error-response and data-access code
-3. Edit the endpoint and test
-4. Run the focused test command
-5. Read a failure and correct the implementation
-6. Run the test again
-7. Produce the final summary and evidence
-
-![One user turn containing several internal rounds](Media/turns-rounds-agent-loop.svg =900x)
-
-Each round gives the model an updated view of the task. A clear request helps it spend those rounds on the work you intended.
+Writing those details into the request reduces discovery work and guessing. The [working efficiently guide](Working-Efficiently-and-Managing-Cost.md#2-define-the-finish-line-before-starting) shows how to structure a task and choose the lightest suitable interaction.
 
 ## What to read next
 
 - New vocabulary: [Copilot terminology without the headache](Copilot-Terminology.md)
 - Context and usage: [Tokens and context windows](Tokens-and-Context-Windows.md)
-- The internal workflow: [One prompt, many rounds](One-Prompt-Many-Rounds.md)
+- A worked agent task: [One prompt, many rounds](One-Prompt-Many-Rounds.md)
 - Choosing a customisation: [Choose the right Copilot technology](Copilot-Technologies/Choose-the-right-technology.md)
 
 ## Sources

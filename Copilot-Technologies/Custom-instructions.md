@@ -40,14 +40,7 @@ Example:
 
 ## What should move elsewhere
 
-| Content | Better home |
-| --- | --- |
-| A detailed release or migration runbook | Skill |
-| A one-off code review prompt | Prompt file |
-| Rules only for `docs/**` | Path-specific instructions |
-| A security reviewer persona with read-only tools | Custom agent |
-| A validation command that must always run | CI or repository policy |
-| A large architecture reference | Repository documentation retrieved when needed |
+Long runbooks, reusable one-off requests, specialist roles and enforceable checks do not belong in a general instruction file. The [customisation chooser](Choose-the-right-technology.md) shows the better home for each of these.
 
 ## Context and usage impact
 

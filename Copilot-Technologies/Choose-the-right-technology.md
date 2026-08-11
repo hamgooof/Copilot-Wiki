@@ -70,14 +70,7 @@ Use a **skill** when Copilot should recognise that a workflow is relevant during
 
 ## Keep the setup small
 
-Every automatic instruction and available capability adds something for Copilot to consider. Start with:
-
-- One concise repository instruction file
-- Path-specific instructions only where the rules genuinely differ
-- A small number of focused skills
-- Custom agents for roles that need a distinct brief or toolset
-
-Measure a real task before adding more. A larger setup can be worthwhile, but each addition should solve a problem you can name.
+Every automatic instruction and available capability adds something for Copilot to consider. Add a customisation when it solves a problem you can name, then use the design checklist on its dedicated page.
 
 ## IDE support changes
 

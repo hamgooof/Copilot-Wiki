@@ -20,6 +20,8 @@ Copilot terminology becomes confusing because several products reuse the same wo
 
 Tokens are the units used to measure how much of the context window is being used. That is enough detail to begin; the [token section](#tokens-in-more-depth) explains the different counts later.
 
+The worked visual and example are on [One prompt, many rounds](One-Prompt-Many-Rounds.md).
+
 ## Fundamental terminology
 
 | Term | What it means here | Analogy |
@@ -30,20 +32,6 @@ Tokens are the units used to measure how much of the context window is being use
 | **Context** | The task-specific information available to the model during its current call. It is separate from general knowledge learned during training. | The numbered tiles currently placed on a whiteboard, alongside the model's existing training. |
 | **Context window** | The combined token capacity available for one model call. The input prompt, generated output and any supported thinking tokens share that capacity. | The whole whiteboard, including the room needed for the answer. |
 | **Session** | One independent conversation with its own history and context. | A project room. A new session opens a fresh room without the boxes from the previous task. |
-
-## One turn can contain many rounds
-
-![A turn containing six agent-loop rounds](Media/turns-rounds-agent-loop.svg =900x)
-
-For the user-facing VS Code experience, this wiki uses the terminology from Microsoft's coding-harness explanation:
-
-- A **turn** starts when you submit one message and ends when Copilot returns its final response
-- A **round** is one pass through the loop: assemble the prompt, call the model, process its response, run any requested tools, record the results and decide whether to continue
-- The **agent loop** is the mechanism that keeps performing rounds until there is a final answer or a stop condition is reached
-
-For example, “find the failing test, fix it and verify the result” is one turn. Searching, reading, editing, testing and finally answering may take several rounds inside it.
-
-**Source scope:** turn, round and run come from Microsoft's VS Code engineering blog. We use that vocabulary consistently throughout this IDE-focused wiki.
 
 ## Extended agent terminology
 

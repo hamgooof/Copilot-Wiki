@@ -42,36 +42,18 @@ A plausible turn looks like this:
 
 The person initiated one turn. The harness may have sent the accumulated prompt to the model six times.
 
-## Turn, round and run
-
-The [VS Code coding-harness article](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode) gives us the clearest user-facing distinction. This wiki uses **turn** for one user-visible chat exchange and **round** for one pass through the internal model-and-tool loop.
+## Inside each round
 
 During each round, the harness:
 
 1. Assembles the next prompt, carrying forward the useful conversation and adding new results
-2. Calls the selected model.
-3. Receives text, tool calls or both.
-4. Validates and executes any tool calls.
-5. Records tool results and workspace changes.
+2. Calls the selected model
+3. Receives text, tool calls or both
+4. Validates and executes any tool calls
+5. Records tool results and workspace changes
 6. Checks cancellation, limits and whether another round is needed
 
 If the model returns a final answer without requesting another tool, the loop can finish and the turn ends.
-
-## What the harness does
-
-The model itself cannot open a file, run a command or edit your workspace. It generates text or structured requests. The **agent harness** turns those requests into useful editor actions.
-
-The harness is responsible for:
-
-- Assembling the context sent to the model
-- Declaring which tools are available and their input formats
-- Checking and executing tool calls
-- Returning tool results to the next round
-- Applying permissions, approvals and limits
-- Managing long conversations through techniques such as compaction
-- Adapting prompts and tools to the selected model
-
-Model choice matters, and the harness also shapes how well that model can work inside the IDE.
 
 ## What a tool is
 
@@ -93,20 +75,9 @@ For example, a file-reading tool lets the agent request a file. The file content
 
 ## Why later rounds become larger
 
-The next prompt normally carries the conversation forward and adds the results accumulated so far:
+The next prompt normally carries the useful conversation forward and adds the results accumulated so far. A later round may include files, search output, terminal results and a summary of workspace changes that were not available at the start.
 
-![Context sources assembled for a model call](Media/context-assembly.svg =900x)
-
-A later round may therefore contain:
-
-- The original system and custom instructions
-- Your current message and conversation history
-- Tool definitions
-- Files read during earlier rounds
-- Search output and terminal results
-- A summary of workspace changes
-
-VS Code describes the prompt as being rebuilt for each round, meaning that it assembles the latest effective context for the model. Prompt caching can still reuse a matching prefix, so the rebuilt prompt may contain both cached and fresh input.
+For each round, VS Code assembles the next effective prompt by carrying relevant context forward and adding new results. Prompt caching can reuse an unchanged prefix, so the next call may contain both cached and fresh input.
 
 This has two practical consequences:
 
@@ -130,27 +101,11 @@ Use the smallest useful toolset:
 
 Instructions such as “be careful” influence model behaviour but do not enforce a boundary. Use tool restrictions, permissions, protected branches and explicit approvals for controls that matter.
 
-## Keeping an agent loop efficient
+## When to intervene
 
-Before starting:
+The loop is working well while each round produces useful new evidence or moves the task towards completion. Step in when Copilot repeats an approach, searches unrelated code, uses the wrong test command or continues after the goal is met.
 
-- State the outcome, scope, constraints and evidence of success
-- Point to a known file, error or command when you have one
-- Keep the available tools focused on the task
-- Ask for read-only discovery first when the task is ambiguous or risky
-
-While it runs:
-
-- Prefer focused commands over thousands of lines of output
-- Stop repeated failures that are not producing new information
-- Redirect searches that are drifting into unrelated code
-- Pause broad investigation and narrow the question when the search starts to drift
-
-Before accepting the result:
-
-- Ask what was tested and inspect the evidence
-- Compare the final summary with the actual diff
-- Record decisions that must outlive the session in a file, issue or pull request
+You know the repository and intended behaviour. Give the missing constraint or point Copilot towards the right file, component or command. More practical examples are in [Working efficiently and managing cost](Working-Efficiently-and-Managing-Cost.md#10-detect-and-stop-wasteful-loops).
 
 ## Sources
 
