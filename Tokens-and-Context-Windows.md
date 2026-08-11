@@ -72,6 +72,23 @@ This is why a ten-word message can lead to thousands of input tokens. Later roun
 
 In the tidy example above, each round adds one equal block while keeping the earlier blocks. The cumulative input is `1 + 2 + 3 + 4 = 10` block-rounds rather than four. Extend that pattern and it grows roughly with the square of the number of rounds. This is a useful warning about repeated rounds and verbose tool output—not a universal Copilot billing formula.
 
+### What this looked like in a measured run
+
+The tidy diagram explains the pattern. Our internal test data shows how uneven it can be in practice. One successful implementation run made 21 model calls, passed all 21 hidden checks and recorded 43.07 billed credits. Input grew from 16.5K to 40.5K tokens, with an 89.6% cache-hit rate across the run.
+
+![Cached and fresh input tokens, billed credits and the next action across 21 model calls](Media/measured-context-cost-across-rounds.svg =900x)
+
+Read the two charts together:
+
+- The upper bars show the input processed by each model call, split into cached and fresh tokens.
+- The lower bars show billed credits for that same call. The action label is what the model asked the harness to do next; it is **not** a standalone price for using Read, Write or Terminal.
+- Calls 5 and 8 cost more largely because the model generated 2,752 and 1,908 output tokens respectively.
+- At call 20, the matching cached prefix dropped to 14.8K tokens and fresh input jumped to 25.2K. That call recorded 7.31 credits. The cache match recovered on the next call.
+
+This is observed evidence from one run, not a universal cost curve or a model comparison. It shows why total context alone does not explain the bill: fresh input, cached input, generated output and the selected model's rates all matter.
+
+_Evidence: `Copilot-model-comparison.xlsx` (`Runs` and `Rounds`) and the matching raw OTEL JSONL for `rt-gpt-5.4-T1-rep3`, captured 5 August 2026 with VS Code 1.131.0 and Copilot Chat 0.59.0. The [chart data](Media/measured-run-gpt-5.4-T1-rep3.csv) is retained alongside the image._
+
 How that state travels to the provider varies. For everyday use, the useful point is that the model's next decision depends on the effective prompt and history; see [Effective context versus transport](Copilot-Technologies/Context-memory-and-models.md#effective-context-versus-transport) for the technical caveat.
 
 ## What happens when the window fills
