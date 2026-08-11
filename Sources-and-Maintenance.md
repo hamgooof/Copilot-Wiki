@@ -50,12 +50,12 @@ The first claim is scoped to a surface and a reviewable source. The second is li
 | Core model/context/tool concepts | [Agents and the agent loop in VS Code](https://code.visualstudio.com/docs/agents/concepts/agents) | VS Code or Copilot architecture changes |
 | Context composition | [Context in VS Code](https://code.visualstudio.com/docs/agents/concepts/context) | Context UI, indexing or compaction changes |
 | User-facing turn, round and agent-loop terminology | [The coding harness behind GitHub Copilot in VS Code](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode) | VS Code harness terminology changes |
-| Customisation comparison | [Copilot customisation cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet) | A feature becomes GA or gains another surface |
+| Technology comparison | [Copilot customization cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet) | A feature becomes GA or gains another surface |
 | Instruction support | [Custom-instructions support](https://docs.github.com/en/copilot/reference/custom-instructions-support) | IDE or agent support changes |
 | Skills | [Agent skills in VS Code](https://code.visualstudio.com/docs/agent-customization/agent-skills) | Skill discovery or loading behaviour changes |
 | Custom agents | [Custom-agent configuration](https://docs.github.com/en/copilot/reference/custom-agents-configuration) | Agent schema or model fields change |
 | VS Code subagents | [Subagents in VS Code](https://code.visualstudio.com/docs/agents/run/subagents) | Child-context or model-routing rules change |
-| Billing and AI credits | [Usage-based billing for organisations and enterprises](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises) | Plans, prices or token accounting change |
+| Billing and AI credits | [Usage-based billing for organizations and enterprises](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises) | Plans, prices or token accounting change |
 | Agent quality and AI usage | [Improving agent quality to optimize AI usage](https://docs.github.com/en/enterprise-cloud@latest/copilot/tutorials/optimize-ai-usage) | Recommended agent-quality practices change |
 | Azure DevOps wiki structure | [Wiki files and folder structure](https://learn.microsoft.com/en-us/azure/devops/project/wiki/wiki-file-structure?view=azure-devops) | Publishing or file conventions change |
 
@@ -81,9 +81,7 @@ This wiki follows Microsoft's documented code-wiki conventions:
 - Wiki-owned diagrams are stored under `Media/` and referenced with relative paths
 - Files pasted or uploaded through the Azure DevOps editor may instead be placed in `.attachments/` by Azure DevOps
 
-The intended setup is a dedicated Git repository initialised inside the local `Confluence/` directory. With that setup, publish the repository root (`/`): the repository root is already the wiki root, and its `.order` file selects `Home.md` as the home page. Do not publish the parent `AIPresentations` workspace repository.
-
-If this content is ever stored as a folder inside a larger repository instead, map that repository's `/Confluence` folder rather than `/`. The peer `Copilot-Technologies.md` file and `Copilot-Technologies/` folder create a section with subpages in either setup.
+Publish the folder that contains this wiki's `Home.md` and root `.order` file. If those files are at the root of a dedicated wiki repository, publish `/`. If the wiki lives inside a larger repository, publish that folder instead. The peer `Copilot-Technologies.md` file and `Copilot-Technologies/` folder create a section with subpages in either setup.
 
 ## Visual assets
 
@@ -92,7 +90,7 @@ Prefer diagrams that remain reviewable in Git:
 - Store the editable source alongside the wiki
 - Add meaningful Markdown alt text and an SVG `<title>` and `<desc>`
 - Keep text large enough to read without opening the image separately
-- Use basic SVG shapes, text and markers; avoid filters and other effects that an Azure DevOps sanitizer may remove
+- Use basic SVG shapes, text and markers; avoid filters and other effects that an Azure DevOps sanitiser may remove
 - Set an explicit display width in the Markdown image reference so a diagram does not fill the entire wiki column
 - Give each diagram one canonical page; link to that page instead of repeating the image elsewhere
 - Avoid animation unless motion genuinely explains something a static diagram cannot

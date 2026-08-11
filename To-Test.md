@@ -33,7 +33,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 Scope each conclusion to the tested IDE and version. Prioritise VS Code, Visual Studio and JetBrains for workplace adoption tests.
 
-## T01 Always on instruction cost
+## T01 Always-on instruction cost
 
 **Question:** How much context and usage does a repository instruction file add across successive user turns and agent rounds?
 
@@ -111,7 +111,7 @@ Scope each conclusion to the tested IDE and version. Prioritise VS Code, Visual 
 
 **Question:** Does an explicit child model or custom-agent model override the parent as documented?
 
-**Method:** run a matrix of fixed parent model, `Auto`, agent-profile child model and explicitly requested child model. Include the “expensive parent, cheaper child” pattern.
+**Method:** run a matrix of fixed parent model, `Auto`, agent-profile child model and explicitly requested child model. Include the "expensive parent, cheaper child" pattern.
 
 **Measure:** actual per-model usage, fallbacks, quality, latency, retries and total credits.
 
@@ -122,6 +122,8 @@ Scope each conclusion to the tested IDE and version. Prioritise VS Code, Visual 
 **Method:** build a long conversation with canaries at different depths, switch models, regenerate and continue until compaction.
 
 **Measure:** recall, context denominator, compaction, cache changes and output consistency.
+
+T12 and T13 were retired from an earlier draft. Their identifiers remain unused so links in old review notes do not point to different experiments.
 
 ## T14 Quality impact of bloated customisation
 
@@ -145,13 +147,13 @@ Scope each conclusion to the tested IDE and version. Prioritise VS Code, Visual 
 
 **Observed 8 August 2026:** Azure DevOps displayed basic SVG paths and markers, but content associated with groups carrying drop-shadow filters was missing. Images also expanded to an unhelpful full-column size when no explicit Markdown width was supplied. The current revision removes filters and requests a 900px display width.
 
-**Method:** after publishing the revised SVGs, open the context, turn/round and context-growth diagrams in both light and dark themes. Check that cards, labels, model panels and stacked context blocks are present; then check browser zoom and mobile-width layout. Repeat on the actual Azure DevOps Server version rather than assuming Azure DevOps Services behaviour.
+**Method:** after publishing the revised SVGs, open the context, turn/round and context-growth diagrams in both light and dark themes. Check that cards, labels, model panels and stacked context blocks are present; then check browser zoom and mobile-width layout. Click every table-of-contents link, numbered-heading link and cross-page heading link. Repeat on the actual Azure DevOps Server version rather than assuming Azure DevOps Services behaviour.
 
 **Measure:** image displayed, text readable, alt text available when blocked, links resolved and no active-content warning.
 
 **Fallback:** retain SVG as the editable source, render a PNG copy and update the Markdown image targets if the server blocks SVG.
 
-**Support status:** SVG is not listed among the image formats in Microsoft's Azure DevOps Markdown guidance. Treat current rendering as undocumented behaviour and repeat this test after server upgrades. Click every table-of-contents link during the same check.
+**Support status:** SVG is not listed among the image formats in Microsoft's Azure DevOps Markdown guidance. Treat current rendering as undocumented behaviour and repeat this test after server upgrades.
 
 ## T17 Provider transport effective context and cache views
 
@@ -188,7 +190,7 @@ Classify a finding as:
 - **Inconclusive:** results vary or telemetry is insufficient
 - **Changed:** current behaviour contradicts an older observation; retain both dates and versions
 
-Publish findings with scope. Prefer “VS Code version X with model Z did X in N of N runs” over a claim about Copilot as a whole.
+Publish findings with scope. Prefer "VS Code version X with model Z did X in N of N runs" over a claim about Copilot as a whole.
 
 ## Sources
 

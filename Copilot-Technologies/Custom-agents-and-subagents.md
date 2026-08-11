@@ -23,7 +23,7 @@ Example:
 ```markdown
 ---
 name: security-reviewer
-description: Review authentication and authorization changes for exploitable defects.
+description: Review authentication and authorisation changes for exploitable defects.
 tools: [read, search]
 model: claude-sonnet-4.6
 ---
@@ -32,26 +32,19 @@ Review only. Do not edit files. Report evidence, impact and a minimal remediatio
 Ignore formatting and style issues.
 ```
 
+Save a repository agent as `.github/agents/security-reviewer.agent.md`. In VS Code, choose it from the agent dropdown in Chat; **Chat: New Custom Agent** can create the file for you. Visual Studio also supports repository custom agents. JetBrains support is currently preview. See the [IDE support table](Choose-the-right-technology.md#current-ide-support) before sharing one setup across clients.
+
 Property names and supported values vary across Copilot surfaces. Check GitHub's [custom agents configuration reference](https://docs.github.com/en/copilot/reference/custom-agents-configuration) and the target IDE documentation before sharing a profile between clients.
 
 ## Subagent
 
 **Documented for VS Code:** a subagent runs with its own context window, separate from the main agent and other subagents. This allows exploration, logs or detailed intermediate work to stay out of the main conversation context.
 
-The parent delegates a task. The child works in isolation and reports its result back to the parent.
+The parent delegates a task. The child works in isolation and reports its result back to the parent:
 
-```text
-Main agent context
-  plan + user conversation
-       |
-       +--> Explore subagent context --> findings summary
-       |
-       +--> Test subagent context ----> test result summary
-       |
-       +--> Review subagent context --> review findings
-       |
-       +<-- selected results return to main context
-```
+1. The main agent sends a scoped task to the subagent
+2. The subagent searches, tests or reviews inside its own context
+3. Its selected findings return to the main agent as new context
 
 ### How subagents are invoked in VS Code
 
@@ -63,7 +56,7 @@ You can suggest delegation in an ordinary prompt by asking for isolated research
 Run the security-reviewer agent as a subagent and return the evidence it finds.
 ```
 
-The main agent still decides how to make the tool call. Visual Studio and JetBrains may have different support, so treat this section as VS Code-specific.
+The main agent still decides whether to delegate. Visual Studio does not currently support subagents; JetBrains support is in preview. Check the [IDE support table](Choose-the-right-technology.md#current-ide-support) as this changes.
 
 ## Does a subagent inherit the parent's context?
 
@@ -73,7 +66,7 @@ GitHub documents a separate context window. The child receives a delegated task 
 
 If a decision or constraint matters to the child, include it explicitly in the delegation or put it in an instruction source the child is documented to load.
 
-The exact seeding of child context, instruction inheritance and result payload by surface is listed as **To Test**.
+The exact seeding of child context and instruction inheritance is covered by [T07](../To-Test.md#t07-parent-to-subagent-context-transfer). The result returned to the parent is covered by [T08](../To-Test.md#t08-subagent-to-parent-return).
 
 ## When to use a custom agent
 
@@ -99,7 +92,7 @@ Avoid delegation for tiny or tightly coupled changes. Handoffs consume time, cre
 
 Model selection is surface-specific. Current VS Code documentation gives precedence to an explicitly requested invocation model, then the custom agent's configured model, then the parent model. It also documents cost-tier restrictions on child model choice.
 
-Therefore, an “Opus orchestrator, Sonnet children” pattern is feasible only where the selected models are available and that surface supports per-agent routing. Make the intended model explicit and verify it in usage/trace data.
+An "Opus orchestrator, Sonnet children" pattern is feasible only where the selected models are available and that surface supports per-agent routing. Make the intended model explicit and verify it in usage or trace data.
 
 ## Coordination risks
 
@@ -117,3 +110,4 @@ Use small delegated scopes, explicit deliverables, ownership boundaries and pare
 - [Custom agents configuration reference](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
 - [Subagents in VS Code](https://code.visualstudio.com/docs/agents/run/subagents)
 - [Custom agents in VS Code: format and file locations](https://code.visualstudio.com/docs/agent-customization/custom-agents)
+- [Copilot customization cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)

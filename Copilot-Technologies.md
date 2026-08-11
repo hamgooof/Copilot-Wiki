@@ -1,8 +1,8 @@
-# Copilot customisations
+# Copilot technologies
 
 _For people learning how to shape Copilot's behaviour · Last reviewed 11 August 2026_
 
-Copilot can follow persistent guidance, load specialised workflows and use purpose-built agents. These features overlap, but each one solves a different problem.
+Copilot can follow persistent guidance, load specialised workflows and use purpose-built agents. These technologies overlap, but each one solves a different problem.
 
 Start small. A short, relevant setup is easier for people to maintain and easier for Copilot to apply.
 
@@ -16,16 +16,11 @@ If the underlying ideas are unfamiliar, read:
 
 ## Technology breakdown
 
-1. [Choose the right Copilot customisation](Copilot-Technologies/Choose-the-right-technology.md)
+1. [Choose the right Copilot technology](Copilot-Technologies/Choose-the-right-technology.md)
 2. [Custom instructions and AGENTS.md](Copilot-Technologies/Custom-instructions.md)
 3. [Agent skills](Copilot-Technologies/Agent-skills.md)
-4. [Custom agents and subagents](Copilot-Technologies/Custom-agents-and-subagents.md)
-5. [Context and models](Copilot-Technologies/Context-and-models.md)
-6. [Prompt files and other useful IDE features](Copilot-Technologies/Prompt-files-and-other-IDE-features.md)
+4. [Prompt files and other useful IDE features](Copilot-Technologies/Prompt-files-and-other-IDE-features.md)
+5. [Custom agents and subagents](Copilot-Technologies/Custom-agents-and-subagents.md)
+6. [Advanced: context across skills, agents and models](Copilot-Technologies/Context-and-models.md)
 
 The [chooser](Copilot-Technologies/Choose-the-right-technology.md) compares these options in one place. The remaining pages explain how to build and maintain the option you select.
-
-## Sources
-
-- [Copilot customisation support table](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)
-- [Agent customisation in VS Code](https://code.visualstudio.com/docs/agents/concepts/customization)

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
   <title id="title">How accumulated context can multiply input across rounds</title>
-  <desc id="desc">Four growing prompt bars show a starting prompt followed by accumulated search, file and test results. A simplified calculation shows one plus two plus three plus four equals ten block-rounds. A compacted prompt replaces older detail with a shorter summary. A note says real usage depends on caching, compaction, tool output, model pricing and provider implementation.</desc>
+  <desc id="desc">Four growing prompt bars show a starting prompt followed by accumulated search, file and test results. A simplified calculation shows one plus two plus three plus four equals ten blocks of processing. A compacted prompt replaces older detail with a shorter summary. A note says real usage depends on caching, compaction, tool output, model pricing and provider implementation.</desc>
 
   <rect width="1200" height="620" rx="24" fill="#f7f9fc"/>
   <text x="60" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="700" fill="#17233c">Why later rounds can process more context</text>
@@ -40,7 +40,7 @@
   <text x="790" y="185" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#ffffff">The compounding effect</text>
   <text x="790" y="225" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#dbe5fa">If each round adds one equal block:</text>
   <text x="790" y="275" font-family="Segoe UI, Arial, sans-serif" font-size="27" font-weight="700" fill="#ffffff">1 + 2 + 3 + 4 = 10</text>
-  <text x="790" y="310" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#dbe5fa">Four rounds process ten “block-rounds”</text>
+  <text x="790" y="310" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#dbe5fa">Four rounds process ten blocks</text>
   <text x="790" y="338" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#dbe5fa">of input in this simplified example.</text>
   <line x1="790" y1="365" x2="1105" y2="365" stroke="#7185ad" stroke-width="2"/>
   <text x="790" y="397" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#f6cf86">Context can grow quickly.</text>

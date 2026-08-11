@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
   <title id="title">How Copilot assembles context for a model call</title>
-  <desc id="desc">Seven categories of context can be assembled into a prompt and sent to a language model. The categories are illustrative and do not show prompt order. The prompt, model output and any thinking tokens share the context-window capacity.</desc>
+  <desc id="desc">Seven categories of context can be assembled into a prompt and sent to a language model. The categories are illustrative and do not show prompt order. The prompt, model output and any supported reasoning tokens share the context-window capacity.</desc>
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
       <path d="M0,0 L12,6 L0,12 z" fill="#3155a6"/>
@@ -17,8 +17,8 @@
 
   <g font-family="Segoe UI, Arial, sans-serif">
     <rect x="90" y="215" width="460" height="50" rx="10" fill="#e8edff"/>
-    <text x="110" y="238" font-size="16" font-weight="700" fill="#263b76">System instructions</text>
-    <text x="110" y="256" font-size="15" fill="#4c5d8e">Harness rules and behaviour</text>
+    <text x="110" y="238" font-size="16" font-weight="700" fill="#263b76">System and tool definitions</text>
+    <text x="110" y="256" font-size="15" fill="#4c5d8e">Harness rules, tool descriptions and schemas</text>
 
     <rect x="90" y="275" width="460" height="50" rx="10" fill="#e9f6ef"/>
     <text x="110" y="298" font-size="16" font-weight="700" fill="#1f6245">Customisations</text>
@@ -40,8 +40,9 @@
     <text x="110" y="538" font-size="16" font-weight="700" fill="#8a3045">Explicit references</text>
     <text x="110" y="556" font-size="15" fill="#8d5b66">Files, URLs or other context you named</text>
 
-    <rect x="90" y="575" width="460" height="40" rx="10" fill="#e9edf2"/>
-    <text x="110" y="600" font-size="16" font-weight="700" fill="#37465b">Tool results from earlier rounds</text>
+    <rect x="90" y="575" width="460" height="50" rx="10" fill="#e9edf2"/>
+    <text x="110" y="598" font-size="16" font-weight="700" fill="#37465b">Tool results from earlier rounds</text>
+    <text x="110" y="616" font-size="15" fill="#536074">Search, file and terminal output</text>
   </g>
 
   <line x1="590" y1="380" x2="705" y2="380" stroke="#3155a6" stroke-width="5" marker-end="url(#arrow)"/>
@@ -60,5 +61,5 @@
   <text x="1037" y="497" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#815412">Tool call</text>
 
   <text x="60" y="682" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" fill="#17233c">Context-window capacity:</text>
-  <text x="260" y="682" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#4d5b75">input prompt + generated output + any supported thinking tokens.</text>
+  <text x="260" y="682" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#4d5b75">input prompt + generated output + any supported reasoning tokens.</text>
 </svg>

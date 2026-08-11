@@ -8,14 +8,14 @@ An agent skill is a folder containing a required `SKILL.md` and optional scripts
 
 [[_TOC_]]
 
-## Why skills matter
+## When a skill helps
 
-Skills solve two problems at once:
+Use a skill when a repeatable workflow needs:
 
-- They standardise a repeatable workflow
-- They defer detailed instructions until they are needed
+- A consistent set of steps
+- Detailed guidance that should load only when relevant
 
-GitHub explicitly recommends skills for just-in-time guidance that should not overload the context window for unrelated tasks.
+GitHub recommends skills for just-in-time guidance that should not overload the context window for unrelated tasks.
 
 ## Typical layout
 
@@ -47,19 +47,19 @@ description: Draft and validate release notes from merged pull requests. Use for
 5. Report missing issue links separately.
 ```
 
-The description is important. Copilot uses the task and skill description to decide whether the skill is relevant.
+The description is important. Copilot uses the task and skill description to decide whether the skill is relevant. In VS Code, you can also invoke this example directly by typing `/release-notes` in Chat.
 
 ## What is loaded into context
 
 **Documented in VS Code:** Copilot first uses the skill name and description to decide whether it is relevant. When selected, the `SKILL.md` body is loaded into the agent's context. Referenced scripts, examples and other files are accessed as the workflow needs them.
 
-Copilot loads supporting files when the workflow references them. Link them from `SKILL.md` so the agent can retrieve only what it needs.
+Link supporting files from `SKILL.md` so the agent can retrieve them when the workflow needs them.
 
-**To Test:** behaviour still differs between IDEs and versions. Test automatic selection, compaction and context use in the clients supported by your team.
+In VS Code, open Chat, right-click in the Chat view and select **Diagnostics** to inspect loaded customisations and errors. Automatic selection, persistence and supporting-resource behaviour still differ between IDEs and versions; see [T04](../To-Test.md#t04-skill-activation-and-persistence) and [T05](../To-Test.md#t05-supporting-skill-resources).
 
 ## Skills versus other options
 
-Use a skill for an occasional detailed workflow and its supporting resources. The [customisation chooser](Choose-the-right-technology.md) covers the boundaries with instructions, prompt files, custom agents and deterministic controls.
+Use a skill for an occasional detailed workflow and its supporting resources. The [technology chooser](Choose-the-right-technology.md) covers the boundaries with instructions, prompt files, custom agents and deterministic controls. Check the [IDE support table](Choose-the-right-technology.md#current-ide-support) if the skill is not discovered.
 
 ## Good skill candidates
 
@@ -72,7 +72,7 @@ Use a skill for an occasional detailed workflow and its supporting resources. Th
 
 ## Common mistakes
 
-- A vague description such as “helps with code.” Copilot cannot route reliably if the trigger is unclear
+- A vague description such as "helps with code". Copilot cannot route reliably if the trigger is unclear
 - Repeating universal repository rules in every skill
 - Filling `SKILL.md` with reference material that could live in linked supporting files
 - Treating natural-language steps as deterministic enforcement

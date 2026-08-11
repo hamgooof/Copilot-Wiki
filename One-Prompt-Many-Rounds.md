@@ -15,11 +15,10 @@ That distinction explains why one apparently simple message can take time, use s
 | **Turn** | The complete exchange from one user message to the final assistant response | One message sent; one answer returned |
 | **Round** | One loop pass: assemble the next prompt, call the model, execute requested tools, record results and decide whether to continue | Usually hidden unless you inspect debug logs |
 | **Agent loop** | The control mechanism that performs those rounds | The agent appears to keep working |
-| **Run** *(blog term)* | The full execution of all rounds in the turn | The complete piece of work |
 
 ![A user turn containing several model-and-tool rounds](Media/turns-rounds-agent-loop.svg =900x)
 
-Microsoft's VS Code engineering blog defines turn, round and run in this way. This wiki uses the same vocabulary for IDE agent behaviour.
+Microsoft's VS Code engineering blog distinguishes turns from rounds in this way. This wiki uses those two labels for IDE agent behaviour.
 
 ## Follow one turn from start to finish
 
@@ -55,51 +54,28 @@ During each round, the harness:
 
 If the model returns a final answer without requesting another tool, the loop can finish and the turn ends.
 
-## What a tool is
+## Tool access and tool results
 
-A tool lets the agent interact with the IDE and workspace. Tools give the model hands: the model requests an action, then the harness performs it. Common examples include:
+A tool gives the model hands in your workspace. The model requests an action, the harness performs it, and the result can become context for the next round. [How Copilot works in your IDE](How-Copilot-Works.md#4-tools-let-copilot-act) explains tools in more detail.
 
-- Searching for files or text
-- Reading and editing files
-- Running terminal commands and tests
-- Inspecting source-control changes
-- Fetching current documentation
-
-The model chooses from the exposed tools by reading their names, descriptions and schemas. The harness executes the selected tool.
-
-### Tool access and tool results
-
-A tool gives the agent a capability. The information returned by that tool becomes context after the agent uses it.
-
-For example, a file-reading tool lets the agent request a file. The file contents enter the working context when that read occurs.
+Tool access and tool results are different. A file-reading tool provides access; the requested file contents enter the working context after the agent chooses to read them.
 
 ## Why later rounds become larger
 
-The next prompt normally carries the useful conversation forward and adds the results accumulated so far. A later round may include files, search output, terminal results and a summary of workspace changes that were not available at the start.
-
-For each round, VS Code assembles the next effective prompt by carrying relevant context forward and adding new results. Prompt caching can reuse an unchanged prefix, so the next call may contain both cached and fresh input.
+The next prompt normally carries useful conversation forward and adds new results. A later round may include files, search output and terminal results that were not available at the start.
 
 This has two practical consequences:
 
-1. **Quality:** useful evidence helps the model make a better next decision; noisy results can distract it.
-2. **Usage:** accumulated input may be processed again on later rounds, subject to the product's context management and prompt caching.
+1. **Quality:** useful evidence helps the model make a better next decision; noisy results can distract it
+2. **Usage:** accumulated input may be processed again on later rounds, subject to the product's context management and prompt caching
 
-Tool calls do not have one fixed token price. Usage depends on the model, input, output, cache behaviour, tool results and number of rounds.
+Tool calls do not have one fixed token price. [Tokens and context windows](Tokens-and-Context-Windows.md#how-context-grows-during-a-turn) shows how accumulated results affect later rounds and overall usage.
 
 ## Permissions and safety
 
 Tool impact ranges from reading a file to changing code or running a deployment command.
 
-Use the smallest useful toolset:
-
-| Role or task | Sensible starting capability |
-| --- | --- |
-| Code reviewer | Read and search |
-| Documentation editor | Read, search and edit documentation paths |
-| Test fixer | Read, search, edit and focused test execution |
-| Deployment investigator | Read logs first; require approval before changes |
-
-Instructions such as “be careful” influence model behaviour but do not enforce a boundary. Use tool restrictions, permissions, protected branches and explicit approvals for controls that matter.
+Use the smallest useful toolset. Instructions such as "be careful" influence behaviour but do not enforce a boundary. For reusable read-only or specialist roles, configure a [custom agent](Copilot-Technologies/Custom-agents-and-subagents.md#custom-agent) with the required tools. Keep protected branches, approvals and other deterministic controls outside the prompt.
 
 ## When to intervene
 

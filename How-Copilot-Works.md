@@ -2,7 +2,7 @@
 
 _For new and regular Copilot users · Last reviewed 11 August 2026_
 
-Copilot combines the model you select with the surrounding IDE experience. In Agent mode, the IDE prepares the information the model can see, offers it tools and carries out the actions it requests.
+Copilot combines the model you select with the surrounding IDE experience. In an [Agent task](Home.md#my-first-ten-minutes), the IDE prepares the information the model can see, offers it tools and carries out the actions it requests.
 
 Microsoft calls the layer around the model the **agent harness**. A simple understanding of its job is enough to make Copilot much easier to use well.
 
@@ -23,18 +23,17 @@ A quick question may need one model call. Fixing a feature can require several r
 
 ![The context sources VS Code can assemble before calling a language model](Media/context-assembly.svg =900x)
 
-Your chat message is one part of a larger input. Depending on the IDE, mode and task, the input can also contain:
+Your chat message is one part of a larger input. Depending on the IDE, mode and task, the assembled prompt can contain:
 
-- Built-in system instructions
+- Built-in system instructions and descriptions of the tools available to the model
 - Your custom instructions, selected agent and loaded skills
+- Your current message
 - Earlier messages in the current session
-- Descriptions of the tools available to the model
 - Implicit editor context such as the active file, selection, visible errors and Git state
 - Files, folders or other information that you referenced explicitly
-- Code snippets found through workspace indexing
 - Results from earlier search, read, terminal and editing tools
 
-The diagram groups these sources to make them easier to understand. Their actual order inside the prompt can differ.
+The categories are explanatory; their actual order inside the prompt can differ.
 
 File content can reach the model in several ways. You can attach or reference it, the IDE can provide implicit context or indexed snippets, and an agent can request search or read tools. Each model call receives a selected set of content, while the rest of the repository remains available for retrieval.
 
@@ -44,7 +43,7 @@ File content can reach the model in several ways. You can attach or reference it
 
 The language model processes the assembled input. It can produce an answer or a structured request to use a tool.
 
-Models differ in capability, speed, context-window size, tool use and cost. Think of them like vehicles designed for different jobs. A car is useful for travel; a forklift is better at lifting a pallet. Some are faster, stronger or more efficient than others.
+Models differ in capability, speed, context-window size, tool use and cost. Think of them as engines: some are more powerful, some are faster, and some use less fuel. The surrounding vehicle can stay familiar even when you change the engine.
 
 ### 2. The harness connects the model to the IDE
 
@@ -85,18 +84,9 @@ Common tools can:
 
 The model chooses a tool and supplies the arguments. The harness carries out the action and returns the result. That result can then guide the next round, such as correcting an edit after a failed test.
 
-## Where customisations fit
+## Where Copilot technologies fit
 
-Customisations change the guidance or working setup available to Copilot:
-
-| Customisation | Think of it as |
-| --- | --- |
-| Instructions | Standing rules that apply automatically |
-| Skill | A task-specific playbook with optional scripts and references |
-| Custom agent | A named specialist with its own brief and tools |
-| Prompt file | A reusable task request that a person starts deliberately |
-
-They shape how Copilot approaches the work. The [technology guide](Copilot-Technologies/Choose-the-right-technology.md) explains when each one is useful.
+Instructions, skills, custom agents and prompt files change the guidance or working setup available to Copilot. The [technology chooser](Copilot-Technologies/Choose-the-right-technology.md) compares them in one place.
 
 ## Information you may need to provide
 
@@ -113,10 +103,10 @@ Writing those details into the request reduces discovery work and guessing. The 
 
 ## What to read next
 
-- New vocabulary: [Copilot terminology without the headache](Copilot-Terminology.md)
 - Context and usage: [Tokens and context windows](Tokens-and-Context-Windows.md)
 - A worked agent task: [One prompt, many rounds](One-Prompt-Many-Rounds.md)
-- Choosing a customisation: [Choose the right Copilot technology](Copilot-Technologies/Choose-the-right-technology.md)
+- New vocabulary: [Copilot terminology without the headache](Copilot-Terminology.md)
+- Choosing a technology: [Choose the right Copilot technology](Copilot-Technologies/Choose-the-right-technology.md)
 
 ## Sources
 

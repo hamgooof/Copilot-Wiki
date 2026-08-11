@@ -2,7 +2,7 @@
 
 _For new and regular Copilot users · Last reviewed 11 August 2026_
 
-The context window is the working capacity for one model call. The assembled input, generated output and any supported thinking tokens share that capacity. Start with the whiteboard analogy below if those terms are new to you.
+The context window is the working capacity for one model call. The assembled input, generated answer and any reasoning the model does along the way share that capacity. Start with the whiteboard analogy below if those terms are new to you.
 
 [[_TOC_]]
 
@@ -23,21 +23,24 @@ A larger board holds more, but useful information still needs to be easy to find
 
 ## What a token is
 
-For day-to-day Copilot use, a token is one unit in the count used to measure model input and output. Text is split into pieces, and each piece is mapped to a number that the model can process. A piece might be a whole word, a word fragment, punctuation or a special symbol.
+Copilot's tokeniser splits text into pieces and maps each piece to a number that the model can process. That number is a **token ID**. A piece might be a whole word, a word fragment, punctuation or a special symbol.
 
-Different models can use different tokenizers, so the same text can produce a different token count on another model. This matters when comparing model context limits or usage.
+Product documentation commonly uses **token** for both the represented piece and the unit being counted. Context capacity and usage displays care about the count rather than the individual ID values.
 
-> **Optional technical precision:** the numbers are called token IDs. Most Copilot users only need the token count, because that is what affects context capacity and usage.
+Different models can use different tokenisers, so the same text can produce a different token count on another model. This matters when comparing model context limits or usage.
 
-You normally do not need to count tokens manually. Remember three things:
+## Token counts in more detail
 
-1. Everything sent to the model counts as **input tokens**.
-2. Everything the model produces counts as **output tokens**.
-3. The product may reuse a matching input prefix as **cached input tokens**, often at a different price.
+Most users can ignore manual token counting. These four labels explain the usage displays you are likely to encounter:
 
-Some reasoning models also use **thinking tokens** while solving a problem. See [Tokens in more depth](Copilot-Terminology.md#tokens-in-more-depth) for the full comparison.
+| Token count | What it represents | Whiteboard analogy |
+| --- | --- | --- |
+| **Input** | Instructions, tool definitions, your message, history, supplied file content and earlier tool results sent for the current round | Tiles placed on the board before the model responds |
+| **Output** | Text and structured tool requests produced by the model | New tiles written by the model |
+| **Cached input** | An unchanged input prefix that the provider can reuse from an earlier call | Tiles whose unchanged arrangement has already been processed |
+| **Reasoning** | Internal working used by supported reasoning models; it may not appear in the final response | Space used to work through the problem before answering |
 
-Input, output and thinking tokens share the same context-window capacity. A prompt that consumes most of the window leaves less room for reasoning and the final answer.
+Input, output and supported reasoning tokens share the same context-window capacity. A prompt that consumes most of the window leaves less room for reasoning and the final answer. Exact prices and cache eligibility depend on the model and product.
 
 ## What enters the assembled prompt
 
@@ -47,22 +50,24 @@ The diagram and full breakdown live on [How Copilot works in your IDE](How-Copil
 
 ## How context grows during a turn
 
+A **turn** runs from your message to Copilot's final response. A **round** is one pass through the internal model-and-tools loop. [One prompt, many rounds](One-Prompt-Many-Rounds.md) explains the distinction with a worked example.
+
 Suppose an agent is investigating a failing test:
 
-1. Your message, instructions and tool definitions form the initial context.
-2. A search returns matching files.
-3. A file-reading tool adds relevant code.
-4. A test command adds terminal output.
-5. The next round carries the useful history forward and adds the new result.
-6. More tools can add more material before the final answer.
+1. Your message, instructions and tool definitions form the initial context
+2. A search returns matching files
+3. A file-reading tool adds relevant code
+4. A test command adds terminal output
+5. The next round carries the useful history forward and adds the new result
+6. More tools can add more material before the final answer
 
 ![Four rounds with growing accumulated input, followed by a shorter compacted prompt](Media/context-growth-across-rounds.svg =900x)
 
 This is why a ten-word message can lead to thousands of input tokens. Later rounds may process earlier results again, although prompt caching and context management can change the effective usage.
 
-In the tidy example above, each round adds one equal block while keeping the earlier blocks. The cumulative input is `1 + 2 + 3 + 4 = 10` block-rounds. Extend that pattern and it grows roughly with the square of the number of rounds. This illustrates context growth; Copilot billing also depends on the model, caching, output and product implementation.
+In the tidy example above, each round adds one equal block while keeping the earlier blocks. The cumulative input is `1 + 2 + 3 + 4 = 10` blocks of processing. Extend that pattern and it grows roughly with the square of the number of rounds. This illustrates context growth; Copilot billing also depends on the model, caching, output and product implementation.
 
-How that state travels to the provider varies. For everyday use, the useful point is that the model's next decision depends on the effective prompt and history; see [Effective context versus transport](Copilot-Technologies/Context-and-models.md#effective-context-versus-transport) for the technical caveat.
+How that state travels to the provider varies. For day-to-day work, the model's next decision still depends on the effective prompt and history. [Effective context versus transport](Copilot-Technologies/Context-and-models.md#effective-context-versus-transport) covers the technical detail.
 
 ## What happens when the window fills
 
@@ -83,9 +88,6 @@ A useful prompt can be longer than a vague one while costing less overall. Namin
 - Attaching a whole folder when two files would do
 - Reusing one session for unrelated tasks
 - Commands that return thousands of irrelevant log lines
-- Leaving many unrelated tools enabled for every agent
-- Repeatedly pasting documentation that could be retrieved when needed
-- Letting a stuck agent repeat an approach without learning anything new
 
 Context bloat affects both cost and quality. Irrelevant material competes for the model's attention and can reduce answer quality.
 
@@ -95,11 +97,15 @@ The practical actions are collected in [Working efficiently and managing cost](W
 
 ## Inspect context and usage
 
-- VS Code exposes context information and supports automatic or manual compaction in agent sessions
-- VS Code's [Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer) compares consecutive model requests and shows where a matching prompt prefix diverges
-- Agent Debug Logs can show prompts, tool calls and results for supported VS Code sessions
+VS Code exposes context information and supports automatic or manual compaction in agent sessions. To inspect a session in detail:
 
-Use measurements before claiming that an installed skill, instruction file or tool is expensive. Discovery metadata and fully loaded content are different parts of the prompt.
+1. Open Chat and select **... > Show Agent Debug Logs**
+2. Select the session name in the breadcrumb at the top
+3. Open **Cache Explorer**
+
+[Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer) compares consecutive model requests and shows where a matching prompt prefix diverges. Agent Debug Logs can also show prompts, tool calls and results for supported sessions.
+
+The context cost of installed skills, instructions and tools should be measured in each IDE. An unused skill's name and description may be discoverable while its full instructions remain unloaded. [T03](To-Test.md#t03-uninvoked-skill-overhead) measures that overhead.
 
 ## Sources
 

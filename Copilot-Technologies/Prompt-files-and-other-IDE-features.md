@@ -15,9 +15,15 @@ A prompt file is a reusable request that a person starts deliberately. It suits 
 - Can contain instructions, variables and references to workspace context
 - Useful when the task is repeatable but should only run on demand
 
-The [customisation chooser](Choose-the-right-technology.md#prompt-file-or-skill) covers the boundary between prompt files and skills.
+The [technology chooser](Choose-the-right-technology.md#prompt-file-or-skill) covers the boundary between prompt files and skills.
 
-Support and invocation differ between IDEs, so check the current documentation for the client used by your team.
+### Run a prompt file
+
+- **VS Code:** type `/` followed by the prompt filename, use **Chat: Run Prompt** from the Command Palette, or open the `.prompt.md` file and select the play button
+- **Visual Studio:** type `#prompt:` in chat or select **+** to choose the prompt file
+- **JetBrains:** prompt files are currently a preview feature. Open the **Agent Customizations** editor from the settings icon in Copilot Chat and use the prompt controls provided by your plugin version
+
+Repository prompt files normally live at `.github/prompts/NAME.prompt.md`. Check the [current IDE support table](Choose-the-right-technology.md#current-ide-support) if an option is missing.
 
 ## Repository indexing
 
@@ -38,17 +44,23 @@ Point Copilot towards a known file or symbol when you have one. This reduces dis
 
 IDE chat can accept files, folders, symbols, terminal output, source-control changes and other references. Use explicit context when a particular item must be considered.
 
+- **VS Code:** type `#`, select **Add Context**, or drag files and folders into Chat
+- **Visual Studio:** select **+** in the chat box to attach or reference context
+- **JetBrains:** select or open the relevant code and use the context controls available in your Copilot Chat version
+
 Large attachments can crowd the context window. Start with the smallest useful scope and let the agent retrieve more if it needs it.
 
 ## Content exclusion
 
-Content exclusion can prevent some Copilot features from using selected files. GitHub documents important exceptions, including limited support in some Edit and Agent experiences.
+Content exclusion is an organisation or repository control that can prevent some Copilot features from using selected files. GitHub documents important exceptions, including limited support in some Edit and Agent experiences. Most users will not configure this themselves.
 
 Treat content exclusion as one part of repository governance. Use ordinary access controls and secret-management practices for information that must remain protected.
 
 ## Sources
 
 - [Prompt files in VS Code](https://code.visualstudio.com/docs/agent-customization/prompt-files)
+- [Use prompt files and context in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/ide/copilot-chat-context?view=vs-2022)
+- [Copilot customization cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)
 - [Providing context to GitHub Copilot](https://docs.github.com/en/copilot/concepts/context)
 - [Context assembly and workspace indexing in VS Code](https://code.visualstudio.com/docs/agents/concepts/context)
 - [Tools in VS Code](https://code.visualstudio.com/docs/agents/concepts/tools)

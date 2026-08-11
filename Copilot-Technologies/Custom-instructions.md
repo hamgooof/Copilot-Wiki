@@ -13,7 +13,7 @@ Custom instructions are persistent guidance that Copilot applies automatically. 
 | Form | Typical location | Intended scope |
 | --- | --- | --- |
 | Repository-wide Copilot instructions | `.github/copilot-instructions.md` | Most Copilot work in the repository |
-| Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the `applyTo` pattern in frontmatter, the small YAML block between `---` lines at the top of the file |
+| Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the `applyTo` pattern in the YAML header |
 | Agent instructions | `AGENTS.md` | Standing guidance shared across supporting AI agents |
 | Organisation instructions | Configured at organisation level | Supported Copilot interactions for organisation members |
 
@@ -40,7 +40,7 @@ Example:
 
 ## What should move elsewhere
 
-Long runbooks, reusable one-off requests, specialist roles and enforceable checks do not belong in a general instruction file. The [customisation chooser](Choose-the-right-technology.md) shows the better home for each of these.
+Long runbooks, reusable one-off requests, specialist roles and enforceable checks do not belong in a general instruction file. The [technology chooser](Choose-the-right-technology.md) shows the better home for each of these.
 
 ## Context and usage impact
 
@@ -48,7 +48,7 @@ Long runbooks, reusable one-off requests, specialist roles and enforceable check
 
 **Practical consequence:** every always-on line competes with the user message, history, code and tool results for context. It may also be sent repeatedly across rounds, though provider caching and product-specific prompt assembly affect billed usage and latency.
 
-This does **not** mean a 1,000-token instruction file always creates exactly 1,000 newly billed tokens on every round. It means the file is eligible to occupy context repeatedly. Exact credit and cache behaviour is a **To Test** item.
+A 1,000-token instruction file is eligible to occupy that much context repeatedly, although caching and prompt assembly affect the newly billed amount. [T01](../To-Test.md#t01-always-on-instruction-cost) measures the exact impact.
 
 ## Path-specific instructions
 
@@ -74,7 +74,9 @@ If a matching path-specific file and repository-wide instructions both apply, bo
 - Nested `AGENTS.md` discovery is experimental in VS Code: when enabled, the editor adds the discovered paths to chat context and lets the agent decide which instructions are relevant
 - Support and discovery behaviour can differ in Visual Studio and JetBrains
 
-Therefore, avoid relying on an undocumented universal precedence rule. Test the client and version used by the team.
+Avoid relying on an undocumented universal precedence rule. [T02](../To-Test.md#t02-instruction-discovery-and-precedence) tests the client and version used by the team.
+
+To check whether instructions were applied, open the references attached to a Copilot response. Visual Studio shows a **References** section below the response. In VS Code, Chat Diagnostics and the request details expose applied customisations for supported sessions.
 
 ## Review checklist
 
