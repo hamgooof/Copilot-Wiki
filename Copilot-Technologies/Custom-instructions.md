@@ -2,7 +2,7 @@
 
 _For developers and repository maintainers · Last reviewed 11 August 2026_
 
-> Start with [Tokens and context windows](../Tokens-and-Context-Windows.md) if it is not yet clear why always-loaded instructions can affect focus and usage.
+> [Tokens and context windows](../Tokens-and-Context-Windows.md) explains why always-loaded instructions can affect focus and usage.
 
 Custom instructions are persistent guidance that Copilot applies automatically. They are ideal for concise facts and expectations that are useful across a broad scope.
 
@@ -13,30 +13,29 @@ Custom instructions are persistent guidance that Copilot applies automatically. 
 | Form | Typical location | Intended scope |
 | --- | --- | --- |
 | Repository-wide Copilot instructions | `.github/copilot-instructions.md` | Most Copilot work in the repository |
-| Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the `applyTo` pattern in frontmatter—the small YAML block between `---` lines at the top of the file |
+| Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the `applyTo` pattern in frontmatter, the small YAML block between `---` lines at the top of the file |
 | Agent instructions | `AGENTS.md` | Standing guidance shared across supporting AI agents |
-| Personal CLI instructions | `~/.copilot/copilot-instructions.md` and `~/.copilot/instructions/**/*.instructions.md` | That user's Copilot CLI sessions |
 | Organisation instructions | Configured at organisation level | Supported Copilot interactions for organisation members |
 
 Support varies by client and Copilot feature. Check [GitHub's custom-instructions support table](https://docs.github.com/en/copilot/reference/custom-instructions-support) before standardising a layout.
 
 ## What belongs in always-on instructions
 
-- The repository's purpose and a compact architecture map.
-- The actual build, test and lint commands.
-- Rules that genuinely apply to nearly every change.
-- A few critical safety boundaries.
-- Pointers to authoritative documentation, not copies of every document.
+- The repository's purpose and a compact architecture map
+- The actual build, test and lint commands
+- Rules that genuinely apply to nearly every change
+- A few critical safety boundaries
+- Pointers to authoritative documentation, not copies of every document
 
 Example:
 
 ```markdown
 # Repository guidance
 
-- This is a TypeScript monorepo managed with pnpm workspaces.
-- Run `pnpm test` for unit tests and `pnpm lint` before completion.
-- Do not change public API contracts without calling it out explicitly.
-- Prefer existing components from `packages/ui` over creating duplicates.
+- This is a TypeScript monorepo managed with pnpm workspaces
+- Run `pnpm test` for unit tests and `pnpm lint` before completion
+- Do not change public API contracts without calling it out explicitly
+- Prefer existing components from `packages/ui` over creating duplicates
 ```
 
 ## What should move elsewhere
@@ -47,12 +46,12 @@ Example:
 | A one-off code review prompt | Prompt file |
 | Rules only for `docs/**` | Path-specific instructions |
 | A security reviewer persona with read-only tools | Custom agent |
-| A validation command that must always run | Hook or CI |
+| A validation command that must always run | CI or repository policy |
 | A large architecture reference | Repository documentation retrieved when needed |
 
 ## Context and usage impact
 
-**Documented:** Copilot CLI combines all applicable user-level and repository instruction files for the session. In IDE chat, repository instructions are automatically added to relevant requests and can appear in the response's References list.
+**Documented:** in IDE chat, repository instructions are automatically added to relevant requests and can appear in the response's References list.
 
 **Practical consequence:** every always-on line competes with the user message, history, code and tool results for context. It may also be sent repeatedly across rounds, though provider caching and product-specific prompt assembly affect billed usage and latency.
 
@@ -67,20 +66,20 @@ Use path-specific files when guidance is important but only for a component, lan
 applyTo: "docs/**/*.md"
 ---
 
-- Write for a developer audience.
-- Use sentence case headings.
-- Include a tested example for every public command.
+- Write for a developer audience
+- Use sentence case headings
+- Include a tested example for every public command
 ```
 
 If a matching path-specific file and repository-wide instructions both apply, both may be used. Keep the universal file genuinely universal and put local detail in the scoped file.
 
 ## `AGENTS.md` requires surface awareness
 
-`AGENTS.md` is useful when the same repository guidance should work across different agents and tools. Do not assume every Copilot surface discovers the same files in the same way:
+`AGENTS.md` is useful when the same repository guidance should work across different agents and tools. Discovery differs between Copilot clients:
 
-- GitHub documents `AGENTS.md` support for the cloud coding agent, code review, VS Code agent use and Copilot CLI, with client-specific differences.
-- VS Code automatically applies a root-level `AGENTS.md` to workspace chat requests. Nested `AGENTS.md` discovery is experimental: when enabled, VS Code adds the paths of recursively discovered files to chat context and lets the agent decide which instructions are relevant.
-- Current Copilot CLI documentation says multiple supported instruction files are merged and lists both Git-root and current-working-directory locations.
+- VS Code automatically applies a root-level `AGENTS.md` to workspace chat requests
+- Nested `AGENTS.md` discovery is experimental in VS Code: when enabled, the editor adds the discovered paths to chat context and lets the agent decide which instructions are relevant
+- Support and discovery behaviour can differ in Visual Studio and JetBrains
 
 Therefore, avoid relying on an undocumented universal precedence rule. Test the client and version used by the team.
 
@@ -99,7 +98,5 @@ Therefore, avoid relying on an undocumented universal precedence rule. Test the 
 
 - [Adding repository custom instructions in an IDE](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions-in-your-ide/add-repository-instructions-in-your-ide)
 - [Support for different types of custom instructions](https://docs.github.com/en/copilot/reference/custom-instructions-support)
-- [Copilot CLI command reference: custom instruction locations](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference)
-- [Adding custom instructions for GitHub Copilot CLI](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions)
 - [Your first custom instructions](https://docs.github.com/en/copilot/tutorials/customization-library/custom-instructions/your-first-custom-instructions)
 - [Use custom instructions in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions)

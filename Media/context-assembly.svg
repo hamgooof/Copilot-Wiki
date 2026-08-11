@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
   <title id="title">How Copilot assembles context for a model call</title>
-  <desc id="desc">Seven input sources are assembled into a prompt and sent to a language model. The prompt, model output and any thinking tokens share the context-window capacity.</desc>
+  <desc id="desc">Seven categories of context can be assembled into a prompt and sent to a language model. The categories are illustrative and do not show prompt order. The prompt, model output and any thinking tokens share the context-window capacity.</desc>
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
       <path d="M0,0 L12,6 L0,12 z" fill="#3155a6"/>
@@ -9,11 +9,11 @@
 
   <rect width="1200" height="720" rx="24" fill="#f7f9fc"/>
   <text x="60" y="58" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="700" fill="#17233c">What reaches the model?</text>
-  <text x="60" y="88" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#4d5b75">Copilot assembles a fresh prompt on every round. Task information outside this package is invisible to the model.</text>
+  <text x="60" y="88" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#4d5b75">VS Code combines several context sources into the input for a model call.</text>
 
   <rect x="60" y="125" width="520" height="510" rx="18" fill="#ffffff" stroke="#b9c5dc" stroke-width="2"/>
   <text x="90" y="165" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#17233c">Assembled prompt (input)</text>
-  <text x="90" y="191" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#68758c">One part of the shared context-window capacity</text>
+  <text x="90" y="191" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#68758c">Categories shown for explanation, not prompt order</text>
 
   <g font-family="Segoe UI, Arial, sans-serif">
     <rect x="90" y="215" width="460" height="50" rx="10" fill="#e8edff"/>
@@ -33,7 +33,7 @@
     <text x="110" y="436" font-size="15" fill="#76568f">Earlier user and assistant messages</text>
 
     <rect x="90" y="455" width="460" height="50" rx="10" fill="#e7f6fb"/>
-    <text x="110" y="478" font-size="16" font-weight="700" fill="#17617a">Workspace signals</text>
+    <text x="110" y="478" font-size="16" font-weight="700" fill="#17617a">Implicit editor context</text>
     <text x="110" y="496" font-size="15" fill="#3f6b7a">Active file, selection, errors and Git state</text>
 
     <rect x="90" y="515" width="460" height="50" rx="10" fill="#ffebef"/>
@@ -45,8 +45,7 @@
   </g>
 
   <line x1="590" y1="380" x2="705" y2="380" stroke="#3155a6" stroke-width="5" marker-end="url(#arrow)"/>
-  <text x="612" y="353" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#3155a6">assembled by</text>
-  <text x="605" y="405" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#4d5b75">the harness</text>
+  <text x="648" y="350" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#3155a6">sent to model</text>
 
   <rect x="730" y="225" width="410" height="310" rx="24" fill="#17233c" stroke="#3155a6" stroke-width="2"/>
   <circle cx="935" cy="315" r="58" fill="#3155a6"/>

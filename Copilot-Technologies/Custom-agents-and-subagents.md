@@ -1,6 +1,6 @@
 # Custom agents and subagents
 
-_For developers using Copilot agent mode or CLI · Last reviewed 11 August 2026_
+_For developers using Copilot agent mode in a supported IDE · Last reviewed 11 August 2026_
 
 > Read [One prompt, many rounds](../One-Prompt-Many-Rounds.md) first if agent execution is unfamiliar.
 
@@ -12,12 +12,11 @@ A **custom agent** is a reusable specialist definition. A **subagent** is a sepa
 
 A custom agent profile can define:
 
-- Its role and instructions.
-- The tools it may use.
-- Optional MCP servers or tools.
-- A preferred model, depending on surface.
-- Whether people can select it.
-- Whether another agent may invoke it automatically.
+- Its role and instructions
+- The tools it may use
+- A preferred model, depending on surface
+- Whether people can select it
+- Whether another agent may invoke it automatically
 
 Example:
 
@@ -33,11 +32,11 @@ Review only. Do not edit files. Report evidence, impact and a minimal remediatio
 Ignore formatting and style issues.
 ```
 
-Property names and supported values vary across Copilot surfaces. Use GitHub's [custom agents configuration reference](https://docs.github.com/en/copilot/reference/custom-agents-configuration) and the target IDE documentation rather than assuming a profile is completely portable.
+Property names and supported values vary across Copilot surfaces. Check GitHub's [custom agents configuration reference](https://docs.github.com/en/copilot/reference/custom-agents-configuration) and the target IDE documentation before sharing a profile between clients.
 
 ## Subagent
 
-**Documented for Copilot CLI and VS Code:** a subagent runs with its own context window, separate from the main agent and other subagents. This allows exploration, logs or detailed intermediate work to stay out of the main conversation context.
+**Documented for VS Code:** a subagent runs with its own context window, separate from the main agent and other subagents. This allows exploration, logs or detailed intermediate work to stay out of the main conversation context.
 
 The parent delegates a task. The child works in isolation and returns a result. It is better to think of this as a handoff with a report back, not shared consciousness.
 
@@ -56,7 +55,7 @@ Main agent context
 
 ## Does a subagent inherit the parent's context?
 
-The safe answer is **not automatically in full**.
+Assume that the child starts with a separate, deliberately scoped context.
 
 GitHub documents a separate context window. The child receives a delegated task and can access whatever tools, repository and instructions its configuration provides. The product may supply relevant task context, but a separate window should not be described as a copy of the entire parent's transcript.
 
@@ -66,51 +65,43 @@ The exact seeding of child context, instruction inheritance and result payload b
 
 ## When to use a custom agent
 
-- A reviewer should be read-only.
-- A specialist needs a distinct set of MCP tools.
-- A task benefits from a consistent role and reporting format.
-- A specialist model should handle this class of task.
-- A reusable agent should be eligible for automatic delegation.
+- A reviewer should be read-only
+- A specialist needs a distinct set of built-in tools
+- A task benefits from a consistent role and reporting format
+- A specialist model should handle this class of task
+- A reusable agent should be eligible for automatic delegation
 
-Avoid a custom agent when the only requirement is some guidance text. A skill is lighter and does not necessarily introduce a separate worker.
+Use a skill when the requirement is guidance for a particular workflow. Reserve a custom agent for a distinct role, model or toolset.
 
 ## When to use a subagent
 
-- Codebase exploration would generate a large amount of intermediate context.
-- Tests, builds or logs can be analysed separately.
-- Independent reviews can run in parallel.
-- The main agent should remain focused on planning and integration.
-- Different subtasks benefit from different specialist models.
+- Codebase exploration would generate a large amount of intermediate context
+- Tests, builds or logs can be analysed separately
+- Independent reviews can run in parallel
+- The main agent should remain focused on planning and integration
+- Different subtasks benefit from different specialist models
 
 Avoid delegation for tiny or tightly coupled changes. Handoffs consume time, credits and context, and the parent must reconcile results.
 
 ## Model selection
 
-Model selection is surface-specific:
-
-- **Copilot CLI custom agents:** if the profile does not specify a model, current documentation says it inherits the default model. The interaction with a session using `Auto` is not currently defined; [T10](../To-Test.md#t10-parent-and-child-model-routing) records the test.
-- **VS Code subagents:** current VS Code documentation gives precedence to an explicitly requested invocation model, then the custom agent's configured model, then the parent model. It also documents cost-tier restrictions on child model choice.
-- **Copilot SDK:** custom agent definitions can override the parent session's model and reasoning effort; SDK semantics should not be assumed to apply to the end-user clients.
+Model selection is surface-specific. Current VS Code documentation gives precedence to an explicitly requested invocation model, then the custom agent's configured model, then the parent model. It also documents cost-tier restrictions on child model choice.
 
 Therefore, an “Opus orchestrator, Sonnet children” pattern is feasible only where the selected models are available and that surface supports per-agent routing. Make the intended model explicit and verify it in usage/trace data.
 
 ## Coordination risks
 
-- Two agents edit the same file or make incompatible design decisions.
-- A child does not receive a constraint that existed only in the parent chat.
-- The child returns a summary that omits evidence needed by the parent.
-- A cheaper model saves credits but needs retries or creates integration work.
-- Recursive delegation multiplies usage and makes audit trails harder to follow.
-- The parent accepts reports without validating the resulting repository state.
+- Two agents edit the same file or make incompatible design decisions
+- A constraint mentioned only in the parent chat may be absent from the child's context
+- The child returns a summary that omits evidence needed by the parent
+- A cheaper model saves credits but needs retries or creates integration work
+- Recursive delegation multiplies usage and makes audit trails harder to follow
+- The parent accepts reports without validating the resulting repository state
 
 Use small delegated scopes, explicit deliverables, ownership boundaries and parent-side verification.
 
 ## Sources
 
-- [About custom agents in Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-custom-agents)
-- [Creating and using custom agents for Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli)
 - [Custom agents configuration reference](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
 - [Subagents in VS Code](https://code.visualstudio.com/docs/agents/run/subagents)
 - [Custom agents in VS Code: format and file locations](https://code.visualstudio.com/docs/agent-customization/custom-agents)
-- [Running tasks in parallel with `/fleet`](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/fleet)
-- [Copilot SDK custom agents and sub-agent orchestration](https://docs.github.com/en/copilot/how-tos/copilot-sdk/features/custom-agents)

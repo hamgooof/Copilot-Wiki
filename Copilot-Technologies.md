@@ -1,44 +1,40 @@
-# Copilot technologies
+# Copilot customisations
 
-_For people familiar with everyday Copilot use but new to customization and agents · Last reviewed 11 August 2026_
+_For people learning how to shape Copilot's behaviour · Last reviewed 11 August 2026_
 
-Copilot can follow persistent guidance, load specialised workflows, use purpose-built agents and connect to external systems. These features overlap, but they are not interchangeable.
+Copilot can follow persistent guidance, load specialised workflows and use purpose-built agents. These features overlap, but each one solves a different problem.
 
-The aim is not to enable everything. Too much irrelevant context or capability can make Copilot slower, more expensive and less focused.
-
-> Give Copilot the smallest amount of relevant context and capability needed to complete the task well.
+Start small. A short, relevant setup is easier for people to maintain and easier for Copilot to apply.
 
 ## Before starting
 
-If these concepts are unfamiliar, read:
+If the underlying ideas are unfamiliar, read:
 
-- [Copilot terminology without the headache](Copilot-Terminology.md)
+- [How Copilot works in your IDE](How-Copilot-Works.md)
 - [Tokens and context windows](Tokens-and-Context-Windows.md)
-- [One prompt, many rounds: turns, tools and the agent loop](One-Prompt-Many-Rounds.md)
+- [One prompt, many rounds](One-Prompt-Many-Rounds.md)
 
 ## Technology breakdown
 
-1. [Choose the right Copilot technology](Copilot-Technologies/Choose-the-right-technology.md)
+1. [Choose the right Copilot customisation](Copilot-Technologies/Choose-the-right-technology.md)
 2. [Custom instructions and AGENTS.md](Copilot-Technologies/Custom-instructions.md)
 3. [Agent skills](Copilot-Technologies/Agent-skills.md)
 4. [Custom agents and subagents](Copilot-Technologies/Custom-agents-and-subagents.md)
-5. [Context, memory and models (advanced)](Copilot-Technologies/Context-memory-and-models.md)
-6. [Other useful technologies](Copilot-Technologies/Other-useful-technologies.md)
+5. [Context and models](Copilot-Technologies/Context-and-models.md)
+6. [Prompt files and other useful IDE features](Copilot-Technologies/Prompt-files-and-other-IDE-features.md)
 
 ## Quick orientation
 
 | Need | Start with |
 | --- | --- |
 | A short rule that applies broadly | Custom instructions |
+| Guidance for one component or file type | Path-specific instructions |
 | A detailed workflow used occasionally | Skill |
-| A specialised role, model or restricted toolset | Custom agent |
+| A reusable request started by a person | Prompt file |
+| A specialist role, model or restricted toolset | Custom agent |
 | A focused task that should use a separate context window | Subagent |
-| Access to an external service | MCP tool/server |
-| A command that must run at a lifecycle event | Hook, where the Copilot surface supports it |
-| A reusable prompt a person invokes | Prompt file |
 
 ## Sources
 
-- [Copilot customization cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)
-- [Comparing Copilot CLI customization features](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/comparing-cli-features)
-- [Agent customization in VS Code](https://code.visualstudio.com/docs/agents/concepts/customization)
+- [Copilot customisation support table](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)
+- [Agent customisation in VS Code](https://code.visualstudio.com/docs/agents/concepts/customization)

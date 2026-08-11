@@ -2,9 +2,9 @@
 
 _For regular Copilot users · Last reviewed 11 August 2026_
 
-Efficient Copilot use is not about making every request as cheap as possible. It is about completing useful work with the least unnecessary model work, repetition and human correction.
+Efficient Copilot use means completing useful work with as little unnecessary model work, repetition and human correction as practical.
 
-The biggest savings usually come from better task definition, cleaner context and an appropriate model—not from making prompts artificially short.
+The biggest savings usually come from better task definition, cleaner context and an appropriate model - not from making prompts artificially short.
 
 [[_TOC_]]
 
@@ -14,15 +14,15 @@ The biggest savings usually come from better task definition, cleaner context an
 
 GitHub's usage-based billing measures model interactions in AI credits. The cost of an interaction depends primarily on:
 
-- The model used.
-- Input tokens sent to the model.
-- Output and reasoning tokens generated.
-- Cached-token pricing for that model.
-- The number of model rounds or calls needed to complete the turn.
+- The model used
+- Input tokens sent to the model
+- Output and reasoning tokens generated
+- Cached-token pricing for that model
+- The number of model rounds or calls needed to complete the turn
 
-One GitHub AI Credit corresponds to USD $0.01, but a credit is a billing unit, not a token. Different models price tokens differently.
+One GitHub AI Credit corresponds to USD $0.01. Credits are the billing unit; tokens measure model input and output. Different models price tokens differently.
 
-Code completions and next-edit suggestions are currently not billed in AI credits on paid plans. Chat, CLI, cloud agent, Spaces and other model-powered features do consume credits under the current usage-based model.
+Code completions and next-edit suggestions are currently not billed in AI credits on paid plans. Chat, Edit and Agent interactions use model tokens and can consume credits under the current usage-based model.
 
 Some existing annual individual subscriptions may remain on legacy premium-request billing until the annual plan ends. Check the billing page for the actual plan before comparing usage.
 
@@ -43,10 +43,10 @@ Agent mode is valuable because it can work independently. That same autonomy can
 
 A strong task description contains:
 
-- **Outcome:** what should be true at the end.
-- **Scope:** where Copilot should work and what it should avoid.
-- **Constraints:** interfaces, standards or behaviour that must remain intact.
-- **Evidence:** tests, commands or checks that prove success.
+- **Outcome:** what should be true at the end
+- **Scope:** where Copilot should work and what it should avoid
+- **Constraints:** interfaces, standards or behaviour that must remain intact
+- **Evidence:** tests, commands or checks that prove success
 
 Example:
 
@@ -68,21 +68,21 @@ Continue a session when prior decisions are genuinely relevant. Start a new one 
 
 Persistent instructions are valuable when they prevent recurring mistakes. They are wasteful when they contain long, rarely relevant process documentation.
 
-- Keep universal instructions short and specific.
-- Use path-specific instructions for local rules.
-- Move occasional detailed workflows into skills.
-- Remove duplicated or contradictory files.
-- Review instructions after architecture or tool changes.
+- Keep universal instructions short and specific
+- Use path-specific instructions for local rules
+- Move occasional detailed workflows into skills
+- Remove duplicated or contradictory files
+- Review instructions after architecture or tool changes
 
 ## 5. Choose a model for the task
 
-- Use stronger reasoning models for architecture, difficult debugging and ambiguous design work.
-- Use mid-tier models when the plan is clear and execution remains non-trivial.
-- Use lighter models for routine, well-scoped transformations and documentation.
-- Prefer Auto where appropriate; GitHub currently documents cost-aware routing and cache-boundary behaviour.
-- Avoid switching models repeatedly during one task because it can disrupt prompt caching.
+- Use stronger reasoning models for architecture, difficult debugging and ambiguous design work
+- Use mid-tier models when the plan is clear and execution remains non-trivial
+- Use lighter models for routine, well-scoped transformations and documentation
+- Prefer Auto where appropriate; GitHub currently documents cost-aware routing and cache-boundary behaviour
+- Avoid switching models repeatedly during one task because it can disrupt prompt caching
 
-A cheaper model is not cheaper if poor results require several retries. Measure end-to-end completion, not just the price of one call.
+A low-cost model can become expensive after several retries. Measure the cost and quality of completing the task as a whole.
 
 ## 6. Research and plan before expensive implementation
 
@@ -97,14 +97,14 @@ Planning has a cost, but it can prevent larger wrong changes and repeated rework
 
 ## 7. Control tools and their output
 
-- Enable only relevant Model Context Protocol (MCP) servers and tools.
-- Use a read-only agent for review or investigation.
-- Filter commands to produce focused output.
-- Ask for failure summaries before full logs.
-- Avoid reading generated, vendored or build-output directories without a reason.
-- Put repeatable mechanical steps into scripts.
+- Enable only the tools relevant to the task
+- Use a read-only agent for review or investigation
+- Filter commands to produce focused output
+- Ask for failure summaries before full logs
+- Avoid reading generated, vendored or build-output directories without a reason
+- Put repeatable mechanical steps into scripts
 
-Large tool results consume context. Current Copilot CLI mitigates very large outputs by storing them in temporary files and supplying a preview, but users should still design focused commands.
+Large tool results consume context. Prefer focused commands and filtered output so the next model call receives the useful evidence with less noise.
 
 ## 8. Use subagents deliberately
 
@@ -112,15 +112,15 @@ Subagents can reduce pressure on the main context by doing focused work in a sep
 
 Use them when:
 
-- Research is independent and likely to produce large intermediate results.
-- Several genuinely independent analyses can run in parallel.
-- A lower-cost specialist model can complete a bounded subtask.
+- Research is independent and likely to produce large intermediate results
+- Several genuinely independent analyses can run in parallel
+- A lower-cost specialist model can complete a bounded subtask
 
 Avoid them when:
 
-- The subtask is tiny.
-- Several workers would inspect the same files and duplicate effort.
-- The work is tightly coupled and requires constant shared context.
+- The subtask is tiny
+- Several workers would inspect the same files and duplicate effort
+- The work is tightly coupled and requires constant shared context
 
 ## 9. Preserve useful cache boundaries
 
@@ -128,33 +128,32 @@ Stable input can allow prompt caching, reducing latency and cost. Changing large
 
 Practical habits:
 
-- Keep stable instructions at the beginning of a session.
-- Avoid unnecessary model switches mid-task.
-- Compact at a natural phase boundary rather than randomly.
-- Use a fresh session when the task changes completely.
-- Use VS Code's [Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer) when investigating actual cache behaviour. It compares consecutive model requests and shows where the matching prompt prefix diverges.
+- Keep stable instructions at the beginning of a session
+- Avoid unnecessary model switches mid-task
+- Compact at a natural phase boundary
+- Use a fresh session when the task changes completely
+- Use VS Code's [Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer) when investigating actual cache behaviour. It compares consecutive model requests and shows where the matching prompt prefix diverges
 
-Cache Explorer compares requests; it is not a network trace. For the provider detail, see [Effective context versus transport](Copilot-Technologies/Context-memory-and-models.md#effective-context-versus-transport). For everyday use, focus on what the model can see, the reported cache percentage and total input usage.
+Cache Explorer compares consecutive requests and their matching prefix. For provider transport details, see [Effective context versus transport](Copilot-Technologies/Context-and-models.md#effective-context-versus-transport). For everyday use, focus on what the model can see, the reported cache percentage and total input usage.
 
 ## 10. Detect and stop wasteful loops
 
 Redirect or stop when Copilot:
 
-- Repeats the same command without learning from the result.
-- Alternates between two unsuccessful edits.
-- Searches increasingly unrelated parts of the repository.
-- Continues after the acceptance criteria are already met.
-- Produces changes faster than they can be reviewed.
+- Repeats the same command without learning from the result
+- Alternates between two unsuccessful edits
+- Searches increasingly unrelated parts of the repository
+- Continues after the acceptance criteria are already met
+- Produces changes faster than they can be reviewed
 
 Give the missing constraint, reduce scope, ask for a plan or start a clean session.
 
-## Monitor rather than guess
+## Monitor context and usage
 
-- Use the context-window control and Cache Explorer in VS Code.
-- Use `/context` and `/usage` in Copilot CLI.
-- Review GitHub's AI usage page or organisation reporting.
-- Set budgets and session limits where appropriate.
-- Compare credits, latency, quality and rework—not credits alone.
+- Use the context-window control and Cache Explorer in VS Code
+- Review GitHub's AI usage page or organisation reporting
+- Set budgets and session limits where appropriate
+- Compare credits, latency, quality and rework - not credits alone
 
 Pricing, included allowances and product terminology change. Use the current linked billing page when you need an exact figure.
 
@@ -174,13 +173,9 @@ Pricing, included allowances and product terminology change. Use the current lin
 ## Sources
 
 - [Improving agent quality to optimize AI usage](https://docs.github.com/en/enterprise-cloud@latest/copilot/tutorials/optimize-ai-usage)
-- [Usage-based billing for organizations and enterprises](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises)
+- [Usage-based billing for organisations and enterprises](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises)
 - [Monitoring GitHub AI Credits usage](https://docs.github.com/en/copilot/how-tos/manage-and-track-spending/monitor-ai-usage)
-- [Setting an AI-credit session limit in Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/set-session-limit)
 - [Best practices for using AI in VS Code](https://code.visualstudio.com/docs/agents/best-practices)
 - [About Copilot auto model selection](https://docs.github.com/en/copilot/concepts/models/auto-model-selection)
 - [VS Code February 2026 release notes: context compaction](https://code.visualstudio.com/updates/v1_110)
 - [Diagnose prompt caching with the Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer)
-- [Managing context in Copilot CLI](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-cli/context-management)
-- [Using GitHub Copilot CLI: `/context`, `/usage` and `/compact`](https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview)
-- [Copilot CLI command reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference)

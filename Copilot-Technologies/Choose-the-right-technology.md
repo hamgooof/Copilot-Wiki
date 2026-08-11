@@ -1,92 +1,93 @@
-# Choose the right Copilot technology
+# Choose the right Copilot customisation
 
-_For regular Copilot users and repository maintainers · Last reviewed 11 August 2026_
+_For new and regular Copilot users · Last reviewed 11 August 2026_
 
-> New to terms such as context window, tool or subagent? Read [Copilot terminology](../Copilot-Terminology.md) first.
-
-The choice is mainly about **activation**, **scope**, **capability** and **context isolation**.
+Instructions, skills, prompt files and agents can all guide Copilot. The main difference is when they activate and how much of the working setup they change.
 
 [[_TOC_]]
 
-## Decision guide
+## Quick decision guide
 
 Ask these questions in order:
 
-1. **Must this happen deterministically?** Use a hook where your Copilot surface supports it, or use an existing CI/policy control. Instructions are guidance to a model, not guaranteed program execution.
-2. **Does Copilot need a new external capability or live data?** Add a tool, usually through a Model Context Protocol (MCP) server—a standard plug for another system's tools or data.
-3. **Should the guidance apply to almost every request?** Use a short custom instruction.
-4. **Should it apply only while working on matching files?** Use path-specific instructions.
-5. **Is it a detailed workflow that is relevant only sometimes?** Use a skill.
-6. **Should a person explicitly start a reusable task?** Use a prompt file where supported.
-7. **Does the task need a specialist role, a restricted toolset or a different model?** Use a custom agent.
-8. **Would the work benefit from an isolated context or parallel execution?** Delegate it to a subagent.
-9. **Is this a set of customizations that must be distributed and updated together?** Package it as a plugin where supported.
+1. **Should this rule apply to most work in the repository?** Use short repository instructions
+2. **Should it apply only to particular files or folders?** Use path-specific instructions
+3. **Is this a detailed workflow that is only relevant for some tasks?** Use a skill
+4. **Should a person deliberately start the same request with new inputs?** Use a prompt file
+5. **Does the task need a named specialist, a restricted toolset or a different model?** Use a custom agent where your IDE supports it
+6. **Would a separate worker help keep investigation or review out of the main context?** Use a subagent where supported
+7. **Must a check always run?** Put it in CI, repository policy or another deterministic control
 
 ## Comparison
 
-| Technology | Activation | Best for |
-| --- | --- | --- |
-| Repository/custom instructions | Automatic | Compact standards, build commands and repository facts that matter often |
-| Path-specific instructions | Automatic for matching paths | Language, component or directory-specific rules |
-| `AGENTS.md` | Automatic for supporting agents | Cross-tool repository conventions; discovery varies by surface |
-| Skill | Automatically selected when relevant, or explicitly invoked | Detailed repeatable workflows, scripts and supporting resources |
-| Prompt file | Manually invoked | Reusable one-shot prompts with variable inputs |
-| Custom agent | Selected manually or delegated to | Reviewers, auditors, test writers and roles needing different tools or models |
-| Subagent | Delegated at runtime | Isolated exploration, testing, review and independent subtasks |
-| MCP server | Tools selected as needed | GitHub, tickets, databases, browsers and internal APIs |
-| Hook | Automatic at a configured event, where supported | Deterministic checks, logging, validation and mandatory commands |
-| Copilot Memory | Automatic when supported and relevant | Repository facts or preferences that may help across conversations |
-| Copilot Space | Used when chatting through a Space | Shared, curated question-and-answer context |
+| Customisation | How it starts | Best for | Context behaviour |
+| --- | --- | --- | --- |
+| Repository instructions | Applied automatically | Short rules and commands that matter often | Can occupy context across many requests |
+| Path-specific instructions | Applied for matching paths | Component, language or directory-specific guidance | Loaded only when the path scope matches |
+| `AGENTS.md` | Discovered by supporting agents | Repository guidance shared across compatible tools | Discovery rules vary by IDE and version |
+| Skill | Selected when relevant or invoked directly | Detailed workflows, scripts and supporting references | Loaded for the task that needs it |
+| Prompt file | Started by a person | Reusable one-off requests | Added when the prompt file is run |
+| Custom agent | Selected or delegated to | A specialist role, model or toolset | Its profile becomes part of that agent's context |
+| Subagent | Delegated at runtime | Isolated exploration, testing or review | Uses a separate context window and returns a result |
 
-Avoid using broad instructions for rare runbooks, skills for universal rules, or custom agents and subagents for tiny tasks. MCP is for external tools or live data rather than static guidance. Hooks are for deterministic commands rather than subjective judgement, while Memory and Spaces should not replace formal policy or coding-agent workflow definitions.
+## Instructions or skill
 
-## Skill versus custom agent
-
-This is the most common source of confusion.
-
-Use a **skill** when the default agent has the right tools and general role, but needs a reusable procedure, template, examples or scripts for a type of task.
-
-Use a **custom agent** when the worker itself should be different: a specialist prompt, a constrained toolset, extra MCP servers, a selected model, or isolated execution as a subagent.
-
-Example:
-
-- “Follow our release-note format, inspect these files and run this validation script” is a skill.
-- “Act as a read-only security auditor, use only search/read tools and report findings in this structure” is a custom agent.
-- A security-auditor agent may itself use a vulnerability-triage skill.
-
-## Instructions versus skills
-
-GitHub's guidance is to use custom instructions for simple information relevant to almost every task, and skills for detailed instructions that should be accessed only when relevant.
-
-Poor instruction file:
+Use **instructions** for short guidance that applies frequently:
 
 ```text
-2,000 lines covering releases, incident response, UI testing,
-database migration, documentation and every team process.
+Run pnpm test for unit tests.
+Use existing components from packages/ui.
 ```
 
-Better design:
+Use a **skill** for a workflow with several steps, examples or supporting files:
 
 ```text
-.github/copilot-instructions.md       # short, universal repository facts
-.github/instructions/*.instructions.md # path-specific rules
-.github/skills/release/SKILL.md       # loaded for release work
-.github/skills/incident/SKILL.md      # loaded for incident work
-.github/agents/security-review.agent.md # specialist execution profile
+When preparing a database migration, inspect the schema, generate the migration,
+run the validation script and produce the rollback checklist.
 ```
 
-## A useful rule of thumb
+Putting the full migration process into always-loaded instructions would make unrelated requests carry it too.
 
-> If deleting a paragraph would harm most Copilot tasks, it belongs in always-on instructions. If it would harm only one class of task, move it to a skill, prompt file or agent.
+## Skill or custom agent
 
-## Surface support changes the answer
+A **skill** changes the method used for a relevant task. The current agent remains in charge and follows the playbook.
 
-As of the review date, support is not uniform. GitHub's current matrix shows, for example, that prompt files are an IDE feature rather than a GitHub.com or Copilot CLI feature, while subagents are supported in VS Code and Copilot CLI but not every surface. Treat the [current customization support matrix](https://docs.github.com/en/copilot/reference/customization-cheat-sheet) as the source of truth.
+A **custom agent** changes the worker's role or setup. It can provide a specialist brief, a restricted toolset or a preferred model.
+
+Use a skill for "follow our release-review process". Use a custom agent for "act as a read-only security reviewer".
+
+## Custom agent or subagent
+
+A custom agent is a reusable definition. A subagent is a separate worker created during a task.
+
+A custom agent can be selected directly in a chat. It can also be used as a subagent if the IDE supports delegation. The [custom agents and subagents page](Custom-agents-and-subagents.md) explains the context and model-selection implications.
+
+## Prompt file or skill
+
+Use a **prompt file** when a person should choose exactly when to run a reusable request.
+
+Use a **skill** when Copilot should recognise that a workflow is relevant during a larger task.
+
+## Keep the setup small
+
+Every automatic instruction and available capability adds something for Copilot to consider. Start with:
+
+- One concise repository instruction file
+- Path-specific instructions only where the rules genuinely differ
+- A small number of focused skills
+- Custom agents for roles that need a distinct brief or toolset
+
+Measure a real task before adding more. A larger setup can be worthwhile, but each addition should solve a problem you can name.
+
+## IDE support changes
+
+Copilot features arrive in VS Code, Visual Studio and JetBrains on different schedules. Check the current support table and the documentation for your IDE before standardising a repository layout.
 
 ## Sources
 
-- [Copilot customization cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)
-- [Comparing Copilot CLI customization features](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/comparing-cli-features)
-- [Adding agent skills for GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills)
-- [About GitHub Copilot code review: choosing customization types](https://docs.github.com/en/copilot/concepts/agents/code-review)
-- [Custom agents in VS Code: format and file locations](https://code.visualstudio.com/docs/agent-customization/custom-agents)
+- [Copilot customisation support table](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)
+- [Custom instructions in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
+- [Agent skills in VS Code](https://code.visualstudio.com/docs/agent-customization/agent-skills)
+- [Custom agents in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-agents)
+- [Prompt files in VS Code](https://code.visualstudio.com/docs/agent-customization/prompt-files)
+- [Subagents in VS Code](https://code.visualstudio.com/docs/agents/run/subagents)

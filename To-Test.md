@@ -8,9 +8,9 @@ This page turns uncertain or surface-specific behaviour into reproducible tests.
 
 Terminology in this page:
 
-- A **test run** is one complete execution of an experiment.
-- A **user turn** runs from one submitted message to its final response.
-- An **agent round** is one internal model-and-tool iteration inside that turn.
+- A **test run** is one complete execution of an experiment
+- A **user turn** runs from one submitted message to its final response
+- An **agent round** is one internal model-and-tool iteration inside that turn
 
 [[_TOC_]]
 
@@ -18,20 +18,20 @@ Terminology in this page:
 
 Record for every run:
 
-- Date, Copilot client/surface and version.
-- IDE and Copilot extension version where applicable.
-- Account plan and relevant organisation policies.
-- Selected parent and child models.
-- Repository commit and configuration files.
-- Enabled instruction, skill, agent, MCP, hook and Memory settings.
-- Prompt, full observable transcript and produced files.
-- Context/token view, per-model usage, AI credits and latency where exposed.
-- Whether prompt caching or automatic compaction occurred.
-- At least three repeats plus a control run.
+- Date, Copilot client/surface and version
+- IDE and Copilot extension version where applicable
+- Account plan and relevant organisation policies
+- Selected parent and child models
+- Repository commit and configuration files
+- Enabled instruction, skill, agent and tool settings
+- Prompt, full observable transcript and produced files
+- Context/token view, per-model usage, AI credits and latency where exposed
+- Whether prompt caching or automatic compaction occurred
+- At least three repeats plus a control run
 
 Use a synthetic repository with no secrets. Give each injected artefact a unique canary string so its presence can be tested without relying on stylistic interpretation.
 
-Prioritise VS Code, Visual Studio and JetBrains for workplace adoption tests. CLI and cloud-agent variants remain useful for GH-600 and future capability planning, but should be reported separately rather than blended into an IDE conclusion.
+Scope each conclusion to the tested IDE and version. Prioritise VS Code, Visual Studio and JetBrains for workplace adoption tests.
 
 ## T01 Always on instruction cost
 
@@ -41,7 +41,7 @@ Prioritise VS Code, Visual Studio and JetBrains for workplace adoption tests. CL
 
 **Measure:** initial context, incremental tokens, cache hits, credits, latency, compaction point and answer quality.
 
-**Surfaces:** VS Code agent/chat, Copilot CLI and cloud coding agent.
+**Surfaces:** VS Code, Visual Studio and JetBrains where the feature is supported.
 
 ## T02 Instruction discovery and precedence
 
@@ -115,8 +115,6 @@ Prioritise VS Code, Visual Studio and JetBrains for workplace adoption tests. CL
 
 **Measure:** actual per-model usage, fallbacks, quality, latency, retries and total credits.
 
-**CLI `Auto` check:** delegate to a custom agent with no `model` property while the session uses `Auto`; record the actual model through `/usage` or approved trace output. Current documentation does not define a special inheritance rule for this combination.
-
 ## T11 Model change within a chat
 
 **Question:** Is full useful context maintained when the chat model changes, and what happens when the new context window is smaller?
@@ -125,23 +123,7 @@ Prioritise VS Code, Visual Studio and JetBrains for workplace adoption tests. CL
 
 **Measure:** recall, context denominator, compaction, cache changes and output consistency.
 
-## T12 MCP catalogue and result cost
-
-**Question:** What is the overhead of many configured tools, and how do large tool results affect context?
-
-**Method:** compare small and large tool catalogues, then return 1 KB, 100 KB and 1 MB equivalent results with and without child-agent summarisation.
-
-**Measure:** request tokens, tool selection accuracy, truncation, context growth, latency and credits.
-
-## T13 Copilot Memory boundaries
-
-**Question:** Which supported surfaces create and retrieve repository facts and user preferences?
-
-**Method:** introduce a cited repository convention and a user preference, then test same repository/different user, different repository/same user and different billing entity where possible.
-
-**Measure:** creation, citations, validation, retrieval, deletion and stale-fact behaviour.
-
-## T14 Quality impact of bloated customization
+## T14 Quality impact of bloated customisation
 
 **Question:** Does more instruction content reduce task quality?
 
@@ -189,20 +171,18 @@ Prioritise T01, T03, T04, T07, T08, T10 and T14. Together they test the claims m
 
 Classify a finding as:
 
-- **Confirmed:** explicitly documented and reproduced on the named version/surface.
-- **Observed:** reproduced consistently but not guaranteed by documentation.
-- **Inconclusive:** results vary or telemetry is insufficient.
-- **Changed:** current behaviour contradicts an older observation; retain both dates and versions.
+- **Confirmed:** explicitly documented and reproduced on the named version/surface
+- **Observed:** reproduced consistently but not guaranteed by documentation
+- **Inconclusive:** results vary or telemetry is insufficient
+- **Changed:** current behaviour contradicts an older observation; retain both dates and versions
 
-Publish findings with scope. “Copilot does X” is rarely precise enough; prefer “Copilot CLI version X on plan Y with model Z did X in N of N runs.”
+Publish findings with scope. Prefer “VS Code version X with model Z did X in N of N runs” over a claim about Copilot as a whole.
 
 ## Sources
 
-- [Managing context in Copilot CLI](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-cli/context-management)
 - [The coding harness behind GitHub Copilot in VS Code: turns and rounds](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode)
 - [The Copilot SDK agent loop and SDK-specific turn events](https://docs.github.com/en/copilot/how-tos/copilot-sdk/features/agent-loop)
 - [Diagnose prompt caching with the VS Code Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer)
 - [VS Code February 2026 release notes: context compaction](https://code.visualstudio.com/updates/v1_110)
 - [Monitoring GitHub AI Credits usage](https://docs.github.com/en/copilot/how-tos/manage-and-track-spending/monitor-ai-usage)
-- [Copilot CLI command reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference)
 - [Markdown and image support in Azure DevOps wikis](https://learn.microsoft.com/en-us/azure/devops/project/wiki/markdown-guidance?view=azure-devops)

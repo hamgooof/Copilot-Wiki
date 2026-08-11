@@ -1,45 +1,45 @@
-# GitHub Copilot: work smarter, not noisier
+# GitHub Copilot at work
 
-_For people who already use GitHub Copilot and want to get more from it · Last reviewed 11 August 2026_
+_A practical guide for new and regular Copilot users · Last reviewed 11 August 2026_
 
-You already know how to ask Copilot a question or generate some code. This wiki is about the next step: giving it better context, choosing the right kind of customization and avoiding setups that quietly waste tokens and attention.
+This wiki is for people receiving a Copilot licence for the first time, as well as developers who have used it for a while but mostly rely on code completion or chat.
 
-You do not need to read it front to back. Pick the route that matches what you are trying to solve.
+It explains how Copilot works inside the IDE, how to give it useful context and how features such as instructions, skills and custom agents fit together. The aim is simple: get useful work done with less guessing, repetition and wasted context.
 
-> **Our focus:** day to day we use Copilot in VS Code, Visual Studio and JetBrains, so that is what this wiki prioritises. CLI and cloud-agent notes appear where they help GH-600 study and are clearly labelled.
+Our workplace guidance focuses on VS Code, Visual Studio and JetBrains. Feature support differs between them, so each technology page states where a capability is available.
+
+Read in whatever order helps. Choose the route that matches what you need today.
 
 ## I want the mental model first
 
-1. [How Copilot actually works](How-Copilot-Works.md)
+Start here if terms such as model, context, token, tool or agent are still a little vague:
+
+1. [How Copilot works in your IDE](How-Copilot-Works.md)
 2. [Tokens and context windows](Tokens-and-Context-Windows.md)
 3. [One prompt, many rounds](One-Prompt-Many-Rounds.md)
-4. [Copilot terminology without the headache](Copilot-Terminology.md) — use this as a reference when a term is unfamiliar
+4. [Copilot terminology without the headache](Copilot-Terminology.md) - keep this page nearby as a reference
 
 ## I want to improve how I work
 
 - [Working efficiently and managing cost](Working-Efficiently-and-Managing-Cost.md)
-- [Choose the right Copilot technology](Copilot-Technologies/Choose-the-right-technology.md)
-- [Context, memory and models (advanced)](Copilot-Technologies/Context-memory-and-models.md)
+- [Choose the right Copilot customisation](Copilot-Technologies/Choose-the-right-technology.md)
+- [Context and models](Copilot-Technologies/Context-and-models.md)
 
-## I need to choose a customization
+## I need to choose a customisation
 
 Open [Copilot technologies](Copilot-Technologies.md) for the full section, or jump directly to:
 
 - [Custom instructions and `AGENTS.md`](Copilot-Technologies/Custom-instructions.md)
 - [Agent skills](Copilot-Technologies/Agent-skills.md)
 - [Custom agents and subagents](Copilot-Technologies/Custom-agents-and-subagents.md)
-- [Prompt files, Model Context Protocol (MCP), hooks, plugins, Spaces and Memory](Copilot-Technologies/Other-useful-technologies.md)
+- [Prompt files and other useful IDE features](Copilot-Technologies/Prompt-files-and-other-IDE-features.md)
 
-## I am studying GH-600
+## How reliable is this guidance
 
-[The GH-600 study map](GH-600-Certification-Map.md) connects these pages to the official exam domains, implementation artefacts and practical exercises. It also identifies the areas this wiki does not cover yet.
+Each main page links to the GitHub, Microsoft or VS Code documentation used to support it. Product behaviour that remains uncertain or version-specific is marked **To Test**.
 
-## I want evidence, not folklore
-
-- [To Test](To-Test.md) contains reproducible experiments for product behaviour that is uncertain, version-specific or poorly documented.
-- [Sources and maintenance](Sources-and-Maintenance.md) records the primary-source policy and review process.
-
-Statements marked **To Test** are hypotheses, not product guarantees. Product behaviour changes; each substantive page links to the GitHub, Microsoft or VS Code material used to support it.
+- [To Test](To-Test.md) contains the experiments we still need to run
+- [Sources and maintenance](Sources-and-Maintenance.md) explains how claims and diagrams are checked
 
 ## Sources
 

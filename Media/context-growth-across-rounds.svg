@@ -43,7 +43,8 @@
   <text x="790" y="310" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#dbe5fa">Four rounds process ten “block-rounds”</text>
   <text x="790" y="338" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#dbe5fa">of input in this simplified example.</text>
   <line x1="790" y1="365" x2="1105" y2="365" stroke="#7185ad" stroke-width="2"/>
-  <text x="790" y="398" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" fill="#f6cf86">That pattern is quadratic-like—not a bill.</text>
+  <text x="790" y="397" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#f6cf86">Context can grow quickly.</text>
+  <text x="790" y="420" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#f6cf86">Billing also depends on cache and output.</text>
 
   <text x="60" y="485" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#17233c">After compaction</text>
   <rect x="210" y="452" width="130" height="48" rx="8" fill="#dfe7fb" stroke="#3155a6" stroke-width="2"/>
