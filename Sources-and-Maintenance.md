@@ -2,20 +2,11 @@
 
 | Page status | Intended audience | Last reviewed |
 | --- | --- | --- |
-| Maintainer guidance | Wiki authors and reviewers | 8 August 2026 |
+| Maintainer guidance | Wiki authors and reviewers | 11 August 2026 |
 
 This wiki is stored as Markdown so that changes can be reviewed through Git and published as an Azure DevOps code wiki.
 
-## On this page
-
-- [Source policy](#source-policy)
-- [How to phrase claims](#how-to-phrase-claims)
-- [Source register](#source-register)
-- [Features with high change risk](#features-with-high-change-risk)
-- [Azure DevOps code-wiki conventions](#azure-devops-code-wiki-conventions)
-- [Visual assets](#visual-assets)
-- [Review procedure](#review-procedure)
-- [Suggested commit evidence](#suggested-commit-evidence)
+[[_TOC_]]
 
 ## Source policy
 
@@ -65,10 +56,10 @@ The first claim is scoped to a surface and a reviewable source. The second is li
 | Instruction support | [Custom-instructions support](https://docs.github.com/en/copilot/reference/custom-instructions-support) | IDE or agent support changes |
 | Skills | [Adding agent skills](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills) | Skill discovery or loading behaviour changes |
 | Custom agents | [Custom-agent configuration](https://docs.github.com/en/copilot/reference/custom-agents-configuration) | Agent schema or model fields change |
-| CLI features and model inheritance | [Copilot CLI command reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference) | CLI release or supported models change |
+| CLI custom-agent model defaults | [Custom-agent configuration](https://docs.github.com/en/copilot/reference/custom-agents-configuration) | Agent schema or model-default behaviour changes |
 | VS Code subagents | [Subagents in VS Code](https://code.visualstudio.com/docs/agents/run/subagents) | Child-context or model-routing rules change |
 | Billing and AI credits | [Usage-based billing for organizations and enterprises](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises) | Plans, prices or token accounting change |
-| Usage optimisation | [Optimizing AI usage](https://docs.github.com/en/enterprise-cloud@latest/copilot/tutorials/optimize-ai-usage) | Model routing or cache guidance changes |
+| Agent quality and AI usage | [Improving agent quality to optimize AI usage](https://docs.github.com/en/enterprise-cloud@latest/copilot/tutorials/optimize-ai-usage) | Recommended agent-quality practices change |
 | Copilot Memory | [About Copilot Memory](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-memory) | Preview status, retention or supported surfaces change |
 | Copilot Spaces | [About Copilot Spaces](https://docs.github.com/en/copilot/concepts/context/spaces) | Context-loading or billing behaviour changes |
 | GH-600 | [GH-600 study guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/gh-600) | Exam objectives or weights change |
@@ -93,6 +84,7 @@ This wiki follows Microsoft's documented code-wiki conventions:
 - Filenames avoid spaces and use hyphens.
 - Relative links connect pages within the repository.
 - The `.order` file defines navigation order.
+- Page tables of contents use Azure DevOps' documented `[[_TOC_]]` macro instead of hand-built heading anchors.
 - External sources use full HTTPS links.
 - Wiki-owned diagrams are stored under `Media/` and referenced with relative paths.
 - Files pasted or uploaded through the Azure DevOps editor may instead be placed in `.attachments/` by Azure DevOps.
@@ -108,10 +100,12 @@ Prefer diagrams that remain reviewable in Git:
 - Store the editable source alongside the wiki.
 - Add meaningful Markdown alt text and an SVG `<title>` and `<desc>`.
 - Keep text large enough to read without opening the image separately.
+- Use basic SVG shapes, text and markers; avoid filters and other effects that an Azure DevOps sanitizer may remove.
+- Set an explicit display width in the Markdown image reference so a diagram does not fill the entire wiki column.
 - Avoid animation unless motion genuinely explains something a static diagram cannot.
 - Do not rely on colour alone to communicate meaning.
 
-The current diagrams use SVG because it stays sharp at different sizes and is straightforward to edit. Azure DevOps documents relative image paths and animated GIFs, but explicit SVG support can vary by Azure DevOps Server version and renderer. Complete [T16](To-Test.md#t16--azure-devops-svg-rendering) after the code wiki is registered. If SVG is blocked, render the committed SVG source to PNG and change only the Markdown image target.
+The current diagrams use SVG because it stays sharp at different sizes and is straightforward to edit. The target Azure DevOps wiki displayed basic SVG content but removed elements inside groups carrying drop-shadow filters during the 8 August 2026 review. The diagrams therefore avoid filters and use an explicit 900px display width. Complete [T16](To-Test.md#t16-azure-devops-svg-rendering) after each material diagram change. SVG is not listed among Microsoft's documented Azure DevOps Markdown image formats, so treat this as undocumented behaviour. If SVG remains unreliable, render the committed SVG source to PNG and change only the Markdown image target.
 
 ## Review procedure
 

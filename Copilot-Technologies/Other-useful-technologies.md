@@ -1,23 +1,12 @@
 # Other useful Copilot technologies
 
-| Page status | Audience | Last reviewed |
-| --- | --- | --- |
-| Draft technology overview | Developers extending or governing Copilot | 8 August 2026 |
+_For developers extending or governing Copilot · Last reviewed 11 August 2026_
 
 > If tools and agent execution are new, begin with [One prompt, many rounds](../One-Prompt-Many-Rounds.md).
 
-Instructions, skills and agents are only part of the design. Tools, MCP, hooks, prompt files, plugins, Spaces and Memory solve different problems.
+Instructions, skills and agents are only part of the design. Tools, MCP, hooks, prompt files, plugins, Spaces and Memory solve different problems, but support varies by Copilot surface.
 
-## On this page
-
-- [Prompt files](#prompt-files)
-- [Tools and MCP servers](#tools-and-mcp-servers)
-- [Hooks](#hooks)
-- [Plugins](#plugins)
-- [Copilot Spaces](#copilot-spaces)
-- [Copilot Memory](#copilot-memory)
-- [Repository indexing and explicit context](#repository-indexing-and-explicit-context)
-- [Content exclusion](#content-exclusion)
+[[_TOC_]]
 
 ## Prompt files
 
@@ -58,7 +47,7 @@ Security considerations:
 
 ## Hooks
 
-Hooks run configured shell commands at lifecycle events such as before or after a tool call, session start/end, errors or subagent completion. They are appropriate for deterministic checks and observability.
+Hooks run configured shell commands at lifecycle events such as before or after a tool call, session start/end, errors or subagent completion. GitHub currently documents them for Copilot CLI and the cloud coding agent; VS Code support is in preview, and they are not currently available in Visual Studio or JetBrains. The event examples below come from current Copilot CLI documentation.
 
 Examples:
 
@@ -106,11 +95,15 @@ Copilot can search indexed repositories to find relevant code. Users can also at
 
 Content exclusion can prevent Copilot features from using selected files, but support has important exceptions. Current GitHub documentation notes that content exclusion is not supported in Edit and Agent modes in VS Code and other editors. Treat exclusion as one layer of control, not a universal security boundary.
 
+Unsure which of these you need? Start with [Choose the right Copilot technology](Choose-the-right-technology.md). Most teams will get more value from concise instructions and one or two focused skills before they need anything else on this page.
+
 ## Sources
 
 - [Prompt files](https://docs.github.com/en/copilot/tutorials/customization-library/prompt-files)
 - [Use prompt files in VS Code: `.prompt.md` format and locations](https://code.visualstudio.com/docs/agent-customization/prompt-files)
 - [Comparing Copilot CLI customization features: tools, MCP, hooks and plugins](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/comparing-cli-features)
+- [GitHub Copilot hooks](https://docs.github.com/en/copilot/concepts/agents/hooks)
+- [Copilot customization support by surface](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)
 - [About GitHub Copilot Spaces](https://docs.github.com/en/copilot/concepts/context/spaces)
 - [About GitHub Copilot Memory](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-memory)
 - [Content exclusion for GitHub Copilot](https://docs.github.com/en/copilot/concepts/context/content-exclusion)

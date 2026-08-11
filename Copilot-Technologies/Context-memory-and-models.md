@@ -1,24 +1,12 @@
-# Advanced context, memory and model changes
+# Context, memory and models (advanced)
 
-| Page status | Audience | Last reviewed |
-| --- | --- | --- |
-| Draft advanced technology page | Regular Copilot users and platform teams | 8 August 2026 |
+_For regular Copilot users and platform teams ready for the advanced detail · Last reviewed 11 August 2026_
 
 > This builds on [Tokens and context windows](../Tokens-and-Context-Windows.md) and focuses on advanced behaviour across skills, agents, memory and model changes.
 
 “Context” is the information available to a model for the current request. It is not the same as durable memory, repository access or a model's trained knowledge.
 
-## On this page
-
-- [What may occupy context](#what-may-occupy-a-context-window)
-- [Context is not memory](#context-is-not-memory)
-- [What happens as a chat grows](#what-happens-as-a-chat-grows)
-- [Skills and context](#do-skills-maintain-context)
-- [Custom agents and context](#do-custom-agents-maintain-context)
-- [Changing models](#what-happens-when-the-model-changes)
-- [Parent and child models](#parent-and-child-models)
-- [Copilot Memory](#copilot-memory)
-- [Reducing context bloat](#reducing-context-bloat)
+[[_TOC_]]
 
 ## What may occupy a context window
 
@@ -33,7 +21,15 @@
 - A custom agent's profile instructions.
 - Results returned by subagents.
 
-The product assembles this context; it does not simply send the entire repository on every round.
+The product assembles this context; it does not simply include the entire repository on every round. Input, generated output and supported thinking tokens share the model's context-window capacity.
+
+## Effective context versus transport
+
+At the user level, each round is evaluated against an effective prompt and conversation state. That does **not** guarantee that every provider integration sends the same complete message array over the network on every call.
+
+Clients and providers can implement transport, provider-side state and prompt caching differently. VS Code's Cache Explorer compares consecutive model requests and their matching prompt prefix; it is a diagnostic comparison, not a network packet capture. Do not use a displayed diff—or the absence of repeated text in a diagnostic view—as proof of what was physically transmitted or newly billed.
+
+Provider-specific behaviour, including cache time-to-live and stateful request APIs, belongs in dated test evidence rather than universal foundation guidance. See T17 in [To Test](../To-Test.md#t17-provider-transport-effective-context-and-cache-views).
 
 ## Context is not memory
 
@@ -70,7 +66,7 @@ Persist important outputs in files or explicitly pass them during handoffs.
 
 ## What happens when the model changes?
 
-GitHub documents that changing the Copilot Chat model during an existing chat maintains the full conversation context for the new response. The new model still has different capabilities, context-window size, tool support, speed and cost.
+For Copilot Chat on GitHub.com, GitHub documents that regenerating a response with a different model maintains the full conversation context. IDE surfaces do not currently document the same guarantee; [T11](../To-Test.md#t11-model-change-within-a-chat) covers that test. A new model can also have different capabilities, context-window size, tool support, speed and cost.
 
 Practical consequences:
 
@@ -78,7 +74,7 @@ Practical consequences:
 - The selected model changes the available context-window capacity in VS Code.
 - A smaller window may trigger compaction sooner.
 - Prompt caching can be affected when model or context changes.
-- The chat model does not change the model used for inline completions.
+- Chat model selection and inline-completion model configuration are separate controls; do not assume changing one changes the other.
 - Extensions or agents can override model selection on some surfaces.
 
 ## Parent and child models
@@ -104,25 +100,9 @@ Memory is useful for learned conventions, but it should not replace reviewed ins
 
 ## Reducing context bloat
 
-- Keep universal instructions short and stable.
-- Use path-specific instructions for local rules.
-- Move occasional procedures into skills.
-- Retrieve large reference documents only when needed.
-- Delegate noisy exploration and log analysis to subagents.
-- Ask subagents for concise, evidence-linked results.
-- Compact or start a new chat when the task changes substantially.
-- Store durable decisions and task state in repository files.
-- Remove unused MCP servers, skills and overlapping agent definitions.
-- Observe `/context`, `/usage`, VS Code's context control and trace data instead of guessing.
+Keep always-on guidance short, retrieve large material only when it is needed, and give subagents bounded questions with concise return requirements. The practical habits are collected in [Tokens and context windows](../Tokens-and-Context-Windows.md#practical-context-habits) and [Working efficiently and managing cost](../Working-Efficiently-and-Managing-Cost.md).
 
-## To Test before publishing numeric claims
-
-- Tokens added by each discovered instruction file on each surface.
-- Metadata cost of installed but uninvoked skills and custom agents.
-- Skill content retention across rounds and compaction.
-- Parent-to-child context seeding and child-to-parent result size.
-- Cache-hit changes after switching agent or model.
-- Whether a lower-cost child model reduces total credits after retries and parent integration.
+Questions that still need measured, versioned evidence—including skill persistence, parent/child transfer and model routing—live in [To Test](../To-Test.md).
 
 ## Sources
 
@@ -130,5 +110,6 @@ Memory is useful for learned conventions, but it should not replace reviewed ins
 - [Diagnose prompt caching with the Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer)
 - [Using GitHub Copilot CLI: context management](https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview)
 - [Changing the AI model for Copilot Chat](https://docs.github.com/en/copilot/how-tos/use-ai-models/change-the-chat-model)
+- [Changing the model used for code completion](https://docs.github.com/en/copilot/how-tos/use-ai-models/change-the-completion-model)
 - [About GitHub Copilot Memory](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-memory)
 - [Creating GitHub Copilot Spaces: repository retrieval versus full-file context](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/copilot-spaces/create-copilot-spaces)

@@ -1,26 +1,16 @@
 # How Copilot actually works
 
-| Page status | Intended audience | Last reviewed |
-| --- | --- | --- |
-| Draft foundation page | Existing Copilot users new to agentic features | 8 August 2026 |
+_For existing Copilot users who are new to agents · Last reviewed 11 August 2026_
 
 You do not need to know how a language model is trained. You do need to know that the model is only one component in the Copilot experience.
 
-The practical mental model is:
+This wiki uses the following practical, unofficial mental model:
 
-> **Copilot agent = language model + harness + context + tools**
+> **Copilot agent experience = language model + harness + context + tools + execution environment**
 
-The model supplies the reasoning and generation. The harness supplies the working environment: it builds prompts, offers tools, executes actions and keeps the model working through multiple rounds.
+The model supplies the reasoning and generation. The harness builds prompts, offers tools, executes actions and keeps the model working through multiple rounds. The execution environment is where those tools and code changes run, such as your local workspace or a cloud-hosted environment.
 
-## On this page
-
-- [The 30-second explanation](#the-30-second-explanation)
-- [What reaches the model](#what-reaches-the-model)
-- [The five building blocks](#the-five-building-blocks)
-- [Chat, edit and agent work](#chat-edit-and-agent-work)
-- [What Copilot does not automatically know](#what-copilot-does-not-automatically-know)
-- [Follow a real task](#follow-a-real-task)
-- [What to read next](#what-to-read-next)
+[[_TOC_]]
 
 ## The 30-second explanation
 
@@ -35,17 +25,17 @@ A small question may need only one model call. A feature implementation may need
 
 ## What reaches the model
 
-![The context sources Copilot assembles before calling a language model](Media/context-assembly.svg)
+![The context sources Copilot assembles before calling a language model](Media/context-assembly.svg =900x)
 
 The chat box shows only the message you typed. The model can receive a much larger prompt containing system instructions, customizations, conversation history, files and tool results.
 
-The opposite is equally important: the model cannot reason about information that the harness did not put into the current context. Access to a repository does not mean every file is loaded into every request.
+The opposite is equally important: the model cannot see any of **your** task-specific information—files, decisions, errors or current workspace state—that the harness did not put into the current context. It can still draw on knowledge learned during training, although that knowledge can be incomplete or outdated. Access to a repository does not mean every file is loaded into every request.
 
 ## The five building blocks
 
 ### 1. The model reasons and generates
 
-The language model reads tokens and generates tokens. Its output might be an explanation, code, an edit description or a structured request to use a tool.
+The language model processes the assembled prompt and produces text or a structured request to use a tool. The optional [deeper token section](Copilot-Terminology.md#tokens-in-more-depth) explains how token IDs and decoding fit underneath that user-facing description.
 
 Models differ in capability, speed, context-window size, tool use and cost. Think of them like vehicles: a forklift and a car are both useful, but they are designed for different jobs. The biggest model is not automatically the best choice for every task.
 
@@ -57,10 +47,12 @@ The agent harness is the bridge between the model and VS Code. It:
 - Describes the available tools.
 - Validates and executes tool calls.
 - Feeds results back to the model.
-- Applies loop limits, approvals and hooks.
+- Applies loop limits, approvals and, on supported surfaces, hooks—commands that run at set moments.
 - Adapts prompts and tool behaviour for different model families.
 
 The model is the engine; the harness is the rest of the vehicle.
+
+The execution environment is separate from both. A local IDE agent might change files and run commands on your machine; a cloud agent works in remote infrastructure with different access, isolation and controls.
 
 ### 3. Context supplies what the model can see
 
@@ -83,8 +75,8 @@ Customizations change the guidance or capabilities available to the agent:
 | Instructions | Standing rules that apply automatically |
 | Skill | A task-specific playbook with optional scripts and references |
 | Custom agent | A named specialist with its own brief and tools |
-| MCP server | An adaptor that exposes another system's tools or data |
-| Hook | A deterministic command at a lifecycle event |
+| MCP server | A Model Context Protocol adaptor that exposes another system's tools or data |
+| Hook | A command that always runs at a set moment, such as a validation check before an edit; support varies by surface |
 
 They do not replace the language model; they shape the environment in which it works.
 
@@ -133,7 +125,7 @@ One turn might then contain these rounds:
 6. Run the test again.
 7. Produce the final summary and evidence.
 
-![One user turn containing several internal rounds](Media/turns-rounds-agent-loop.svg)
+![One user turn containing several internal rounds](Media/turns-rounds-agent-loop.svg =900x)
 
 Each round sees an updated prompt. A clear starting request helps the agent spend those rounds on useful work rather than discovering what you meant.
 
@@ -147,7 +139,9 @@ Each round sees an updated prompt. A clear starting request helps the agent spen
 ## Sources
 
 - [The coding harness behind GitHub Copilot in VS Code](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode)
+- [Agent harnesses, execution environments, roles and models in VS Code](https://code.visualstudio.com/docs/agents/concepts/agent-harnesses)
 - [Language models in VS Code](https://code.visualstudio.com/docs/agents/concepts/language-models)
 - [Agents and the agent loop](https://code.visualstudio.com/docs/agents/concepts/agents)
 - [Tools in VS Code](https://code.visualstudio.com/docs/agents/concepts/tools)
 - [Context assembly in VS Code](https://code.visualstudio.com/docs/agents/concepts/context)
+- [Microsoft Learn: tokens, token IDs and embeddings](https://learn.microsoft.com/en-us/dotnet/ai/conceptual/understanding-tokens)

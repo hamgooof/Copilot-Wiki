@@ -1,22 +1,12 @@
 # GH-600: turn Copilot experience into exam-ready knowledge
 
-| Page status | Audience | Last reviewed |
-| --- | --- | --- |
-| High-level orientation and study route, not an exam dump | Prospective GH-600 candidates | 8 August 2026 |
+_For prospective GH-600 candidates; this is an orientation, not an exam dump · Last reviewed 11 August 2026_
 
 GH-600 is broader than “how do I use GitHub Copilot in VS Code?” It asks whether you can design, operate, evaluate and govern agentic AI systems through a software-delivery lifecycle.
 
 Knowing what a skill or custom agent is will help. The exam also expects you to reason about autonomy, environments, CI, state, evaluation evidence, coordination and guardrails.
 
-## On this page
-
-- [What the exam covers](#what-the-exam-covers)
-- [How this wiki maps to the exam](#how-this-wiki-maps-to-the-exam)
-- [Artefacts worth recognising on sight](#artefacts-worth-recognising-on-sight)
-- [A useful community workbook](#a-useful-community-workbook)
-- [What still needs deeper study](#what-still-needs-deeper-study)
-- [A practical study route](#a-practical-study-route)
-- [Questions to practise answering](#questions-to-practise-answering)
+[[_TOC_]]
 
 ## What the exam covers
 
@@ -58,7 +48,7 @@ Definitions alone are not enough. Practise opening an unfamiliar repository and 
 | `.github/prompts/*.prompt.md` | Reusable prompt files |
 | `.github/agents/*.agent.md` or other supported custom-agent filenames | A specialist agent definition, its purpose and allowed tools |
 | `.github/skills/<skill>/SKILL.md` | A task-specific skill and its activation description |
-| `.github/hooks/*.json` | Commands attached to supported Copilot CLI lifecycle events |
+| `.github/hooks/*.json` | Commands attached to supported Copilot lifecycle events in Copilot CLI and the cloud coding agent |
 | `.github/workflows/copilot-setup-steps.yml` | Environment preparation for Copilot coding agent |
 | MCP configuration | Which external servers, tools, transport and credentials are involved |
 | Workflow, pull-request and audit logs | Evidence of what ran, changed, failed, passed or was approved |

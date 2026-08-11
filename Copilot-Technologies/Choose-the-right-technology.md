@@ -1,28 +1,19 @@
 # Choose the right Copilot technology
 
-| Page status | Audience | Last reviewed |
-| --- | --- | --- |
-| Draft decision guide | Regular Copilot users and repository maintainers | 8 August 2026 |
+_For regular Copilot users and repository maintainers · Last reviewed 11 August 2026_
 
 > New to terms such as context window, tool or subagent? Read [Copilot terminology](../Copilot-Terminology.md) first.
 
 The choice is mainly about **activation**, **scope**, **capability** and **context isolation**.
 
-## On this page
-
-- [Decision guide](#decision-guide)
-- [Side-by-side comparison](#comparison)
-- [Skill versus custom agent](#skill-versus-custom-agent)
-- [Instructions versus skills](#instructions-versus-skills)
-- [Rule of thumb](#a-useful-rule-of-thumb)
-- [Surface support](#surface-support-changes-the-answer)
+[[_TOC_]]
 
 ## Decision guide
 
 Ask these questions in order:
 
-1. **Must this happen deterministically?** Use a hook or an existing CI/policy control. Instructions are guidance to a model, not guaranteed program execution.
-2. **Does Copilot need a new external capability or live data?** Add a tool, usually through an MCP server.
+1. **Must this happen deterministically?** Use a hook where your Copilot surface supports it, or use an existing CI/policy control. Instructions are guidance to a model, not guaranteed program execution.
+2. **Does Copilot need a new external capability or live data?** Add a tool, usually through a Model Context Protocol (MCP) server—a standard plug for another system's tools or data.
 3. **Should the guidance apply to almost every request?** Use a short custom instruction.
 4. **Should it apply only while working on matching files?** Use path-specific instructions.
 5. **Is it a detailed workflow that is relevant only sometimes?** Use a skill.
@@ -33,19 +24,21 @@ Ask these questions in order:
 
 ## Comparison
 
-| Technology | Activation | Context behaviour | Best for | Avoid using it for |
-| --- | --- | --- | --- | --- |
-| Repository/custom instructions | Automatic | Added broadly to model requests or loaded at session start, depending on surface | Compact standards, build commands, non-negotiable repository facts | Long runbooks and rare workflows |
-| Path-specific instructions | Automatic on matching paths | Added when relevant file paths match | Language, component or directory rules | Cross-repository workflows |
-| `AGENTS.md` | Automatic for supporting agents | Standing agent guidance; discovery and precedence vary by surface | Cross-tool repository conventions | A catalogue of optional workflows |
-| Skill | Automatic when relevant, or explicitly invoked on supporting surfaces | `SKILL.md` is injected when chosen | Detailed repeatable workflows, scripts and supporting resources | Universal rules |
-| Prompt file | Manual | Added to the specific interaction | Reusable one-shot prompts with variable inputs | Automatic policy or non-IDE portability |
-| Custom agent | Manual selection and/or automatic delegation | Applies a specialist prompt, tools and optional model; subagent execution is isolated | Reviewers, auditors, test writers, constrained roles | Guidance text that a skill could handle |
-| Subagent | Delegated at runtime | Separate context window from parent and sibling agents | Exploration, testing, review, parallel subtasks | Small tasks where coordination costs exceed the benefit |
-| MCP server | Tools selected as needed | Tool definitions and returned data consume some context when used | GitHub, tickets, databases, browsers and internal APIs | Static guidance or built-in capabilities |
-| Hook | Automatic at configured lifecycle event | Does not depend on the model remembering an instruction | Guardrails, logging, validation and mandatory commands | Subjective judgement or rich reasoning |
-| Copilot Memory | Automatic when supported and relevant | Retrieves stored, validated facts/preferences into supported sessions | Knowledge that should outlive one conversation | Formal policy or facts that must never drift |
-| Copilot Space | Used when chatting in a Space or through supported integration | Searches attached repositories; fully loads specifically attached files for every Space query | Shared, curated Q&A context | Coding-agent workflow definitions |
+| Technology | Activation | Best for |
+| --- | --- | --- |
+| Repository/custom instructions | Automatic | Compact standards, build commands and repository facts that matter often |
+| Path-specific instructions | Automatic for matching paths | Language, component or directory-specific rules |
+| `AGENTS.md` | Automatic for supporting agents | Cross-tool repository conventions; discovery varies by surface |
+| Skill | Automatically selected when relevant, or explicitly invoked | Detailed repeatable workflows, scripts and supporting resources |
+| Prompt file | Manually invoked | Reusable one-shot prompts with variable inputs |
+| Custom agent | Selected manually or delegated to | Reviewers, auditors, test writers and roles needing different tools or models |
+| Subagent | Delegated at runtime | Isolated exploration, testing, review and independent subtasks |
+| MCP server | Tools selected as needed | GitHub, tickets, databases, browsers and internal APIs |
+| Hook | Automatic at a configured event, where supported | Deterministic checks, logging, validation and mandatory commands |
+| Copilot Memory | Automatic when supported and relevant | Repository facts or preferences that may help across conversations |
+| Copilot Space | Used when chatting through a Space | Shared, curated question-and-answer context |
+
+Avoid using broad instructions for rare runbooks, skills for universal rules, or custom agents and subagents for tiny tasks. MCP is for external tools or live data rather than static guidance. Hooks are for deterministic commands rather than subjective judgement, while Memory and Spaces should not replace formal policy or coding-agent workflow definitions.
 
 ## Skill versus custom agent
 

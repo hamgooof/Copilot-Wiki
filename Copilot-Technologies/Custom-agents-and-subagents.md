@@ -1,22 +1,12 @@
 # Custom agents and subagents
 
-| Page status | Audience | Last reviewed |
-| --- | --- | --- |
-| Draft technology page | Developers using Copilot agent mode or CLI | 8 August 2026 |
+_For developers using Copilot agent mode or CLI · Last reviewed 11 August 2026_
 
 > Read [One prompt, many rounds](../One-Prompt-Many-Rounds.md) first if agent execution is unfamiliar.
 
 A **custom agent** is a reusable specialist definition. A **subagent** is a separate runtime worker created to complete delegated work. The main agent can invoke a custom agent as a subagent, but the terms describe different things.
 
-## On this page
-
-- [Custom agents](#custom-agent)
-- [Subagents](#subagent)
-- [What context a subagent receives](#does-a-subagent-inherit-the-parents-context)
-- [When to use a custom agent](#when-to-use-a-custom-agent)
-- [When to use a subagent](#when-to-use-a-subagent)
-- [Model selection](#model-selection)
-- [Coordination risks](#coordination-risks)
+[[_TOC_]]
 
 ## Custom agent
 
@@ -98,7 +88,7 @@ Avoid delegation for tiny or tightly coupled changes. Handoffs consume time, cre
 
 Model selection is surface-specific:
 
-- **Copilot CLI custom agents:** if the profile does not specify a model, current documentation says it inherits the outer agent's model. A CLI session using `Auto` has special inheritance behaviour documented in the command reference.
+- **Copilot CLI custom agents:** if the profile does not specify a model, current documentation says it inherits the default model. The interaction with a session using `Auto` is not currently defined; [T10](../To-Test.md#t10-parent-and-child-model-routing) records the test.
 - **VS Code subagents:** current VS Code documentation gives precedence to an explicitly requested invocation model, then the custom agent's configured model, then the parent model. It also documents cost-tier restrictions on child model choice.
 - **Copilot SDK:** custom agent definitions can override the parent session's model and reasoning effort; SDK semantics should not be assumed to apply to the end-user clients.
 

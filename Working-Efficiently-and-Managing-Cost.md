@@ -1,24 +1,12 @@
 # Working efficiently and managing cost
 
-| Page status | Intended audience | Last reviewed |
-| --- | --- | --- |
-| Draft foundation page | Regular Copilot users | 8 August 2026 |
+_For regular Copilot users · Last reviewed 11 August 2026_
 
 Efficient Copilot use is not about making every request as cheap as possible. It is about completing useful work with the least unnecessary model work, repetition and human correction.
 
 The biggest savings usually come from better task definition, cleaner context and an appropriate model—not from making prompts artificially short.
 
-## On this page
-
-- [What currently drives cost](#what-currently-drives-cost)
-- [Use the lightest interaction that fits](#1-use-the-lightest-interaction-that-fits)
-- [Define the finish line](#2-define-the-finish-line-before-starting)
-- [Keep sessions and instructions focused](#3-start-a-new-session-for-unrelated-work)
-- [Choose a model for the task](#5-choose-a-model-for-the-task)
-- [Control tools and subagents](#7-control-tools-and-their-output)
-- [Preserve useful cache boundaries](#9-preserve-useful-cache-boundaries)
-- [Detect and stop wasteful loops](#10-detect-and-stop-wasteful-loops)
-- [A compact working pattern](#a-compact-working-pattern)
+[[_TOC_]]
 
 > **If you change only three habits:** start a fresh session for unrelated work; describe the outcome, scope, constraints and evidence; keep always-on instructions short. Those changes usually matter more than shaving a few words from a prompt.
 
@@ -109,7 +97,7 @@ Planning has a cost, but it can prevent larger wrong changes and repeated rework
 
 ## 7. Control tools and their output
 
-- Enable only relevant MCP servers and tools.
+- Enable only relevant Model Context Protocol (MCP) servers and tools.
 - Use a read-only agent for review or investigation.
 - Filter commands to produce focused output.
 - Ask for failure summaries before full logs.
@@ -146,6 +134,8 @@ Practical habits:
 - Use a fresh session when the task changes completely.
 - Use VS Code's [Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer) when investigating actual cache behaviour. It compares consecutive model requests and shows where the matching prompt prefix diverges.
 
+Cache Explorer compares requests; it is not a network trace. For the provider detail, see [Effective context versus transport](Copilot-Technologies/Context-memory-and-models.md#effective-context-versus-transport). For everyday use, focus on what the model can see, the reported cache percentage and total input usage.
+
 ## 10. Detect and stop wasteful loops
 
 Redirect or stop when Copilot:
@@ -166,7 +156,7 @@ Give the missing constraint, reduce scope, ask for a plan or start a clean sessi
 - Set budgets and session limits where appropriate.
 - Compare credits, latency, quality and rework—not credits alone.
 
-Pricing, included allowances and product terminology change. Do not copy numeric plan allowances into internal policy without linking and dating the source.
+Pricing, included allowances and product terminology change. Use the current linked billing page when you need an exact figure.
 
 ## A compact working pattern
 
@@ -183,7 +173,7 @@ Pricing, included allowances and product terminology change. Do not copy numeric
 
 ## Sources
 
-- [Optimizing AI usage to maximize efficiency and reduce cost](https://docs.github.com/en/enterprise-cloud@latest/copilot/tutorials/optimize-ai-usage)
+- [Improving agent quality to optimize AI usage](https://docs.github.com/en/enterprise-cloud@latest/copilot/tutorials/optimize-ai-usage)
 - [Usage-based billing for organizations and enterprises](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises)
 - [Monitoring GitHub AI Credits usage](https://docs.github.com/en/copilot/how-tos/manage-and-track-spending/monitor-ai-usage)
 - [Setting an AI-credit session limit in Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/set-session-limit)
@@ -192,4 +182,5 @@ Pricing, included allowances and product terminology change. Do not copy numeric
 - [VS Code February 2026 release notes: context compaction](https://code.visualstudio.com/updates/v1_110)
 - [Diagnose prompt caching with the Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer)
 - [Managing context in Copilot CLI](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-cli/context-management)
+- [Using GitHub Copilot CLI: `/context`, `/usage` and `/compact`](https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview)
 - [Copilot CLI command reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference)

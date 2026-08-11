@@ -1,25 +1,25 @@
 # GitHub Copilot: work smarter, not noisier
 
-| Page status | Intended audience | Last reviewed |
-| --- | --- | --- |
-| Draft wiki home | People who already use GitHub Copilot and want to get more from it | 8 August 2026 |
+_For people who already use GitHub Copilot and want to get more from it · Last reviewed 11 August 2026_
 
 You already know how to ask Copilot a question or generate some code. This wiki is about the next step: giving it better context, choosing the right kind of customization and avoiding setups that quietly waste tokens and attention.
 
 You do not need to read it front to back. Pick the route that matches what you are trying to solve.
 
+> **Our focus:** day to day we use Copilot in VS Code, Visual Studio and JetBrains, so that is what this wiki prioritises. CLI and cloud-agent notes appear where they help GH-600 study and are clearly labelled.
+
 ## I want the mental model first
 
 1. [How Copilot actually works](How-Copilot-Works.md)
-2. [Copilot terminology without the headache](Copilot-Terminology.md)
-3. [Tokens and context windows](Tokens-and-Context-Windows.md)
-4. [One prompt, many rounds](One-Prompt-Many-Rounds.md)
+2. [Tokens and context windows](Tokens-and-Context-Windows.md)
+3. [One prompt, many rounds](One-Prompt-Many-Rounds.md)
+4. [Copilot terminology without the headache](Copilot-Terminology.md) — use this as a reference when a term is unfamiliar
 
 ## I want to improve how I work
 
 - [Working efficiently and managing cost](Working-Efficiently-and-Managing-Cost.md)
 - [Choose the right Copilot technology](Copilot-Technologies/Choose-the-right-technology.md)
-- [Understand context, memory and model changes](Copilot-Technologies/Context-memory-and-models.md)
+- [Context, memory and models (advanced)](Copilot-Technologies/Context-memory-and-models.md)
 
 ## I need to choose a customization
 
@@ -28,7 +28,7 @@ Open [Copilot technologies](Copilot-Technologies.md) for the full section, or ju
 - [Custom instructions and `AGENTS.md`](Copilot-Technologies/Custom-instructions.md)
 - [Agent skills](Copilot-Technologies/Agent-skills.md)
 - [Custom agents and subagents](Copilot-Technologies/Custom-agents-and-subagents.md)
-- [Prompt files, MCP, hooks, plugins, Spaces and Memory](Copilot-Technologies/Other-useful-technologies.md)
+- [Prompt files, Model Context Protocol (MCP), hooks, plugins, Spaces and Memory](Copilot-Technologies/Other-useful-technologies.md)
 
 ## I am studying GH-600
 

@@ -1,29 +1,19 @@
 # Custom instructions and AGENTS.md
 
-| Page status | Audience | Last reviewed |
-| --- | --- | --- |
-| Draft technology page | Developers and repository maintainers | 8 August 2026 |
+_For developers and repository maintainers · Last reviewed 11 August 2026_
 
 > Start with [Tokens and context windows](../Tokens-and-Context-Windows.md) if it is not yet clear why always-loaded instructions can affect focus and usage.
 
 Custom instructions are persistent guidance that Copilot applies automatically. They are ideal for concise facts and expectations that are useful across a broad scope.
 
-## On this page
-
-- [Common forms](#common-forms)
-- [What belongs in always-on instructions](#what-belongs-in-always-on-instructions)
-- [What should move elsewhere](#what-should-move-elsewhere)
-- [Context and usage impact](#context-and-usage-impact)
-- [Path-specific instructions](#path-specific-instructions)
-- [`AGENTS.md` and surface differences](#agentsmd-requires-surface-awareness)
-- [Review checklist](#review-checklist)
+[[_TOC_]]
 
 ## Common forms
 
 | Form | Typical location | Intended scope |
 | --- | --- | --- |
 | Repository-wide Copilot instructions | `.github/copilot-instructions.md` | Most Copilot work in the repository |
-| Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the frontmatter `applyTo` pattern |
+| Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the `applyTo` pattern in frontmatter—the small YAML block between `---` lines at the top of the file |
 | Agent instructions | `AGENTS.md` | Standing guidance shared across supporting AI agents |
 | Personal CLI instructions | `~/.copilot/copilot-instructions.md` and `~/.copilot/instructions/**/*.instructions.md` | That user's Copilot CLI sessions |
 | Organisation instructions | Configured at organisation level | Supported Copilot interactions for organisation members |
@@ -62,7 +52,7 @@ Example:
 
 ## Context and usage impact
 
-**Documented:** Copilot CLI loads custom instruction files at session start. Current CLI documentation says supported instruction locations are merged simultaneously. In IDE chat, repository instructions are automatically added to relevant requests and can appear in the response's References list.
+**Documented:** Copilot CLI combines all applicable user-level and repository instruction files for the session. In IDE chat, repository instructions are automatically added to relevant requests and can appear in the response's References list.
 
 **Practical consequence:** every always-on line competes with the user message, history, code and tool results for context. It may also be sent repeatedly across rounds, though provider caching and product-specific prompt assembly affect billed usage and latency.
 
@@ -110,5 +100,6 @@ Therefore, avoid relying on an undocumented universal precedence rule. Test the 
 - [Adding repository custom instructions in an IDE](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions-in-your-ide/add-repository-instructions-in-your-ide)
 - [Support for different types of custom instructions](https://docs.github.com/en/copilot/reference/custom-instructions-support)
 - [Copilot CLI command reference: custom instruction locations](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference)
+- [Adding custom instructions for GitHub Copilot CLI](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions)
 - [Your first custom instructions](https://docs.github.com/en/copilot/tutorials/customization-library/custom-instructions/your-first-custom-instructions)
 - [Use custom instructions in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions)

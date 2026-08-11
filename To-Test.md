@@ -2,7 +2,7 @@
 
 | Page status | Audience | Last reviewed |
 | --- | --- | --- |
-| Initial cross-wiki test backlog | Copilot platform owners and experimenters | 8 August 2026 |
+| Initial cross-wiki test backlog | Copilot platform owners and experimenters | 11 August 2026 |
 
 This page turns uncertain or surface-specific behaviour into reproducible tests. Do not publish a numeric claim from one run. Repeat tests, record client and extension versions, and separate model variability from product behaviour.
 
@@ -12,16 +12,7 @@ Terminology in this page:
 - A **user turn** runs from one submitted message to its final response.
 - An **agent round** is one internal model-and-tool iteration inside that turn.
 
-## On this page
-
-- [Test harness requirements](#test-harness-requirements)
-- [Instruction and skill experiments](#t01--always-on-instruction-cost)
-- [Agent and subagent experiments](#t06--selected-custom-agent-context)
-- [Model, MCP and Memory experiments](#t10--parentchild-model-routing)
-- [Bloat and technology-comparison experiments](#t14--quality-impact-of-bloated-customization)
-- [Azure DevOps SVG rendering](#t16--azure-devops-svg-rendering)
-- [Suggested first automated suite](#suggested-first-automated-suite)
-- [Evidence standard](#evidence-standard)
+[[_TOC_]]
 
 ## Test harness requirements
 
@@ -40,7 +31,9 @@ Record for every run:
 
 Use a synthetic repository with no secrets. Give each injected artefact a unique canary string so its presence can be tested without relying on stylistic interpretation.
 
-## T01 — Always-on instruction cost
+Prioritise VS Code, Visual Studio and JetBrains for workplace adoption tests. CLI and cloud-agent variants remain useful for GH-600 and future capability planning, but should be reported separately rather than blended into an IDE conclusion.
+
+## T01 Always on instruction cost
 
 **Question:** How much context and usage does a repository instruction file add across successive user turns and agent rounds?
 
@@ -50,7 +43,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Surfaces:** VS Code agent/chat, Copilot CLI and cloud coding agent.
 
-## T02 — Instruction discovery and precedence
+## T02 Instruction discovery and precedence
 
 **Question:** Which instruction files are loaded, merged or given precedence?
 
@@ -58,7 +51,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** References list, `/instructions` or context display, observable compliance and ordering.
 
-## T03 — Uninvoked skill overhead
+## T03 Uninvoked skill overhead
 
 **Question:** What context cost is caused by installed skills that are not selected?
 
@@ -66,7 +59,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** context size, request tokens, latency, routing accuracy and credits.
 
-## T04 — Skill activation and persistence
+## T04 Skill activation and persistence
 
 **Question:** When is `SKILL.md` injected, and does its content remain available in later agent rounds, later user turns or after compaction?
 
@@ -74,7 +67,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** context view, correct recall, false persistence and usage per user turn and observable agent round.
 
-## T05 — Supporting skill resources
+## T05 Supporting skill resources
 
 **Question:** Are unreferenced resource files loaded, indexed only, or ignored until read?
 
@@ -82,7 +75,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** which canaries appear in context or output and which file/tool reads occur.
 
-## T06 — Selected custom-agent context
+## T06 Selected custom agent context
 
 **Question:** What is preserved when a person switches the active custom agent in the same chat?
 
@@ -90,7 +83,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** conversation recall, attachments, profile instructions, tool changes, context size and model changes.
 
-## T07 — Parent-to-subagent context transfer
+## T07 Parent to subagent context transfer
 
 **Question:** What does a new subagent receive from the parent?
 
@@ -98,7 +91,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** child-visible canaries, file reads, child context size and failures caused by missing constraints.
 
-## T08 — Subagent-to-parent return
+## T08 Subagent to parent return
 
 **Question:** Does the parent receive a summary, full transcript, artefacts or selected results?
 
@@ -106,7 +99,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** detail retained, context added to parent, files available and audit trace.
 
-## T09 — Nested subagents
+## T09 Nested subagents
 
 **Question:** How are instructions, models, permissions and context propagated through multiple levels?
 
@@ -114,7 +107,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** effective model/toolset, context isolation, result flow, depth limits, credits and failure reporting.
 
-## T10 — Parent/child model routing
+## T10 Parent and child model routing
 
 **Question:** Does an explicit child model or custom-agent model override the parent as documented?
 
@@ -122,7 +115,9 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** actual per-model usage, fallbacks, quality, latency, retries and total credits.
 
-## T11 — Model change within a chat
+**CLI `Auto` check:** delegate to a custom agent with no `model` property while the session uses `Auto`; record the actual model through `/usage` or approved trace output. Current documentation does not define a special inheritance rule for this combination.
+
+## T11 Model change within a chat
 
 **Question:** Is full useful context maintained when the chat model changes, and what happens when the new context window is smaller?
 
@@ -130,7 +125,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** recall, context denominator, compaction, cache changes and output consistency.
 
-## T12 — MCP catalogue and result cost
+## T12 MCP catalogue and result cost
 
 **Question:** What is the overhead of many configured tools, and how do large tool results affect context?
 
@@ -138,7 +133,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** request tokens, tool selection accuracy, truncation, context growth, latency and credits.
 
-## T13 — Copilot Memory boundaries
+## T13 Copilot Memory boundaries
 
 **Question:** Which supported surfaces create and retrieve repository facts and user preferences?
 
@@ -146,7 +141,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** creation, citations, validation, retrieval, deletion and stale-fact behaviour.
 
-## T14 — Quality impact of bloated customization
+## T14 Quality impact of bloated customization
 
 **Question:** Does more instruction content reduce task quality?
 
@@ -154,7 +149,7 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** task success, instruction compliance, hallucinations, tool errors, latency, credits and evaluator score.
 
-## T15 — Skill versus agent experiment
+## T15 Skill versus agent experiment
 
 **Question:** For the same workflow, when does a skill outperform a custom agent?
 
@@ -162,15 +157,29 @@ Use a synthetic repository with no secrets. Give each injected artefact a unique
 
 **Measure:** routing reliability, task quality, context size, credits, latency, tool safety and maintainability.
 
-## T16 — Azure DevOps SVG rendering
+## T16 Azure DevOps SVG rendering
 
 **Question:** Does the target Azure DevOps code-wiki renderer display repository-hosted SVG diagrams correctly?
 
-**Method:** after registering the wiki, open the context and turn/round diagrams in both light and dark themes. Check the page view, direct image view, browser zoom and mobile-width layout. Repeat on the actual Azure DevOps Server version rather than assuming Azure DevOps Services behaviour.
+**Observed 8 August 2026:** Azure DevOps displayed basic SVG paths and markers, but content associated with groups carrying drop-shadow filters was missing. Images also expanded to an unhelpful full-column size when no explicit Markdown width was supplied. The current revision removes filters and requests a 900px display width.
+
+**Method:** after publishing the revised SVGs, open the context, turn/round and context-growth diagrams in both light and dark themes. Check that cards, labels, model panels and stacked context blocks are present; then check browser zoom and mobile-width layout. Repeat on the actual Azure DevOps Server version rather than assuming Azure DevOps Services behaviour.
 
 **Measure:** image displayed, text readable, alt text available when blocked, links resolved and no active-content warning.
 
 **Fallback:** retain SVG as the editable source, render a PNG copy and update the Markdown image targets if the server blocks SVG.
+
+**Support status:** SVG is not listed among the image formats in Microsoft's Azure DevOps Markdown guidance. Treat current rendering as undocumented behaviour and repeat this test after server upgrades. Click every table-of-contents link during the same check.
+
+## T17 Provider transport effective context and cache views
+
+**Question:** For each available model/provider integration, what effective context is processed, what does Cache Explorer display, and what can actually be established about transport or provider-side state?
+
+**Method:** run the same multi-round conversation with available Anthropic, OpenAI and other model families. Record the Cache Explorer prompt signature, prefix diff, cache-hit percentage, total input usage and any approved diagnostic traces. Do not infer a literal wire payload from a UI diff. Record model, client and extension versions and the exact observation date.
+
+**Measure:** effective input size, cached versus uncached input, visible request components, first cache divergence, latency and whether the evidence distinguishes full-message transmission from provider-side state references.
+
+**Classification:** document cache TTLs and transport observations as provider/model/client-specific findings. If available telemetry cannot distinguish two implementations, mark the result **Inconclusive** rather than selecting the more familiar API model.
 
 ## Suggested first automated suite
 
@@ -192,6 +201,7 @@ Publish findings with scope. “Copilot does X” is rarely precise enough; pref
 - [Managing context in Copilot CLI](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/copilot-cli/context-management)
 - [The coding harness behind GitHub Copilot in VS Code: turns and rounds](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode)
 - [The Copilot SDK agent loop and SDK-specific turn events](https://docs.github.com/en/copilot/how-tos/copilot-sdk/features/agent-loop)
+- [Diagnose prompt caching with the VS Code Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer)
 - [VS Code February 2026 release notes: context compaction](https://code.visualstudio.com/updates/v1_110)
 - [Monitoring GitHub AI Credits usage](https://docs.github.com/en/copilot/how-tos/manage-and-track-spending/monitor-ai-usage)
 - [Copilot CLI command reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference)

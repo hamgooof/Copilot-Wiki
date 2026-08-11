@@ -1,8 +1,6 @@
 # Copilot technologies
 
-| Page status | Intended audience | Last reviewed |
-| --- | --- | --- |
-| Draft section overview | People familiar with everyday Copilot use but new to customization and agents | 8 August 2026 |
+_For people familiar with everyday Copilot use but new to customization and agents · Last reviewed 11 August 2026_
 
 Copilot can follow persistent guidance, load specialised workflows, use purpose-built agents and connect to external systems. These features overlap, but they are not interchangeable.
 
@@ -24,7 +22,7 @@ If these concepts are unfamiliar, read:
 2. [Custom instructions and AGENTS.md](Copilot-Technologies/Custom-instructions.md)
 3. [Agent skills](Copilot-Technologies/Agent-skills.md)
 4. [Custom agents and subagents](Copilot-Technologies/Custom-agents-and-subagents.md)
-5. [Advanced context, memory and model changes](Copilot-Technologies/Context-memory-and-models.md)
+5. [Context, memory and models (advanced)](Copilot-Technologies/Context-memory-and-models.md)
 6. [Other useful technologies](Copilot-Technologies/Other-useful-technologies.md)
 
 ## Quick orientation
@@ -36,7 +34,7 @@ If these concepts are unfamiliar, read:
 | A specialised role, model or restricted toolset | Custom agent |
 | A focused task that should use a separate context window | Subagent |
 | Access to an external service | MCP tool/server |
-| A command that must run at a lifecycle event | Hook |
+| A command that must run at a lifecycle event | Hook, where the Copilot surface supports it |
 | A reusable prompt a person invokes | Prompt file |
 
 ## Sources

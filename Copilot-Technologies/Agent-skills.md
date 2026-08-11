@@ -1,23 +1,12 @@
 # Agent skills
 
-| Page status | Audience | Last reviewed |
-| --- | --- | --- |
-| Draft technology page | Developers creating repeatable Copilot workflows | 8 August 2026 |
+_For developers creating repeatable Copilot workflows · Last reviewed 11 August 2026_
 
 > This page assumes the basic terms from [Copilot terminology](../Copilot-Terminology.md). The short version: a skill gives an existing agent a reusable procedure for a particular type of work.
 
 An agent skill is a folder containing a required `SKILL.md` and optional scripts, examples and reference material. Copilot loads it when the task is relevant, giving the current agent specialist instructions without making the whole workflow permanently active.
 
-## On this page
-
-- [Why skills matter](#why-skills-matter)
-- [Typical layout](#typical-layout)
-- [Minimal skill](#minimal-skill)
-- [What is loaded into context](#what-is-loaded-into-context)
-- [Skills versus other options](#skills-versus-other-options)
-- [Good skill candidates](#good-skill-candidates)
-- [Common mistakes](#common-mistakes)
-- [Design checklist](#design-checklist)
+[[_TOC_]]
 
 ## Why skills matter
 

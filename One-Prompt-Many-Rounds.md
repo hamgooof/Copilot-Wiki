@@ -1,23 +1,12 @@
 # One prompt, many rounds: turns, tools and the agent loop
 
-| Page status | Intended audience | Last reviewed |
-| --- | --- | --- |
-| Draft foundation page | Existing Copilot users new to agentic workflows | 8 August 2026 |
+_For existing Copilot users who are new to agent workflows · Last reviewed 11 August 2026_
 
 You ask Copilot to fix one bug. It searches, reads three files, edits one, runs a test, sees a failure, edits again and reruns the test. You experienced **one turn**; Copilot completed several **rounds** inside it.
 
 That distinction explains why one apparently simple message can take time, use several tools and process a surprising amount of context.
 
-## On this page
-
-- [The short version](#the-short-version)
-- [Follow one turn from start to finish](#follow-one-turn-from-start-to-finish)
-- [Turn, round and run](#turn-round-and-run)
-- [What the harness does](#what-the-harness-does)
-- [What a tool is](#what-a-tool-is)
-- [Why later rounds become larger](#why-later-rounds-become-larger)
-- [Permissions and safety](#permissions-and-safety)
-- [Keeping an agent loop efficient](#keeping-an-agent-loop-efficient)
+[[_TOC_]]
 
 ## The short version
 
@@ -26,9 +15,11 @@ That distinction explains why one apparently simple message can take time, use s
 | **Turn** | The complete exchange from one user message to the final assistant response | One message sent; one answer returned |
 | **Round** | One loop pass: build prompt, call model, execute requested tools, record results, decide whether to continue | Usually hidden unless you inspect debug logs |
 | **Agent loop** | The control mechanism that performs those rounds | The agent appears to keep working |
-| **Run** | The full execution of all rounds in the turn | The complete piece of work |
+| **Run** *(blog term)* | The full execution of all rounds in the turn | The complete piece of work |
 
-![A user turn containing several model-and-tool rounds](Media/turns-rounds-agent-loop.svg)
+![A user turn containing several model-and-tool rounds](Media/turns-rounds-agent-loop.svg =900x)
+
+Turn, round and run come from Microsoft's VS Code engineering blog rather than the current VS Code reference documentation. This wiki adopts them as a useful house vocabulary for explaining IDE agent behaviour; other Copilot surfaces or SDK event logs can use different terms.
 
 ## Follow one turn from start to finish
 
@@ -53,7 +44,7 @@ The person initiated one turn. The harness may have sent the accumulated prompt 
 
 ## Turn, round and run
 
-The [VS Code coding-harness article](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode) gives us the clearest user-facing distinction:
+The [VS Code coding-harness article](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode) gives us the clearest user-facing distinction, which this wiki condenses as:
 
 > **Turn** = one user-visible chat exchange. **Round** = one pass through the internal model-and-tool loop.
 
@@ -68,11 +59,7 @@ During each round, the harness:
 
 If the model returns a final answer without requesting another tool, the loop can finish and the turn ends.
 
-### Why you may see “turn” used differently
-
-GitHub's Copilot SDK documentation calls each LLM call and its consequences a **turn**. In other words, the SDK's event vocabulary uses *turn* where the user-facing VS Code article uses *round*.
-
-Neither page can be silently substituted for the other. This wiki follows the VS Code harness wording because it matches what a Copilot user experiences. When discussing SDK event logs such as `assistant.turn_start`, we will say **SDK turn** explicitly.
+> **Heads-up:** GitHub's SDK documentation uses “turn” for what this wiki calls a round. If you ever read SDK event logs, translate accordingly; the full terminology note is in [Copilot terminology](Copilot-Terminology.md#a-genuine-product-terminology-clash).
 
 ## What the harness does
 
@@ -99,7 +86,7 @@ A tool lets the agent interact with something outside the model. Common examples
 - Running terminal commands and tests.
 - Inspecting source-control changes.
 - Fetching current documentation.
-- Querying GitHub, a database or another service through MCP.
+- Querying GitHub, a database or another service through a Model Context Protocol (MCP) server—a standard plug for another system's tools or data.
 - Delegating a bounded task to a subagent.
 
 The model chooses from the tools exposed to it by reading their names, descriptions and schemas. The harness—not the model—executes the selected tool.
@@ -114,7 +101,7 @@ The same applies to repository files. Access to a file-reading tool is not the s
 
 The prompt is rebuilt on each round and can include the results accumulated so far:
 
-![Context sources assembled for a model call](Media/context-assembly.svg)
+![Context sources assembled for a model call](Media/context-assembly.svg =900x)
 
 A later round may therefore contain:
 
@@ -124,6 +111,8 @@ A later round may therefore contain:
 - Files read during earlier rounds.
 - Search output and terminal results.
 - A summary of workspace changes.
+
+How that effective state travels to the provider can vary. For everyday use, what matters is what the model can see; the provider detail is explained in [Effective context versus transport](Copilot-Technologies/Context-memory-and-models.md#effective-context-versus-transport).
 
 This has two practical consequences:
 
