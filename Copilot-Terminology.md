@@ -33,7 +33,7 @@ Tokens are the units used to measure how much of the context window is being use
 
 ## One turn can contain many rounds
 
-![A turn containing three agent-loop rounds](Media/turns-rounds-agent-loop.svg =900x)
+![A turn containing six agent-loop rounds](Media/turns-rounds-agent-loop.svg =900x)
 
 For the user-facing VS Code experience, this wiki uses the terminology from Microsoft's coding-harness explanation:
 
@@ -104,7 +104,6 @@ See [Tokens and context windows](Tokens-and-Context-Windows.md) for practical co
 | **Usage-based billing** | Billing derived from the model used and tokens consumed, converted into AI credits. |
 | **Premium request** | A legacy request-based unit still applicable to certain existing annual individual plans. Do not mix it with AI-credit accounting. |
 | **Rate limit** | A temporary restriction on request frequency or capacity. It is different from exhausting a budget. |
-| **Budget or session limit** | A control used to cap or stop further AI-credit consumption. Availability depends on plan and surface. |
 
 ## Four distinctions that prevent confusion
 

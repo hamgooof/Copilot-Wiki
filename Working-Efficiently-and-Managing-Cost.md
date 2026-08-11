@@ -2,9 +2,7 @@
 
 _For regular Copilot users · Last reviewed 11 August 2026_
 
-Efficient Copilot use means completing useful work with as little unnecessary model work, repetition and human correction as practical.
-
-The biggest savings usually come from better task definition, cleaner context and an appropriate model - not from making prompts artificially short.
+Efficient Copilot use means completing useful work with as little unnecessary model work, repetition and human correction as practical. Better task definition, cleaner context and an appropriate model usually matter far more than shaving a few words from a prompt.
 
 [[_TOC_]]
 
@@ -34,7 +32,6 @@ Some existing annual individual subscriptions may remain on legacy premium-reque
 | Explain a function or error | Focused chat question |
 | Make one bounded edit | Inline chat or edit workflow |
 | Investigate and change several files | Agent |
-| Perform noisy research separately | Subagent |
 | Apply a repeatable specialist process | Skill or custom agent |
 
 Agent mode is valuable because it can work independently. That same autonomy can cause more rounds and tool output than a small task needs.
@@ -80,7 +77,7 @@ Persistent instructions are valuable when they prevent recurring mistakes. They 
 - Use mid-tier models when the plan is clear and execution remains non-trivial
 - Use lighter models for routine, well-scoped transformations and documentation
 - Prefer Auto where appropriate; GitHub currently documents cost-aware routing and cache-boundary behaviour
-- Avoid switching models repeatedly during one task because it can disrupt prompt caching
+- Avoid changing the model, reasoning effort or enabled tools repeatedly during one task because each change can disrupt prompt caching
 
 A low-cost model can become expensive after several retries. Measure the cost and quality of completing the task as a whole.
 
@@ -106,39 +103,41 @@ Planning has a cost, but it can prevent larger wrong changes and repeated rework
 
 Large tool results consume context. Prefer focused commands and filtered output so the next model call receives the useful evidence with less noise.
 
-## 8. Use subagents deliberately
+## 8. Keep investigation focused
 
-Subagents can reduce pressure on the main context by doing focused work in a separate window. They also create more model work.
+Broad exploration creates more rounds, tool output and context. Give Copilot a known file, failing test, error message or component whenever you can.
 
-Use them when:
+If the agent starts searching widely:
 
-- Research is independent and likely to produce large intermediate results
-- Several genuinely independent analyses can run in parallel
-- A lower-cost specialist model can complete a bounded subtask
+- Point it towards the part of the repository you know is relevant
+- Ask it to explain what it is trying to find
+- Give it the correct test or build command
+- Stop the run and tighten the request if the search keeps drifting
 
-Avoid them when:
-
-- The subtask is tiny
-- Several workers would inspect the same files and duplicate effort
-- The work is tightly coupled and requires constant shared context
+VS Code can delegate isolated work to subagents when the `agent/runSubagent` tool is available. Most people can ignore this advanced option until they have a complex task that would benefit from isolated investigation. It is covered in [Custom agents and subagents](Copilot-Technologies/Custom-agents-and-subagents.md).
 
 ## 9. Preserve useful cache boundaries
 
-Stable input can allow prompt caching, reducing latency and cost. Changing large parts of the context or switching models can reduce reuse.
+Stable input can allow prompt caching, reducing latency and cost. VS Code's current documentation identifies several changes that rebuild the cache boundary.
+
+VS Code controls the order in which prompt components are assembled. You do not need to arrange instructions yourself. The useful part is avoiding changes to settings and definitions once a task is under way.
 
 Practical habits:
 
-- Keep stable instructions at the beginning of a session
-- Avoid unnecessary model switches mid-task
+- Choose the model, reasoning effort, context size and enabled tools before starting when practical
+- Avoid toggling tools or reasoning settings during the task
+- Edit instruction files and custom-agent definitions between sessions where possible
 - Compact at a natural phase boundary
 - Use a fresh session when the task changes completely
 - Use VS Code's [Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer) when investigating actual cache behaviour. It compares consecutive model requests and shows where the matching prompt prefix diverges
 
-Cache Explorer compares consecutive requests and their matching prefix. For provider transport details, see [Effective context versus transport](Copilot-Technologies/Context-and-models.md#effective-context-versus-transport). For everyday use, focus on what the model can see, the reported cache percentage and total input usage.
+VS Code documents model changes, reasoning-effort changes, context-size changes, tool toggles, instruction edits and custom-agent edits as cache-breaking changes. Skill metadata, skill activation, editor state and terminal creation still need measured testing. These are listed in [T18](To-Test.md#t18-vs-code-cache-boundary-matrix).
+
+Cache Explorer compares consecutive requests and their matching prefix. For provider transport details, see [Effective context versus transport](Copilot-Technologies/Context-and-models.md#effective-context-versus-transport).
 
 ## 10. Detect and stop wasteful loops
 
-Redirect or stop when Copilot:
+You know the system, repository and intended outcome better than the agent. Steering it is part of the job. Redirect or stop when Copilot:
 
 - Repeats the same command without learning from the result
 - Alternates between two unsuccessful edits
@@ -146,16 +145,20 @@ Redirect or stop when Copilot:
 - Continues after the acceptance criteria are already met
 - Produces changes faster than they can be reviewed
 
-Give the missing constraint, reduce scope, ask for a plan or start a clean session.
+Tell it what it has missed, point it towards the right file or command, reduce the scope, ask for a plan or start a clean session.
 
-## Monitor context and usage
+## Learn which models suit your work
 
-- Use the context-window control and Cache Explorer in VS Code
-- Review GitHub's AI usage page or organisation reporting
-- Set budgets and session limits where appropriate
-- Compare credits, latency, quality and rework - not credits alone
+Model guidance is a starting point. Try different available models on representative tasks and build your own feel for where each one works well.
 
-Pricing, included allowances and product terminology change. Use the current linked billing page when you need an exact figure.
+Pay attention to:
+
+- Whether it understood the task without repeated correction
+- How well it used tools and followed repository instructions
+- The quality of the final diff and tests
+- How long it took and how much rework you needed
+
+Keep a short team note if a pattern repeats, such as one model working well for planning and another for routine implementation. See the **Copilot model comparison** page on Confluence for our internal test results and examples.
 
 ## A compact working pattern
 
@@ -179,3 +182,4 @@ Pricing, included allowances and product terminology change. Use the current lin
 - [About Copilot auto model selection](https://docs.github.com/en/copilot/concepts/models/auto-model-selection)
 - [VS Code February 2026 release notes: context compaction](https://code.visualstudio.com/updates/v1_110)
 - [Diagnose prompt caching with the Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer)
+- [Optimise AI credit usage in VS Code](https://code.visualstudio.com/docs/agents/guides/optimize-usage)

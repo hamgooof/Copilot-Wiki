@@ -23,21 +23,21 @@ Microsoft's VS Code engineering blog defines turn, round and run in this way. Th
 
 ## Follow one turn from start to finish
 
-Suppose you send:
+You send:
 
 ```text
-Find the cause of the failing checkout test, fix it and verify the result.
+The checkout tests are failing. Find the failing test, fix the cause and verify the result.
 ```
 
 A plausible turn looks like this:
 
 | Round | Model decides to… | Harness does… | New context produced |
 | ---: | --- | --- | --- |
-| 1 | Search for checkout tests | Executes repository search | Matching paths and snippets |
-| 2 | Read the likely test and implementation | Reads those files | File contents |
-| 3 | Reproduce the failure | Runs the focused test command | Failure output |
+| 1 | Find how checkout tests are run | Reads project scripts and test configuration | Checkout test command and scope |
+| 2 | Narrow down the failure | Runs the checkout test command | Failing test name, path and error output |
+| 3 | Inspect the failure | Reads the exact failing test and relevant implementation | Test expectations and implementation details |
 | 4 | Correct the implementation | Applies the requested edit | Updated workspace state |
-| 5 | Verify the fix | Runs the test again | Passing or failing output |
+| 5 | Verify the fix | Runs the focused test again | Passing or failing output |
 | 6 | Stop using tools and answer | Returns the final response | Summary and evidence |
 
 The person initiated one turn. The harness may have sent the accumulated prompt to the model six times.
@@ -82,7 +82,6 @@ A tool lets the agent interact with the IDE and workspace. Tools give the model 
 - Running terminal commands and tests
 - Inspecting source-control changes
 - Fetching current documentation
-- Delegating a bounded task to a subagent
 
 The model chooses from the exposed tools by reading their names, descriptions and schemas. The harness executes the selected tool.
 
@@ -145,7 +144,7 @@ While it runs:
 - Prefer focused commands over thousands of lines of output
 - Stop repeated failures that are not producing new information
 - Redirect searches that are drifting into unrelated code
-- Split genuinely independent, noisy investigation into a subagent
+- Pause broad investigation and narrow the question when the search starts to drift
 
 Before accepting the result:
 
@@ -159,6 +158,4 @@ Before accepting the result:
 - [Agents and the agent loop in VS Code](https://code.visualstudio.com/docs/agents/concepts/agents)
 - [Context assembly in VS Code](https://code.visualstudio.com/docs/agents/concepts/context)
 - [Tools in VS Code](https://code.visualstudio.com/docs/agents/concepts/tools)
-- [Copilot SDK agent loop and SDK-specific turn events](https://docs.github.com/en/copilot/how-tos/copilot-sdk/features/agent-loop)
-- [Usage-based billing for organisations and enterprises](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises)
 - [Trust and safety for AI in VS Code](https://code.visualstudio.com/docs/agents/concepts/trust-and-safety)

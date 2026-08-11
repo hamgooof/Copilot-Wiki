@@ -114,7 +114,6 @@ The second request is longer but may consume less overall. It reduces unproducti
 - Commands that return thousands of irrelevant log lines
 - Leaving many unrelated tools enabled for every agent
 - Repeatedly pasting documentation that could be retrieved when needed
-- Multiple subagents duplicating the same investigation
 - Letting a stuck agent repeat an approach without learning anything new
 
 Context bloat affects both cost and quality. Irrelevant material competes for the model's attention and can reduce answer quality.
@@ -143,9 +142,9 @@ Filter test output, search results and logs when practical. Retrieve the full re
 
 After a large discovery or planning phase, compaction can create room for implementation. Review the summary when the task contains critical constraints.
 
-### Delegate noisy independent work
+### Steer broad investigation
 
-A subagent can keep extensive exploration outside the main context. Give it a bounded question and specify what evidence to return, or you may simply pay for duplicated investigation.
+If the agent starts exploring unrelated areas, stop and narrow the question. Point it towards a known component, file, error or command and ask what evidence it still needs.
 
 ## Inspect context and usage
 

@@ -32,7 +32,7 @@ If the underlying ideas are unfamiliar, read:
 | A detailed workflow used occasionally | Skill |
 | A reusable request started by a person | Prompt file |
 | A specialist role, model or restricted toolset | Custom agent |
-| A focused task that should use a separate context window | Subagent |
+| Isolated research during a complex VS Code task | Let the main agent use a subagent, if enabled |
 
 ## Sources
 

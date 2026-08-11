@@ -15,7 +15,7 @@ Ask these questions in order:
 3. **Is this a detailed workflow that is only relevant for some tasks?** Use a skill
 4. **Should a person deliberately start the same request with new inputs?** Use a prompt file
 5. **Does the task need a named specialist, a restricted toolset or a different model?** Use a custom agent where your IDE supports it
-6. **Would a separate worker help keep investigation or review out of the main context?** Use a subagent where supported
+6. **Would a separate worker help keep investigation or review out of the main context?** In VS Code, allow the main agent to use a subagent where the feature is enabled
 7. **Must a check always run?** Put it in CI, repository policy or another deterministic control
 
 ## Comparison
@@ -60,7 +60,7 @@ Use a skill for "follow our release-review process". Use a custom agent for "act
 
 A custom agent is a reusable definition. A subagent is a separate worker created during a task.
 
-A custom agent can be selected directly in a chat. It can also be used as a subagent if the IDE supports delegation. The [custom agents and subagents page](Custom-agents-and-subagents.md) explains the context and model-selection implications.
+A custom agent can be selected directly in a chat. In VS Code, the main agent can also invoke it as a subagent when the `agent/runSubagent` tool is enabled. The [custom agents and subagents page](Custom-agents-and-subagents.md) explains how invocation, context and model selection work.
 
 ## Prompt file or skill
 

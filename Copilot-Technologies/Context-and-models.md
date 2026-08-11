@@ -1,6 +1,6 @@
 # Context and models
 
-_For regular Copilot users and platform teams ready for the advanced detail · Last reviewed 11 August 2026_
+_For regular Copilot users ready for the advanced detail · Last reviewed 11 August 2026_
 
 > This builds on [Tokens and context windows](../Tokens-and-Context-Windows.md) and focuses on skills, agents, context transfer and model changes.
 
@@ -88,7 +88,7 @@ A parent can orchestrate while a different model handles a subtask on supported 
 
 ## Reducing context bloat
 
-Keep always-on guidance short, retrieve large material only when it is needed, and give subagents bounded questions with concise return requirements. The practical habits are collected in [Tokens and context windows](../Tokens-and-Context-Windows.md#practical-context-habits) and [Working efficiently and managing cost](../Working-Efficiently-and-Managing-Cost.md).
+Keep always-on guidance short and retrieve large material only when it is needed. If VS Code delegates work to a subagent, the delegated question and expected result should be specific. The practical habits are collected in [Tokens and context windows](../Tokens-and-Context-Windows.md#practical-context-habits) and [Working efficiently and managing cost](../Working-Efficiently-and-Managing-Cost.md).
 
 Questions that still need measured, versioned evidence - including skill persistence, parent/child transfer and model routing - live in [To Test](../To-Test.md).
 

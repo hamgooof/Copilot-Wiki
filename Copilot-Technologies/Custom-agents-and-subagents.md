@@ -38,7 +38,7 @@ Property names and supported values vary across Copilot surfaces. Check GitHub's
 
 **Documented for VS Code:** a subagent runs with its own context window, separate from the main agent and other subagents. This allows exploration, logs or detailed intermediate work to stay out of the main conversation context.
 
-The parent delegates a task. The child works in isolation and returns a result. It is better to think of this as a handoff with a report back, not shared consciousness.
+The parent delegates a task. The child works in isolation and reports its result back to the parent.
 
 ```text
 Main agent context
@@ -52,6 +52,18 @@ Main agent context
        |
        +<-- selected results return to main context
 ```
+
+### How subagents are invoked in VS Code
+
+Subagents are normally started by the main agent through the `agent/runSubagent` tool. Check that this tool is enabled before expecting delegation.
+
+You can suggest delegation in an ordinary prompt by asking for isolated research or parallel analysis. You can also request a named custom agent, for example:
+
+```text
+Run the security-reviewer agent as a subagent and return the evidence it finds.
+```
+
+The main agent still decides how to make the tool call. Visual Studio and JetBrains may have different support, so treat this section as VS Code-specific.
 
 ## Does a subagent inherit the parent's context?
 

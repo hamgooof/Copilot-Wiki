@@ -1,86 +1,97 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="590" viewBox="0 0 1200 590" role="img" aria-labelledby="title desc">
-  <title id="title">One user turn containing four agent rounds</title>
-  <desc id="desc">A user message begins one turn. Round one searches, round two adds the search result and reads a file, round three adds the file contents and edits and tests, and round four adds the test result and produces the final response.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">One user turn containing six agent rounds</title>
+  <desc id="desc">A checkout-test request leads to six rounds: find the test command, reproduce the failure, inspect the exact test and implementation, edit the code, verify the fix, then return the final response.</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="#3155a6"/>
     </marker>
   </defs>
 
-  <rect width="1200" height="590" rx="24" fill="#f7f9fc"/>
-  <text x="55" y="50" font-family="Segoe UI, Arial, sans-serif" font-size="29" font-weight="700" fill="#17233c">One turn can contain many rounds</text>
-  <text x="55" y="80" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#4d5b75">You send one message. Copilot may call the model several times before it replies.</text>
+  <rect width="1200" height="500" rx="24" fill="#f7f9fc"/>
+  <text x="50" y="48" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#17233c">One turn can contain many rounds</text>
+  <text x="50" y="77" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#4d5b75">You send one message. Copilot may call the model and use tools several times before it replies.</text>
 
-  <rect x="45" y="110" width="1110" height="380" rx="22" fill="#ffffff" stroke="#3155a6" stroke-width="3" stroke-dasharray="10 8"/>
-  <rect x="75" y="92" width="345" height="42" rx="21" fill="#3155a6"/>
-  <text x="247" y="119" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffffff">TURN: user message → final response</text>
+  <rect x="35" y="105" width="1130" height="310" rx="20" fill="#ffffff" stroke="#3155a6" stroke-width="3" stroke-dasharray="10 8"/>
+  <rect x="65" y="87" width="340" height="40" rx="20" fill="#3155a6"/>
+  <text x="235" y="113" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffffff">TURN: user message → final response</text>
 
   <g font-family="Segoe UI, Arial, sans-serif">
-    <rect x="70" y="180" width="155" height="225" rx="16" fill="#fff1d9" stroke="#d8a14e" stroke-width="2"/>
-    <text x="147" y="220" text-anchor="middle" font-size="19" font-weight="700" fill="#614315">Your message</text>
-    <text x="147" y="268" text-anchor="middle" font-size="15" fill="#765c34">Find the failing</text>
-    <text x="147" y="290" text-anchor="middle" font-size="15" fill="#765c34">test, fix it</text>
-    <text x="147" y="312" text-anchor="middle" font-size="15" fill="#765c34">and verify</text>
-    <text x="147" y="370" text-anchor="middle" font-size="15" font-weight="700" fill="#614315">Starts the turn</text>
+    <g transform="translate(55,145)">
+      <rect width="165" height="225" rx="14" fill="#fff1d9" stroke="#d8a14e" stroke-width="2"/>
+      <text x="82.5" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#614315">Round 1</text>
+      <text x="82.5" y="73" text-anchor="middle" font-size="14" font-weight="700" fill="#614315">Find test command</text>
+      <line x1="25" y1="92" x2="140" y2="92" stroke="#d8a14e"/>
+      <text x="82.5" y="122" text-anchor="middle" font-size="14" fill="#765c34">Read scripts and</text>
+      <text x="82.5" y="142" text-anchor="middle" font-size="14" fill="#765c34">test configuration</text>
+      <text x="82.5" y="184" text-anchor="middle" font-size="13" font-weight="700" fill="#614315">Result</text>
+      <text x="82.5" y="205" text-anchor="middle" font-size="13" fill="#765c34">command + scope</text>
+    </g>
 
-    <rect x="260" y="155" width="190" height="310" rx="16" fill="#e8edff"/>
-    <text x="355" y="194" text-anchor="middle" font-size="19" font-weight="700" fill="#263b76">Round 1</text>
-    <rect x="280" y="220" width="150" height="54" rx="9" fill="#ffffff"/>
-    <text x="355" y="243" text-anchor="middle" font-size="15" fill="#263b76">Prompt includes</text>
-    <text x="355" y="263" text-anchor="middle" font-size="15" fill="#263b76">your message</text>
-    <path d="M355 280v22" stroke="#3155a6" stroke-width="3" marker-end="url(#arrow)"/>
-    <rect x="280" y="310" width="150" height="40" rx="9" fill="#ffffff"/>
-    <text x="355" y="335" text-anchor="middle" font-size="15" font-weight="700" fill="#263b76">Model decides</text>
-    <path d="M355 356v22" stroke="#3155a6" stroke-width="3" marker-end="url(#arrow)"/>
-    <rect x="280" y="386" width="150" height="48" rx="9" fill="#ffffff"/>
-    <text x="355" y="407" text-anchor="middle" font-size="15" font-weight="700" fill="#263b76">Search</text>
-    <text x="355" y="426" text-anchor="middle" font-size="13" fill="#62709a">returns file paths</text>
+    <g transform="translate(240,145)">
+      <rect width="165" height="225" rx="14" fill="#e8edff" stroke="#7590cf" stroke-width="2"/>
+      <text x="82.5" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#263b76">Round 2</text>
+      <text x="82.5" y="73" text-anchor="middle" font-size="14" font-weight="700" fill="#263b76">Reproduce</text>
+      <line x1="25" y1="92" x2="140" y2="92" stroke="#7590cf"/>
+      <text x="82.5" y="122" text-anchor="middle" font-size="14" fill="#40578f">Run checkout</text>
+      <text x="82.5" y="142" text-anchor="middle" font-size="14" fill="#40578f">tests</text>
+      <text x="82.5" y="184" text-anchor="middle" font-size="13" font-weight="700" fill="#263b76">Result</text>
+      <text x="82.5" y="205" text-anchor="middle" font-size="13" fill="#40578f">failure + path</text>
+    </g>
 
-    <rect x="475" y="155" width="190" height="310" rx="16" fill="#e9f6ef"/>
-    <text x="570" y="194" text-anchor="middle" font-size="19" font-weight="700" fill="#1f6245">Round 2</text>
-    <rect x="495" y="220" width="150" height="54" rx="9" fill="#ffffff"/>
-    <text x="570" y="243" text-anchor="middle" font-size="15" fill="#1f6245">Add the</text>
-    <text x="570" y="263" text-anchor="middle" font-size="15" fill="#1f6245">search result</text>
-    <path d="M570 280v22" stroke="#2c7b59" stroke-width="3" marker-end="url(#arrow)"/>
-    <rect x="495" y="310" width="150" height="40" rx="9" fill="#ffffff"/>
-    <text x="570" y="335" text-anchor="middle" font-size="15" font-weight="700" fill="#1f6245">Model decides</text>
-    <path d="M570 356v22" stroke="#2c7b59" stroke-width="3" marker-end="url(#arrow)"/>
-    <rect x="495" y="386" width="150" height="48" rx="9" fill="#ffffff"/>
-    <text x="570" y="407" text-anchor="middle" font-size="15" font-weight="700" fill="#1f6245">Read file</text>
-    <text x="570" y="426" text-anchor="middle" font-size="13" fill="#527764">returns contents</text>
+    <g transform="translate(425,145)">
+      <rect width="165" height="225" rx="14" fill="#e9f6ef" stroke="#71aa8d" stroke-width="2"/>
+      <text x="82.5" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#1f6245">Round 3</text>
+      <text x="82.5" y="73" text-anchor="middle" font-size="14" font-weight="700" fill="#1f6245">Inspect failure</text>
+      <line x1="25" y1="92" x2="140" y2="92" stroke="#71aa8d"/>
+      <text x="82.5" y="122" text-anchor="middle" font-size="14" fill="#386f56">Read exact test</text>
+      <text x="82.5" y="142" text-anchor="middle" font-size="14" fill="#386f56">and code</text>
+      <text x="82.5" y="184" text-anchor="middle" font-size="13" font-weight="700" fill="#1f6245">Result</text>
+      <text x="82.5" y="205" text-anchor="middle" font-size="13" fill="#386f56">relevant contents</text>
+    </g>
 
-    <rect x="690" y="155" width="190" height="310" rx="16" fill="#f3eaff"/>
-    <text x="785" y="194" text-anchor="middle" font-size="19" font-weight="700" fill="#653493">Round 3</text>
-    <rect x="710" y="220" width="150" height="54" rx="9" fill="#ffffff"/>
-    <text x="785" y="243" text-anchor="middle" font-size="15" fill="#653493">Add the</text>
-    <text x="785" y="263" text-anchor="middle" font-size="15" fill="#653493">file contents</text>
-    <path d="M785 280v22" stroke="#8052ad" stroke-width="3" marker-end="url(#arrow)"/>
-    <rect x="710" y="310" width="150" height="40" rx="9" fill="#ffffff"/>
-    <text x="785" y="335" text-anchor="middle" font-size="15" font-weight="700" fill="#653493">Model decides</text>
-    <path d="M785 356v22" stroke="#8052ad" stroke-width="3" marker-end="url(#arrow)"/>
-    <rect x="710" y="386" width="150" height="48" rx="9" fill="#ffffff"/>
-    <text x="785" y="407" text-anchor="middle" font-size="15" font-weight="700" fill="#653493">Edit + test</text>
-    <text x="785" y="426" text-anchor="middle" font-size="13" fill="#76568f">returns test output</text>
+    <g transform="translate(610,145)">
+      <rect width="165" height="225" rx="14" fill="#f3eaff" stroke="#aa87c9" stroke-width="2"/>
+      <text x="82.5" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#653493">Round 4</text>
+      <text x="82.5" y="73" text-anchor="middle" font-size="14" font-weight="700" fill="#653493">Fix cause</text>
+      <line x1="25" y1="92" x2="140" y2="92" stroke="#aa87c9"/>
+      <text x="82.5" y="122" text-anchor="middle" font-size="14" fill="#76568f">Edit the</text>
+      <text x="82.5" y="142" text-anchor="middle" font-size="14" fill="#76568f">implementation</text>
+      <text x="82.5" y="184" text-anchor="middle" font-size="13" font-weight="700" fill="#653493">Result</text>
+      <text x="82.5" y="205" text-anchor="middle" font-size="13" fill="#76568f">updated file</text>
+    </g>
 
-    <rect x="905" y="155" width="190" height="310" rx="16" fill="#e8edf5"/>
-    <text x="1000" y="194" text-anchor="middle" font-size="19" font-weight="700" fill="#38465f">Round 4</text>
-    <rect x="925" y="220" width="150" height="54" rx="9" fill="#ffffff"/>
-    <text x="1000" y="243" text-anchor="middle" font-size="15" fill="#38465f">Add the</text>
-    <text x="1000" y="263" text-anchor="middle" font-size="15" fill="#38465f">test result</text>
-    <path d="M1000 280v22" stroke="#68758c" stroke-width="3" marker-end="url(#arrow)"/>
-    <rect x="925" y="310" width="150" height="40" rx="9" fill="#ffffff"/>
-    <text x="1000" y="335" text-anchor="middle" font-size="15" font-weight="700" fill="#38465f">Model decides</text>
-    <path d="M1000 356v22" stroke="#68758c" stroke-width="3" marker-end="url(#arrow)"/>
-    <rect x="925" y="386" width="150" height="48" rx="9" fill="#17233c"/>
-    <text x="1000" y="416" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">Final response</text>
+    <g transform="translate(795,145)">
+      <rect width="165" height="225" rx="14" fill="#e5f4f7" stroke="#6da7b4" stroke-width="2"/>
+      <text x="82.5" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#145a69">Round 5</text>
+      <text x="82.5" y="73" text-anchor="middle" font-size="14" font-weight="700" fill="#145a69">Verify</text>
+      <line x1="25" y1="92" x2="140" y2="92" stroke="#6da7b4"/>
+      <text x="82.5" y="122" text-anchor="middle" font-size="14" fill="#356f7b">Run focused</text>
+      <text x="82.5" y="142" text-anchor="middle" font-size="14" fill="#356f7b">test again</text>
+      <text x="82.5" y="184" text-anchor="middle" font-size="13" font-weight="700" fill="#145a69">Result</text>
+      <text x="82.5" y="205" text-anchor="middle" font-size="13" fill="#356f7b">passing output</text>
+    </g>
+
+    <g transform="translate(980,145)">
+      <rect width="165" height="225" rx="14" fill="#e8edf5" stroke="#8794aa" stroke-width="2"/>
+      <text x="82.5" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#38465f">Round 6</text>
+      <text x="82.5" y="73" text-anchor="middle" font-size="14" font-weight="700" fill="#38465f">Conclude</text>
+      <line x1="25" y1="92" x2="140" y2="92" stroke="#8794aa"/>
+      <text x="82.5" y="122" text-anchor="middle" font-size="14" fill="#4f5c72">Stop using</text>
+      <text x="82.5" y="142" text-anchor="middle" font-size="14" fill="#4f5c72">tools</text>
+      <rect x="18" y="170" width="129" height="36" rx="18" fill="#17233c"/>
+      <text x="82.5" y="193" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">Final response</text>
+    </g>
   </g>
 
-  <path d="M230 310h20" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
-  <path d="M455 310h10" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
-  <path d="M670 310h10" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
-  <path d="M885 310h10" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+  <g stroke="#3155a6" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M221 258h11"/>
+    <path d="M406 258h11"/>
+    <path d="M591 258h11"/>
+    <path d="M776 258h11"/>
+    <path d="M961 258h11"/>
+  </g>
 
-  <text x="55" y="535" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" fill="#17233c">Why it matters:</text>
-  <text x="185" y="535" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#4d5b75">each round can carry earlier context forward, add a result and make another model call.</text>
-  <text x="55" y="565" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#68758c">This shows the effective context seen by the model. Provider transport and prompt caching can reuse an unchanged prefix.</text>
+  <text x="50" y="455" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" fill="#17233c">Why it matters:</text>
+  <text x="180" y="455" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#4d5b75">each round can carry earlier context forward, add a result and make another model call.</text>
+  <text x="50" y="480" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#68758c">The exact number of rounds varies with the task, available tools and decisions made along the way.</text>
 </svg>

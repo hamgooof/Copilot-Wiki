@@ -163,9 +163,21 @@ Scope each conclusion to the tested IDE and version. Prioritise VS Code, Visual 
 
 **Classification:** document cache TTLs and transport observations as provider/model/client-specific findings. If available telemetry cannot distinguish two implementations, mark the result **Inconclusive** rather than selecting the more familiar API model.
 
+## T18 VS Code cache boundary matrix
+
+**Question:** Which IDE changes break the matching prompt prefix, and where does the first divergence appear?
+
+**Documented cache-breaking changes:** switching model, reasoning effort or context size; enabling or disabling tools; editing instruction files; editing custom-agent definitions.
+
+**To test:** changing a skill name or description, invoking a skill, opening or creating a terminal, producing terminal output, changing the active editor or selection, introducing a visible error, changing Git state, attaching a file and compacting the session.
+
+**Method:** create a stable multi-round baseline, then change one factor at a time in an otherwise identical session. Use Cache Explorer and approved telemetry to record the first changed prompt component. Repeat each arm with the same model and task.
+
+**Measure:** matching-prefix length, cached and fresh input tokens, first divergence component, latency and whether the change persists into later rounds.
+
 ## Suggested first automated suite
 
-Prioritise T01, T03, T04, T07, T08, T10 and T14. Together they test the claims most likely to change team behaviour: instruction bloat, just-in-time skills, isolated subagents, model routing and real quality/usage impact.
+Prioritise T01, T03, T04, T07, T08, T10, T14 and T18. Together they test the claims most likely to change team behaviour: instruction bloat, just-in-time skills, isolated subagents, model routing, cache boundaries and real quality/usage impact.
 
 ## Evidence standard
 
