@@ -13,7 +13,7 @@
 
   <rect x="35" y="105" width="1130" height="310" rx="20" fill="#ffffff" stroke="#3155a6" stroke-width="3" stroke-dasharray="10 8"/>
   <rect x="65" y="87" width="340" height="40" rx="20" fill="#3155a6"/>
-  <text x="235" y="113" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffffff">TURN: user message → final response</text>
+  <text x="235" y="113" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffffff">TURN: user message to final response</text>
 
   <g font-family="Segoe UI, Arial, sans-serif">
     <g transform="translate(55,145)">

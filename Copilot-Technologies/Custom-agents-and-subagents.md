@@ -1,113 +1,112 @@
 # Custom agents and subagents
 
-_For developers using Copilot agent mode in a supported IDE · Last reviewed 11 August 2026_
+_For developers using Copilot agent mode in a supported IDE - Last reviewed 12 August 2026_
 
-> Read [One prompt, many rounds](../One-Prompt-Many-Rounds.md) first if agent execution is unfamiliar.
-
-A **custom agent** is a reusable specialist definition. A **subagent** is a separate runtime worker created to complete delegated work. The main agent can invoke a custom agent as a subagent, but the terms describe different things.
+A **custom agent** defines a reusable worker configuration. A **subagent** is a separate worker created to complete a delegated task. A custom agent can be used directly or, where supported, invoked as a subagent.
 
 [[_TOC_]]
 
 ## Custom agent
 
-A custom agent profile can define:
+A custom agent can define:
 
-- Its role and instructions
-- The tools it may use
-- A preferred model, depending on surface
+- Its continuing role and instructions
+- The tools available to it
+- A preferred model, depending on the client
 - Whether people can select it
-- Whether another agent may invoke it automatically
+- Whether another agent may delegate work to it
+- Suggested handoffs to another agent
 
-Example:
+This differs from manually selecting tools and typing a one-off prompt because the complete worker setup can be selected again by the team.
+
+### Example: Reviewer
 
 ```markdown
 ---
-name: security-reviewer
-description: Review authentication and authorisation changes for exploitable defects.
-tools: [read, search]
-model: claude-sonnet-4.6
+name: Reviewer
+description: Review repository changes and return evidence-backed findings.
+tools: ['read', 'search']
 ---
 
-Review only. Do not edit files. Report evidence, impact and a minimal remediation.
-Ignore formatting and style issues.
+Work as an independent code reviewer.
+
+- Do not edit production files
+- Inspect enough surrounding code to validate each finding
+- Separate confirmed defects from questions or assumptions
+- Use the `review-changes` skill when it is available
+- Return findings in the format required by that skill
 ```
 
-Save a repository agent as `.github/agents/security-reviewer.agent.md`. In VS Code, choose it from the agent dropdown in Chat; **Chat: New Custom Agent** can create the file for you. Visual Studio also supports repository custom agents. JetBrains support is currently preview. See the [IDE support table](Choose-the-right-technology.md#current-ide-support) before sharing one setup across clients.
+Tool names and supported fields vary by client. Treat this as an illustrative profile and use the target IDE's editor or documentation to select valid tools.
 
-Property names and supported values vary across Copilot surfaces. Check GitHub's [custom agents configuration reference](https://docs.github.com/en/copilot/reference/custom-agents-configuration) and the target IDE documentation before sharing a profile between clients.
+Save a shared repository agent under `.github/agents`. In VS Code, select it from the agent picker. Current Visual Studio custom-agent support requires Visual Studio 2026 18.4 or later. JetBrains support remains Preview.
 
-## Subagent
+### When the custom agent earns its place
 
-**Documented for VS Code:** a subagent runs with its own context window, separate from the main agent and other subagents. This allows exploration, logs or detailed intermediate work to stay out of the main conversation context.
+Use the ordinary Ask or Agent experience for a one-off review. Create the Reviewer agent when the team repeatedly wants the same worker role, tool configuration, model choice or follow-up behaviour.
 
-The parent delegates a task. The child works in isolation and reports its result back to the parent:
+The Reviewer can use several skills without owning their detailed checklists:
 
-1. The main agent sends a scoped task to the subagent
-2. The subagent searches, tests or reviews inside its own context
-3. Its selected findings return to the main agent as new context
+- `review-changes`
+- `security-review`
+- `api-contract-review`
+- `frontend-quality-review`
 
-### How subagents are invoked in VS Code
+Those skills remain reusable by other agents and direct user requests.
 
-Subagents are normally started by the main agent through the `agent/runSubagent` tool. Check that this tool is enabled before expecting delegation.
+## Handoffs
 
-You can suggest delegation in an ordinary prompt by asking for isolated research or parallel analysis. You can also request a named custom agent, for example:
+VS Code custom agents can offer buttons that move from one agent to another with a pre-filled prompt and relevant conversation context.
+
+A handoff is useful when continuity is wanted, such as Plan to implementation. It should not be described as a clean independent review because the next agent continues with relevant context from the existing chat.
+
+For a less anchored review, start a new chat and select the Reviewer, or delegate a scoped review to a subagent where supported.
+
+## Subagents
+
+Current VS Code documentation describes a subagent as a stateless delegated worker with its own context. The parent passes a task, the child works independently, and only its result returns to the parent.
+
+The parent cannot send a follow-up message to the same completed subagent, so the delegation should include:
+
+- The exact question or scope
+- Important constraints
+- The evidence to inspect
+- The expected output format
+
+Example:
 
 ```text
-Run the security-reviewer agent as a subagent and return the evidence it finds.
+Use the Reviewer agent as a subagent.
+Review the current branch against origin/develop.
+Return only Critical, Major and Minor findings with file and symbol locations.
+Do not edit files.
 ```
 
-The main agent still decides whether to delegate. Visual Studio does not currently support subagents; JetBrains support is in preview. Check the [IDE support table](Choose-the-right-technology.md#current-ide-support) as this changes.
+By default, a VS Code subagent inherits the main agent, model and tools. A named custom agent can override those settings for the delegated task.
 
-## Does a subagent inherit the parent's context?
+Visual Studio does not currently support subagents. JetBrains support is Preview.
 
-Assume that the child starts with a separate, deliberately scoped context.
+## When a subagent helps
 
-GitHub documents a separate context window. The child receives a delegated task and can access whatever tools, repository and instructions its configuration provides. The product may supply relevant task context, but a separate window should not be described as a copy of the entire parent's transcript.
+- A focused investigation would create a large amount of intermediate context
+- A review benefits from a fresh perspective
+- Independent questions can be investigated separately
+- The main agent should receive a concise result rather than every intermediate step
 
-If a decision or constraint matters to the child, include it explicitly in the delegation or put it in an instruction source the child is documented to load.
+Avoid delegation for tiny or tightly coupled changes. It adds another model interaction and the parent still needs to validate the result.
 
-The exact seeding of child context and instruction inheritance is covered by [T07](../To-Test.md#t07-parent-to-subagent-context-transfer). The result returned to the parent is covered by [T08](../To-Test.md#t08-subagent-to-parent-return).
+## Skill, custom agent or subagent
 
-## When to use a custom agent
+- **Skill:** reusable procedure used by the current worker
+- **Custom agent:** reusable worker configuration
+- **Subagent:** separate runtime worker handling a delegated task
 
-- A reviewer should be read-only
-- A specialist needs a distinct set of built-in tools
-- A task benefits from a consistent role and reporting format
-- A specialist model should handle this class of task
-- A reusable agent should be eligible for automatic delegation
-
-Use a skill when the requirement is guidance for a particular workflow. Reserve a custom agent for a distinct role, model or toolset.
-
-## When to use a subagent
-
-- Codebase exploration would generate a large amount of intermediate context
-- Tests, builds or logs can be analysed separately
-- Independent reviews can run in parallel
-- The main agent should remain focused on planning and integration
-- Different subtasks benefit from different specialist models
-
-Avoid delegation for tiny or tightly coupled changes. Handoffs consume time, credits and context, and the parent must reconcile results.
-
-## Model selection
-
-Model selection is surface-specific. Current VS Code documentation gives precedence to an explicitly requested invocation model, then the custom agent's configured model, then the parent model. It also documents cost-tier restrictions on child model choice.
-
-An "Opus orchestrator, Sonnet children" pattern is feasible only where the selected models are available and that surface supports per-agent routing. Make the intended model explicit and verify it in usage or trace data.
-
-## Coordination risks
-
-- Two agents edit the same file or make incompatible design decisions
-- A constraint mentioned only in the parent chat may be absent from the child's context
-- The child returns a summary that omits evidence needed by the parent
-- A cheaper model saves credits but needs retries or creates integration work
-- Recursive delegation multiplies usage and makes audit trails harder to follow
-- The parent accepts reports without validating the resulting repository state
-
-Use small delegated scopes, explicit deliverables, ownership boundaries and parent-side verification.
+The [technology chooser](Choose-the-right-technology.md#skill-or-custom-agent) shows all three in one feature-development example.
 
 ## Sources
 
-- [Custom agents configuration reference](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
+- [Custom agents in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-agents)
 - [Subagents in VS Code](https://code.visualstudio.com/docs/agents/run/subagents)
-- [Custom agents in VS Code: format and file locations](https://code.visualstudio.com/docs/agent-customization/custom-agents)
-- [Copilot customization cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)
+- [Custom agents configuration reference](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
+- [Custom agents in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/ide/copilot-specialized-agents?view=visualstudio)
+- [Copilot customisation cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)

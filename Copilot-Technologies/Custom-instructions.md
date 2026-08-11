@@ -1,97 +1,105 @@
-# Custom instructions and AGENTS.md
+# Custom instructions
 
-_For developers and repository maintainers · Last reviewed 11 August 2026_
+_For developers and repository maintainers - Last reviewed 12 August 2026_
 
-> [Tokens and context windows](../Tokens-and-Context-Windows.md) explains why always-loaded instructions can affect focus and usage.
-
-Custom instructions are persistent guidance that Copilot applies automatically. They are ideal for concise facts and expectations that are useful across a broad scope.
+Custom instructions are standing guidance that Copilot applies automatically within a defined scope. They are a good home for concise repository facts, commands and conventions that matter frequently.
 
 [[_TOC_]]
 
-## Common forms
+## The two repository forms
 
-| Form | Typical location | Intended scope |
+| Form | Location | Scope |
 | --- | --- | --- |
-| Repository-wide Copilot instructions | `.github/copilot-instructions.md` | Most Copilot work in the repository |
-| Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the `applyTo` pattern in the YAML header |
-| Agent instructions | `AGENTS.md` | Standing guidance shared across supporting AI agents |
-| Organisation instructions | Configured at organisation level | Supported Copilot interactions for organisation members |
+| Repository-wide instructions | `.github/copilot-instructions.md` | Work across the repository |
+| Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the YAML `applyTo` pattern |
 
-Support varies by client and Copilot feature. Check [GitHub's custom-instructions support table](https://docs.github.com/en/copilot/reference/custom-instructions-support) before standardising a layout.
+GitHub currently supports both forms in VS Code and Visual Studio. JetBrains support varies by plugin version, and GitHub's detailed pages are not yet fully consistent about path-specific instructions there.
 
-## What belongs in always-on instructions
+## What belongs in repository-wide instructions
 
-- The repository's purpose and a compact architecture map
+- A compact map of the repository
 - The actual build, test and lint commands
-- Rules that genuinely apply to nearly every change
-- A few critical safety boundaries
-- Pointers to authoritative documentation, not copies of every document
+- Choices that genuinely apply across the repository
+- A few important boundaries
+- Pointers to detailed local documentation
 
 Example:
 
 ```markdown
 # Repository guidance
 
-- This is a TypeScript monorepo managed with pnpm workspaces
-- Run `pnpm test` for unit tests and `pnpm lint` before completion
-- Do not change public API contracts without calling it out explicitly
-- Prefer existing components from `packages/ui` over creating duplicates
+- The Angular front end is under `src/client`
+- The .NET API is under `src/api`
+- Run the focused project tests before completing a change
+- Preserve existing public API contracts unless the task explicitly changes them
+- Prefer existing shared components and services over creating duplicates
 ```
 
-## What should move elsewhere
-
-Long runbooks, reusable one-off requests, specialist roles and enforceable checks do not belong in a general instruction file. The [technology chooser](Choose-the-right-technology.md) shows the better home for each of these.
-
-## Context and usage impact
-
-**Documented:** in IDE chat, repository instructions are automatically added to relevant requests and can appear in the response's References list.
-
-**Practical consequence:** every always-on line competes with the user message, history, code and tool results for context. It may also be sent repeatedly across rounds, though provider caching and product-specific prompt assembly affect billed usage and latency.
-
-A 1,000-token instruction file is eligible to occupy that much context repeatedly, although caching and prompt assembly affect the newly billed amount. [T01](../To-Test.md#t01-always-on-instruction-cost) measures the exact impact.
+Avoid copying every coding standard into this file. Formatters, analysers and tests are better at enforcing deterministic rules.
 
 ## Path-specific instructions
 
-Use path-specific files when guidance is important but only for a component, language or content type.
+Use scoped files for rules that matter only to one language, framework or project area.
 
 ```markdown
 ---
-applyTo: "docs/**/*.md"
+applyTo: "src/api/**/*.cs"
 ---
 
-- Write for a developer audience
-- Use sentence case headings
-- Include a tested example for every public command
+- Follow the existing controller, application and domain boundaries
+- Use the repository's established test naming convention
+- Preserve the current problem-details response format
 ```
 
-If a matching path-specific file and repository-wide instructions both apply, both may be used. Keep the universal file genuinely universal and put local detail in the scoped file.
+A separate front-end file could apply Angular component, state-management and testing conventions under `src/client`.
 
-## `AGENTS.md` requires surface awareness
+When repository-wide and matching path-specific instructions both apply, both can be used. Keep the universal file genuinely universal and local detail in the scoped file.
 
-`AGENTS.md` is useful when the same repository guidance should work across different agents and tools. Discovery differs between Copilot clients:
+## Where coding conventions belong
 
-- VS Code automatically applies a root-level `AGENTS.md` to workspace chat requests
-- Nested `AGENTS.md` discovery is experimental in VS Code: when enabled, the editor adds the discovered paths to chat context and lets the agent decide which instructions are relevant
-- Support and discovery behaviour can differ in Visual Studio and JetBrains
+Ask three questions:
 
-Avoid relying on an undocumented universal precedence rule. [T02](../To-Test.md#t02-instruction-discovery-and-precedence) tests the client and version used by the team.
+1. **Can a formatter or analyser enforce it?** Configure that tool instead
+2. **Does it apply across the repository?** Keep a short statement in repository-wide instructions
+3. **Does it apply to one language, project or folder?** Use path-specific instructions
 
-To check whether instructions were applied, open the references attached to a Copilot response. Visual Studio shows a **References** section below the response. In VS Code, Chat Diagnostics and the request details expose applied customisations for supported sessions.
+Small examples can clarify a team decision, such as whether C# tests use `Method_Condition_Result` names. Long code samples are costly to maintain and occupy context whenever the instruction applies.
+
+## Link to detail instead of copying it
+
+An instruction can direct Copilot to a repository document when a task needs fuller guidance:
+
+```markdown
+- Before changing a public API contract, read [API compatibility](../docs/api-compatibility.md)
+```
+
+The target must be a file the local harness can access. This keeps detailed examples out of every request while leaving the source reviewable by the team. Actual loading behaviour can vary by client, so write the instruction as an explicit direction to read the file.
+
+## Context and usage
+
+Repository instructions are automatically added to relevant requests. That saves repetition, but every always-applied line also competes with the current task, code and tool results for context.
+
+Keep instructions short enough to review regularly. Detailed occasional workflows belong in [skills](Agent-skills.md), and manually invoked requests can belong in [prompt files](Prompt-files-and-other-IDE-features.md#prompt-files).
+
+## Advanced note: `AGENTS.md`
+
+`AGENTS.md` is a portable instruction format used by several compatible coding agents. In current Copilot Chat support, VS Code recognises it; Visual Studio and JetBrains do not list it for their normal Copilot Chat experience.
+
+For a team using all three IDEs, start with Copilot's `.github` instruction files. Consider `AGENTS.md` only when portability to another supported harness solves a real problem, then verify discovery in the clients the team uses.
 
 ## Review checklist
 
-- Can the file be read in under two minutes?
+- Can the file be understood in under two minutes?
 - Does every rule apply to most work in its scope?
 - Are any rules duplicated or contradictory?
 - Are build and test commands still correct?
-- Could long examples become a linked document or skill resource?
-- Are path-specific rules separated from repository-wide rules?
-- Is deterministic enforcement implemented outside the prompt?
-- Has someone verified the file appears in Copilot's References/context view?
+- Can a formatter, analyser or test enforce a rule instead?
+- Could a long workflow become a skill or linked document?
+- Has someone verified the instructions appear in the client's references or diagnostics?
 
 ## Sources
 
 - [Adding repository custom instructions in an IDE](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions-in-your-ide/add-repository-instructions-in-your-ide)
 - [Support for different types of custom instructions](https://docs.github.com/en/copilot/reference/custom-instructions-support)
-- [Your first custom instructions](https://docs.github.com/en/copilot/tutorials/customization-library/custom-instructions/your-first-custom-instructions)
+- [About customising Copilot responses](https://docs.github.com/en/copilot/concepts/prompting/response-customization)
 - [Use custom instructions in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions)

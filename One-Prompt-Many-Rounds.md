@@ -1,24 +1,22 @@
-# One prompt, many rounds: turns, tools and the agent loop
+# One prompt, many rounds
 
-_For new and regular Copilot users · Last reviewed 11 August 2026_
+_For new and regular Copilot users - Last reviewed 12 August 2026_
 
-You ask Copilot to fix one bug. It searches, reads three files, edits one, runs a test, sees a failure, edits again and reruns the test. You experienced **one turn**; Copilot completed several **rounds** inside it.
-
-That distinction explains why one apparently simple message can take time, use several tools and process a surprising amount of context.
+You ask Copilot to fix one bug. It finds the test command, reproduces the failure, reads the relevant code, edits it and reruns the test. You experienced **one turn**; Copilot completed several **rounds** inside it.
 
 [[_TOC_]]
 
-## The short version
+## Turn, round and agent loop
 
-| Term | Meaning in the VS Code harness | What you see |
+| Term | Meaning here | What you see |
 | --- | --- | --- |
-| **Turn** | The complete exchange from one user message to the final assistant response | One message sent; one answer returned |
-| **Round** | One loop pass: assemble the next prompt, call the model, execute requested tools, record results and decide whether to continue | Usually hidden unless you inspect debug logs |
-| **Agent loop** | The control mechanism that performs those rounds | The agent appears to keep working |
+| **Turn** | The complete exchange from one user message to the final answer | One message sent, zero or more tools or edits, one final answer |
+| **Round** | One pass through the internal model-and-tools loop | Status updates, tool activity and approvals may appear while it works |
+| **Agent loop** | The harness mechanism that runs those rounds | Copilot continues until it can answer or needs you |
 
-![A user turn containing several model-and-tool rounds](Media/turns-rounds-agent-loop.svg =900x)
+![A user turn containing six model-and-tool rounds](Media/turns-rounds-agent-loop.svg =820x)
 
-Microsoft's VS Code engineering blog distinguishes turns from rounds in this way. This wiki uses those two labels for IDE agent behaviour.
+The labels follow the VS Code engineering explanation linked in the sources. Other SDKs and products sometimes use the word *turn* differently.
 
 ## Follow one turn from start to finish
 
@@ -30,63 +28,65 @@ The checkout tests are failing. Find the failing test, fix the cause and verify 
 
 A plausible turn looks like this:
 
-| Round | Model decides to… | Harness does… | New context produced |
+| Round | Model requests or returns | Harness action | New result |
 | ---: | --- | --- | --- |
-| 1 | Find how checkout tests are run | Reads project scripts and test configuration | Checkout test command and scope |
-| 2 | Narrow down the failure | Runs the checkout test command | Failing test name, path and error output |
-| 3 | Inspect the failure | Reads the exact failing test and relevant implementation | Test expectations and implementation details |
-| 4 | Correct the implementation | Applies the requested edit | Updated workspace state |
-| 5 | Verify the fix | Runs the focused test again | Passing or failing output |
-| 6 | Stop using tools and answer | Returns the final response | Summary and evidence |
+| 1 | Find how checkout tests are run | Read project scripts and test configuration | Test command and scope |
+| 2 | Reproduce the problem | Run the focused checkout tests | Failing test, path and error |
+| 3 | Inspect the failure | Read the exact test and relevant implementation | Expectations and code |
+| 4 | Correct the cause | Apply the requested edit | Updated workspace state |
+| 5 | Verify | Run the focused test again | Passing or failing output |
+| 6 | Finish | Stop using tools and return the answer | Summary and evidence |
 
-The person initiated one turn. The harness may have sent the accumulated prompt to the model six times.
+The person initiated one turn. The harness might have called the model six times.
 
 ## Inside each round
 
-During each round, the harness:
+During a round, the harness:
 
-1. Assembles the next prompt, carrying forward the useful conversation and adding new results
+1. Assembles the next prompt from existing conversation state and new results
 2. Calls the selected model
-3. Receives text, tool calls or both
-4. Validates and executes any tool calls
-5. Records tool results and workspace changes
-6. Checks cancellation, limits and whether another round is needed
+3. Receives generated text, tool requests or both
+4. Validates and executes requested tools
+5. Records results and workspace changes
+6. Continues the loop or returns the final answer
 
-If the model returns a final answer without requesting another tool, the loop can finish and the turn ends.
+The user-facing status or intent summaries are not the model's raw internal reasoning.
 
-## Tool access and tool results
+## Tools: request, execution and result
 
-A tool gives the model hands in your workspace. The model requests an action, the harness performs it, and the result can become context for the next round. [How Copilot works in your IDE](How-Copilot-Works.md#4-tools-let-copilot-act) explains tools in more detail.
+The model requests a tool with arguments. The harness validates and executes it, and may ask you for approval. The tool result can then enter the next round's input.
 
-Tool access and tool results are different. A file-reading tool provides access; the requested file contents enter the working context after the agent chooses to read them.
+For example:
 
-## Why later rounds become larger
+```text
+model requests: read the failing test
+harness executes: file read
+tool returns: test contents
+next model call: receives those contents as context
+```
 
-The next prompt normally carries useful conversation forward and adds new results. A later round may include files, search output and terminal results that were not available at the start.
+The generated tool request counts as model output. Its result can become model input in the next round. Large generated edits and large tool results can therefore affect usage, but a tool call does not have one fixed token or credit price.
 
-This has two practical consequences:
+## Why later rounds can be larger
 
-1. **Quality:** useful evidence helps the model make a better next decision; noisy results can distract it
-2. **Usage:** accumulated input may be processed again on later rounds, subject to the product's context management and prompt caching
+The next prompt can carry existing conversation state forward and add search results, file contents, terminal output or edits. Useful and irrelevant material can both persist.
 
-Tool calls do not have one fixed token price. [Tokens and context windows](Tokens-and-Context-Windows.md#how-context-grows-during-a-turn) shows how accumulated results affect later rounds and overall usage.
+This affects:
 
-## Permissions and safety
+- **Quality:** relevant evidence helps; noisy results can distract
+- **Usage:** accumulated input can be processed again in later rounds, subject to caching and context management
 
-Tool impact ranges from reading a file to changing code or running a deployment command.
+[Tokens and context windows](Tokens-and-Context-Windows.md#how-context-grows-during-a-turn) illustrates this accumulation.
 
-Use the smallest useful toolset. Instructions such as "be careful" influence behaviour but do not enforce a boundary. For reusable read-only or specialist roles, configure a [custom agent](Copilot-Technologies/Custom-agents-and-subagents.md#custom-agent) with the required tools. Keep protected branches, approvals and other deterministic controls outside the prompt.
+## When to steer
 
-## When to intervene
+You know the system, repository and intended outcome better than the agent. Step in when Copilot appears stuck in a negative loop, searches the wrong area, misunderstands the goal or continues without useful progress.
 
-The loop is working well while each round produces useful new evidence or moves the task towards completion. Step in when Copilot repeats an approach, searches unrelated code, uses the wrong test command or continues after the goal is met.
-
-You know the repository and intended behaviour. Give the missing constraint or point Copilot towards the right file, component or command. More practical examples are in [Working efficiently and managing cost](Working-Efficiently-and-Managing-Cost.md#10-detect-and-stop-wasteful-loops).
+Give it the missing constraint, point it towards the right component or command, or stop and narrow the task. Reviewing the completed **Files changed** list after the turn is also a normal workflow.
 
 ## Sources
 
 - [The coding harness behind GitHub Copilot in VS Code](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode)
 - [Agents and the agent loop in VS Code](https://code.visualstudio.com/docs/agents/concepts/agents)
-- [Context assembly in VS Code](https://code.visualstudio.com/docs/agents/concepts/context)
+- [Context in VS Code](https://code.visualstudio.com/docs/agents/concepts/context)
 - [Tools in VS Code](https://code.visualstudio.com/docs/agents/concepts/tools)
-- [Trust and safety for AI in VS Code](https://code.visualstudio.com/docs/agents/concepts/trust-and-safety)

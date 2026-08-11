@@ -1,96 +1,123 @@
 # Agent skills
 
-_For developers creating repeatable Copilot workflows · Last reviewed 11 August 2026_
+_For developers creating repeatable Copilot workflows - Last reviewed 12 August 2026_
 
-> This page assumes the basic terms from [Copilot terminology](../Copilot-Terminology.md). The short version: a skill gives an existing agent a reusable procedure for a particular type of work.
-
-An agent skill is a folder containing a required `SKILL.md` and optional scripts, examples and reference material. Copilot loads it when the task is relevant, giving the current agent specialist instructions without making the whole workflow permanently active.
+An agent skill is a reusable playbook for performing one kind of task. It can contain instructions, scripts, examples, templates and reference material. The active agent loads it when relevant, or the user invokes it directly where the client supports that behaviour.
 
 [[_TOC_]]
 
 ## When a skill helps
 
-Use a skill when a repeatable workflow needs:
+Use a skill when a task needs:
 
-- A consistent set of steps
-- Detailed guidance that should load only when relevant
+- A repeatable set of steps
+- A checklist or expected output format
+- Detailed guidance that should load only for relevant work
+- Supporting scripts, examples or references
 
-GitHub recommends skills for just-in-time guidance that should not overload the context window for unrelated tasks.
+A skill changes the method used for a task. It does not normally replace the active agent's overall role, model or tool configuration.
 
-## Typical layout
+## Project and personal skills
+
+Store a team-owned project skill under:
+
+```text
+.github/skills/<skill-name>/SKILL.md
+```
+
+Project skills can be reviewed and versioned with the repository. Personal skills under `~/.copilot/skills` are available across projects in clients that support them.
+
+Current VS Code documentation says skill discovery starts with the name and description, the `SKILL.md` body loads when the skill is used, and referenced resources are read as needed. The exact discovery cost and controls can differ between clients and versions.
+
+## Example: review branch changes
+
+This skill performs a complete, structured review without requiring a custom agent.
 
 ```text
 .github/
   skills/
-    release-notes/
+    review-changes/
       SKILL.md
-      template.md
-      examples.md
-      scripts/
-        validate-release.ps1
+      review-checklist.md
 ```
 
-Project skills can currently be placed under `.github/skills`, `.claude/skills` or `.agents/skills`. VS Code also documents personal locations under `~/.copilot/skills`, `~/.claude/skills` and `~/.agents/skills`. Support differs by IDE, so prefer the location explicitly supported by the team's target client.
-
-## Minimal skill
+`SKILL.md`:
 
 ```markdown
 ---
-name: release-notes
-description: Draft and validate release notes from merged pull requests. Use for release-note or changelog preparation.
+name: review-changes
+description: Review the current branch against a supplied base reference. Use for a structured pre-PR or peer review.
+argument-hint: "[base branch or commit]"
 ---
 
-1. Identify merged pull requests for the requested range.
-2. Classify user-visible changes, fixes and breaking changes.
-3. Draft the notes using [template.md](template.md).
-4. Run the validation script.
-5. Report missing issue links separately.
+# Review changes
+
+1. Identify the supplied base reference and determine the branch diff
+2. Read the changed code and enough surrounding implementation to judge behaviour
+3. Apply [the review checklist](review-checklist.md)
+4. Report only actionable findings supported by evidence
+5. Do not edit files unless the user asks for fixes in a later turn
+
+Return findings in this order: Critical, Major, Minor.
+
+For each finding use:
+
+`<Severity><number> - <Issue title>`
+
+- Summary
+- Location
+- Recommended fix
+
+If no findings survive review, say so and list the checks completed.
 ```
 
-The description is important. Copilot uses the task and skill description to decide whether the skill is relevant. In VS Code, you can also invoke this example directly by typing `/release-notes` in Chat.
+In current VS Code, run it as:
 
-## What is loaded into context
+```text
+/review-changes origin/develop
+```
 
-**Documented in VS Code:** Copilot first uses the skill name and description to decide whether it is relevant. When selected, the `SKILL.md` body is loaded into the agent's context. Referenced scripts, examples and other files are accessed as the workflow needs them.
+Skills appear as slash commands in VS Code by default and can also be selected automatically. Visual Studio and JetBrains invocation controls differ, so check the installed client before teaching one command across the team.
 
-Link supporting files from `SKILL.md` so the agent can retrieve them when the workflow needs them.
+## Skill or custom agent
 
-In VS Code, open Chat, right-click in the Chat view and select **Diagnostics** to inspect loaded customisations and errors. Automatic selection, persistence and supporting-resource behaviour still differ between IDEs and versions; see [T04](../To-Test.md#t04-skill-activation-and-persistence) and [T05](../To-Test.md#t05-supporting-skill-resources).
+- Use the `review-changes` **skill** when the reusable asset is the review procedure
+- Add a `Reviewer` **custom agent** when the reusable asset also includes a worker role, chosen model, restricted tools or isolated delegation
 
-## Skills versus other options
+A Reviewer agent can use `review-changes` rather than duplicating the checklist. It might also use separate `security-review` or `api-contract-review` skills when those procedures are substantial and independently useful.
 
-Use a skill for an occasional detailed workflow and its supporting resources. The [technology chooser](Choose-the-right-technology.md) covers the boundaries with instructions, prompt files, custom agents and deterministic controls. Check the [IDE support table](Choose-the-right-technology.md#current-ide-support) if the skill is not discovered.
+Start with one complete skill. Split it only when a section is reused elsewhere, has its own supporting resources or should load selectively.
 
-## Good skill candidates
+## Other useful code-repository skills
 
-- Diagnose a GitHub Actions failure using summary-first log inspection
-- Prepare release notes using the organisation's format
-- Perform a database migration readiness review
-- Produce an architecture decision record
-- Validate documentation with organisation-specific checks
-- Run an incident triage process using bundled scripts and templates
+- **API compatibility review:** check .NET endpoint and DTO changes against Angular clients
+- **Project test workflow:** select and run the focused .NET or Angular tests using repository conventions
+- **Call-path tracing:** trace an Angular action through client services, a .NET endpoint and application layers
+- **Authentication review:** inspect authentication and authorisation changes across API and front-end boundaries
+- **Error-handling review:** check HTTP responses, problem details and front-end user feedback together
+- **Dependency update review:** identify breaking API changes and focused regression tests
 
 ## Common mistakes
 
-- A vague description such as "helps with code". Copilot cannot route reliably if the trigger is unclear
+- A vague description such as "helps with code"
 - Repeating universal repository rules in every skill
-- Filling `SKILL.md` with reference material that could live in linked supporting files
+- Loading the main file with reference material that could live in linked resources
+- Creating several overlapping skills whose descriptions match the same task
 - Treating natural-language steps as deterministic enforcement
-- Bundling executable scripts without reviewing trust, permissions and portability
-- Creating overlapping skills whose descriptions all match the same task
+- Bundling scripts without reviewing their trust, permissions and portability
 
 ## Design checklist
 
 - Give the skill one recognisable job
-- Say what it does and when it should be used in the description
-- Keep the core workflow in `SKILL.md` concise
-- Move large examples and references into separate files
-- Prefer scripts for repeatable mechanical work
+- Say what it does and when to use it
+- Keep the main workflow concise
+- Link large examples and references
 - State preconditions, validation and expected output
-- Test both automatic selection and explicit invocation
-- Measure false-positive invocation and context usage
+- Test both automatic selection and explicit invocation where supported
+- Review the result like any other repository change
 
 ## Sources
 
 - [About agent skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)
 - [Agent skills in VS Code](https://code.visualstudio.com/docs/agent-customization/agent-skills)
+- [Agent skills in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/ide/copilot-agent-skills?view=visualstudio)

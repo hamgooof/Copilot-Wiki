@@ -1,75 +1,75 @@
 # How Copilot works in your IDE
 
-_For new and regular Copilot users · Last reviewed 11 August 2026_
+_For new and regular Copilot users - Last reviewed 12 August 2026_
 
-Copilot combines the model you select with the surrounding IDE experience. In an [Agent task](Home.md#my-first-ten-minutes), the IDE prepares the information the model can see, offers it tools and carries out the actions it requests.
-
-Microsoft calls the layer around the model the **agent harness**. A simple understanding of its job is enough to make Copilot much easier to use well.
+Copilot combines a language model with an **agent harness**: the software around the model that connects it to your IDE, prepares its input, offers tools and carries out requested actions. GitHub Copilot, Claude Code and Codex are different examples of harnessed coding experiences.
 
 [[_TOC_]]
 
 ## The 30-second explanation
 
 1. You send Copilot a message
-2. The IDE assembles the input for the model from your message, instructions, conversation history, available tool descriptions and any workspace context already supplied or retrieved
-3. The model returns text, a request to use a tool, or both
-4. The harness checks and executes the requested tool
-5. The tool result is carried into the next model call
-6. The process continues until the model returns the final response
+2. The harness assembles input for the model
+3. The model generates text, requests a tool, or sometimes does both
+4. The harness validates and executes the requested tool, asking for approval where required
+5. The tool result becomes available for the next model call
+6. The loop continues until Copilot returns its final response
 
-A quick question may need one model call. Fixing a feature can require several rounds of searching, reading, editing, testing and correcting.
+A quick question might need one model call. Fixing a feature can require several rounds of searching, reading, editing, testing and correcting.
+
+![A user request passing through the harness, model and optional tools before a response returns](Media/agent-loop.svg =760x)
 
 ## What reaches the model
 
-![The context sources VS Code can assemble before calling a language model](Media/context-assembly.svg =900x)
+The message in the chat box is only the part you typed. Before calling the model, the harness can assemble a larger input containing instructions, conversation history, tool descriptions and task information.
 
-Your chat message is one part of a larger input. Depending on the IDE, mode and task, the assembled prompt can contain:
+![Illustrative categories that can form the input to a language model](Media/context-assembly.svg =760x)
 
-- Built-in system instructions and descriptions of the tools available to the model
-- Your custom instructions, selected agent and loaded skills
-- Your current message
-- Earlier messages in the current session
-- Implicit editor context such as the active file, selection, visible errors and Git state
-- Files, folders or other information that you referenced explicitly
-- Results from earlier search, read, terminal and editing tools
+Depending on the IDE, mode and task, that input can contain:
 
-The categories are explanatory; their actual order inside the prompt can differ.
+- Built-in system instructions and descriptions of available tools
+- Repository, path-specific or personal instructions
+- The selected custom agent and any skill loaded for the task
+- Your current message and earlier messages in the session
+- Editor signals such as the active file, selection, visible errors and Git state
+- File content or other material you explicitly reference
+- Search, file, terminal and editing results from earlier rounds
 
-File content can reach the model in several ways. You can attach or reference it, the IDE can provide implicit context or indexed snippets, and an agent can request search or read tools. Each model call receives a selected set of content, while the rest of the repository remains available for retrieval.
+These categories explain what may be present. They are not shown in prompt order, and not every category appears in every model call.
+
+The whole repository is not automatically copied into the prompt. File content can be supplied as editor context, attached explicitly or retrieved when the model requests search and read tools.
 
 ## The four parts worth remembering
 
-### 1. The model decides what to say or do
+### 1. The model generates the next output
 
-The language model processes the assembled input. It can produce an answer or a structured request to use a tool.
+The language model processes the current input and generates output one token at a time. That output can be prose, a structured tool request, or both where the model integration supports it.
 
-Models differ in capability, speed, context-window size, tool use and cost. Think of them as engines: some are more powerful, some are faster, and some use less fuel. The surrounding vehicle can stay familiar even when you change the engine.
+Models differ in capability, speed, context-window size, tool use and cost. Think of the model as the engine: changing it can alter how the same surrounding Copilot experience performs.
 
-### 2. The harness connects the model to the IDE
+### 2. The harness runs the experience
 
-The harness handles the plumbing around the model. It:
+The harness is the software around the model. It:
 
-- Assembles the model input
+- Assembles the input
 - Describes the available tools
-- Checks and executes tool calls
+- Validates and executes tool requests
 - Returns tool results to the model
-- Manages the agent loop, permissions and limits
-- Adapts prompts and tools for different model families
+- Manages the agent loop, approvals and limits
+- Adapts the experience for different model families
 
-If the model is the engine, the harness is the vehicle around it: controls, steering, safety systems and the connection to the road.
+If the model is the engine, the harness is the vehicle around it: controls, steering and the connection to the working environment.
 
 ### 3. Context supplies the task information
 
-**Context** is the information available to the model for its current call. This includes the assembled prompt and any task-specific material it contains.
+**Context** is the information available to the model for its current call. Useful context explains:
 
-Useful context tells Copilot:
-
-- What outcome you want
-- Where it should work
+- The outcome you want
+- Where Copilot should work
 - Which constraints matter
 - How success should be checked
 
-The context window has a token limit, so relevance matters. More context can help when it is useful; unrelated material consumes space and can distract the model.
+The context window has a finite capacity. Useful evidence can improve the next decision; irrelevant material still occupies space and can distract the model.
 
 ### 4. Tools give the model hands
 
@@ -77,36 +77,36 @@ The model cannot directly open a file, edit code or run a test. Tools give it ha
 
 Common tools can:
 
-- Search for files or text
+- Search for files, symbols or text
 - Read and edit files
 - Run terminal commands and tests
 - Inspect errors and source-control changes
 
-The model chooses a tool and supplies the arguments. The harness carries out the action and returns the result. That result can then guide the next round, such as correcting an edit after a failed test.
+The model requests a tool and supplies its arguments. The harness checks and performs the action, then returns the result. A failed test can therefore guide the next edit in another round.
 
-## Where Copilot technologies fit
+## What Copilot does not automatically know
 
-Instructions, skills, custom agents and prompt files change the guidance or working setup available to Copilot. The [technology chooser](Copilot-Technologies/Choose-the-right-technology.md) compares them in one place.
-
-## Information you may need to provide
-
-Copilot can draw on its training and the context assembled by the IDE. It may still need you to supply:
+You may still need to supply:
 
 - A team decision that was never written down
-- Details from another independent session
-- The exact file or component you mean
-- A current external fact or version requirement
+- Details from another independent chat
+- The exact component or behaviour you mean
+- A current external requirement
 - The command or evidence that proves the work is correct
 - A clear boundary when words such as "improve" could cover half the repository
 
-Writing those details into the request reduces discovery work and guessing. The [working efficiently guide](Working-Efficiently-and-Managing-Cost.md#2-define-the-finish-line-before-starting) shows how to structure a task and choose the lightest suitable interaction.
+Writing these details into the request or an accessible repository file reduces discovery work and guessing.
+
+## Where customisations fit
+
+Instructions, skills, custom agents and prompt files change the guidance or working setup available to Copilot. The [technology chooser](Copilot-Technologies/Choose-the-right-technology.md) compares them in one place.
 
 ## What to read next
 
-- Context and usage: [Tokens and context windows](Tokens-and-Context-Windows.md)
-- A worked agent task: [One prompt, many rounds](One-Prompt-Many-Rounds.md)
-- New vocabulary: [Copilot terminology without the headache](Copilot-Terminology.md)
-- Choosing a technology: [Choose the right Copilot technology](Copilot-Technologies/Choose-the-right-technology.md)
+- [Tokens and context windows](Tokens-and-Context-Windows.md)
+- [One prompt, many rounds](One-Prompt-Many-Rounds.md)
+- [Copilot terminology without the headache](Copilot-Terminology.md)
+- [Choose the right Copilot technology](Copilot-Technologies/Choose-the-right-technology.md)
 
 ## Sources
 
@@ -115,5 +115,4 @@ Writing those details into the request reduces discovery work and guessing. The 
 - [Language models in VS Code](https://code.visualstudio.com/docs/agents/concepts/language-models)
 - [Agents and the agent loop](https://code.visualstudio.com/docs/agents/concepts/agents)
 - [Tools in VS Code](https://code.visualstudio.com/docs/agents/concepts/tools)
-- [Context assembly and implicit context in VS Code](https://code.visualstudio.com/docs/agents/concepts/context)
-- [Adding files and other context to VS Code chat](https://code.visualstudio.com/docs/chat/copilot-chat-context)
+- [Context in VS Code](https://code.visualstudio.com/docs/agents/concepts/context)
