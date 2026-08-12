@@ -40,7 +40,7 @@ Work as an independent code reviewer.
 
 The `review-changes` skill needs access to the branch diff as well as surrounding code. Tool names and supported fields vary by client, so use the target IDE's editor or documentation to select valid read, search and source-control or read-only terminal capabilities.
 
-Save a shared repository agent under `.github/agents`. Select it according to the client:
+Save a shared repository agent as `.github/agents/<name>.agent.md`, for example `.github/agents/reviewer.agent.md`. Select it according to the client:
 
 - **VS Code:** choose it from the agent picker in Copilot Chat
 - **Visual Studio 2026 18.4 or later:** type `@` followed by the custom-agent name; the agent-picker dropdown is currently limited to Visual Studio 2026 Insiders

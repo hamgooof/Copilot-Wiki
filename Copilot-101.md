@@ -16,7 +16,7 @@ Choose the smallest interaction that fits the job:
 | Ask or read-only chat | Explanations, questions and investigation | Copilot answers without editing your code |
 | Inline chat | A question or edit tied to selected code | The conversation stays beside that code |
 | Agent mode | Investigation, multi-file work and validation | Copilot can use enabled tools, edit files, run commands and respond to results |
-| Plan (VS Code) | Researching and agreeing an approach before edits | Copilot investigates and proposes a plan. In other IDEs, ask for a read-only implementation plan instead |
+| Plan (VS Code and current Visual Studio versions) | Researching and agreeing an approach before edits | Copilot investigates and proposes a plan. In other clients, ask for a read-only implementation plan instead |
 
 Agent mode is useful whenever investigation, changes and validation match the task. Keep the task bounded and review what it does.
 
@@ -63,13 +63,9 @@ Copilot can be useful and still be wrong. Compare its answer or changes with the
 
 ## What happens underneath
 
-The short version is:
+Copilot combines a language model with software in your IDE. That surrounding software is the harness: it prepares the information the model sees and runs requested tools such as search, file editing and tests.
 
-```text
-Copilot experience = model + harness + context + tools
-```
-
-The model generates output. The harness connects it to your IDE and manages the work. Context is the information available for the current model call, and tools let the model request actions such as searching, reading, editing or running commands. [How Copilot works](How-Copilot-Works.md) explains this in full; [One request, many rounds](One-Request-Many-Rounds.md) shows why an Agent task can involve several internal cycles.
+[How Copilot works](How-Copilot-Works.md) explains the model, harness, context and tools in full. [One request, many rounds](One-Request-Many-Rounds.md) shows why an Agent task can involve several internal cycles.
 
 ## Where to go next
 

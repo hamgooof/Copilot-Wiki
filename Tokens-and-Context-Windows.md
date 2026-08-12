@@ -2,7 +2,7 @@
 
 _For new and regular Copilot users - Last reviewed 12 August 2026_
 
-Tokens are the units a model processes. The context window is the limited working capacity shared by the model's input, generated output and any supported reasoning.
+A model first splits text into tokens. A token represents a piece of text and has a numeric token ID. The context window is the limited working capacity shared by the model's input, generated output and any supported reasoning.
 
 [[_TOC_]]
 
@@ -33,8 +33,8 @@ The example shows one tokeniser. Token IDs are not universal. Different models, 
 
 These terms are related but not interchangeable:
 
-- **Context** is all the information available to the model for the current call
-- **Model input** is the concrete package the harness prepares from that context for the call
+- **Model input** is the complete package the harness sends for one model call
+- **Context** is the information contained in that package and therefore available to the model for the call
 - The **context window** is the maximum capacity shared by model input, generated output and supported reasoning
 
 VS Code reserves space for the model response and can compact conversation history before the window is exhausted. You normally do not need to manage that reserve yourself.
@@ -54,9 +54,9 @@ Exact prices, cache eligibility and usage displays depend on the model and Copil
 
 A **turn** runs from your message to Copilot's final response. A **round** is one pass through the model-and-tools loop.
 
-This is the same checkout example shown in [One request, many rounds](One-Request-Many-Rounds.md), collapsed here into four equal blocks so the arithmetic stays simple. The fuller walk-through separates reproduce and verify steps into six rounds.
+This simplified context-growth illustration is based on the checkout task in [One request, many rounds](One-Request-Many-Rounds.md). It uses four equal blocks so the arithmetic stays easy to follow; the fuller walk-through separates the agent's actions into six rounds.
 
-The four blocks represent finding the test command, gathering failure and code evidence, making the edit, and verifying the result.
+The blocks represent the starting input, a search result, file content and test output. They illustrate material accumulating, rather than mapping one-to-one to the six actions on the rounds page.
 
 ![Four simplified stages showing model input growing during the checkout-test turn, followed by compaction](Media/context-growth-across-rounds.svg =780x)
 

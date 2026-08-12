@@ -24,7 +24,7 @@ It can contain:
 - Links to workspace files
 - The expected output format
 
-Unlike instructions, it does not apply automatically. Unlike a skill, it is primarily a saved request the person chooses to run.
+Unlike instructions, it does not apply automatically. Unlike a skill, it is primarily a saved request the person chooses to run. Here, **prompt file** means a saved user request, rather than the complete model input assembled for a call.
 
 ## Example: explain an API path
 
@@ -54,7 +54,7 @@ In current VS Code, a user can run:
 /explain-api-path OrdersController.Create
 ```
 
-The exact input-variable behaviour is model-driven. The `argument-hint` and text after the slash command should make the required input clear even when the client does not display a form.
+Input controls vary by client. The `argument-hint` and placeholder should make the required input clear even when the client does not display a form.
 
 ## Run a prompt file
 

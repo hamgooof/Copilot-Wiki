@@ -38,7 +38,7 @@ One agent can use several skills. The same skill can be reused by different agen
 
 ### Scenario A: occasional structured review
 
-In VS Code, run this slash command from the ordinary Ask or Agent experience:
+In VS Code, enter this slash command in Copilot Chat:
 
 ```text
 /review-changes origin/develop
@@ -63,7 +63,7 @@ Do not split every checklist heading into a skill. Start with one `review-change
 
 ### Scenario C: ordinary feature work
 
-1. In VS Code, use the built-in Plan agent when the Angular and .NET change needs investigation. In Visual Studio or JetBrains, ask for an implementation plan in Ask or another read-only chat request
+1. In VS Code or a current Visual Studio version, use the built-in Plan agent when the Angular and .NET change needs investigation. In JetBrains or a version without Plan, ask for an implementation plan in Ask or another read-only chat request
 2. Use the general Agent to implement it
 3. Let a testing skill supply the repository's test procedure and conventions
 4. Start a new chat and ask it to use the review skill for an independent pass, following the [client-specific skill guidance](Agent-skills.md#example-review-branch-changes)

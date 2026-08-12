@@ -88,7 +88,7 @@ Experiment with representative tasks and notice:
 
 Try stronger reasoning models for difficult debugging and ambiguous design. Faster or lower-cost models can suit routine, well-scoped changes. Include corrections and reruns when judging the real cost of a model for a task.
 
-Changing the model, reasoning effort or enabled tools during a task can also change the prompt-cache boundary. Choose them before starting when practical, but do not turn configuration into a ritual for every request.
+Changing the model, reasoning effort or enabled tools during a task can stop the next request from matching the previously cached input. Choose them before starting when practical, but do not turn configuration into a ritual for every request.
 
 ### Why a long pause can matter
 
@@ -107,7 +107,7 @@ If a later request is unexpectedly slow or expensive, VS Code's Cache Explorer c
 
 ## 6. Use Plan when the work is unclear
 
-Current VS Code includes a built-in Plan agent that performs read-only research, asks clarifying questions and prepares an implementation plan. In Visual Studio or JetBrains, use Ask or another read-only chat request to research and agree an implementation plan, then switch to Agent when edits are appropriate. This is a workflow fallback, not a claim that those clients have a dedicated Plan mode.
+Current VS Code and Visual Studio versions include a built-in Plan agent that performs read-only research, asks clarifying questions and prepares an implementation plan. In JetBrains or a version without Plan, use Ask or another read-only chat request to agree an implementation plan, then switch to Agent when edits are appropriate.
 
 Use planning when scope or design needs agreement before code changes. Skip it for obvious, small work.
 
@@ -147,7 +147,7 @@ Steer early when the current direction is clearly wrong. If useful work is nearl
 
 1. Start a suitable session for the task
 2. State the outcome, scope, constraints and evidence
-3. Name the most relevant starting context
+3. Point Copilot to the best starting file, test or error
 4. Plan first when the task is genuinely unclear
 5. Let Copilot investigate, implement and validate
 6. Steer when it lacks repository knowledge or drifts

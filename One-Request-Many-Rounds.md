@@ -47,7 +47,7 @@ During a round, the harness:
 
 1. Builds model input from the available context
 2. Calls the selected model
-3. Receives model output containing prose, one or more tool requests, or both
+3. Receives model output containing prose, one or more tool requests, or both where the integration supports it
 4. Validates and executes requested tools, asking you for approval where required
 5. Makes tool results and workspace changes available as context for a later round
 6. Continues the loop or returns the final answer

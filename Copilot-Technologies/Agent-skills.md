@@ -2,7 +2,7 @@
 
 _For developers creating repeatable Copilot workflows - Last reviewed 12 August 2026_
 
-An agent skill is a reusable playbook for performing one kind of task. It can contain instructions, scripts, examples, templates and reference material. The active agent loads it when relevant, or the user invokes it directly where the client supports that behaviour.
+An agent skill is a reusable playbook for performing one kind of task. It can contain instructions, scripts, examples, templates and reference material. Copilot discovers the skill from its name and description. The skill body loads when Copilot selects it, or when a person invokes it directly in a client that supports explicit invocation.
 
 [[_TOC_]]
 

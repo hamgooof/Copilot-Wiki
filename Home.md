@@ -10,7 +10,7 @@ Examples are VS Code-first where products differ. The guidance also covers Visua
 
 - New to Copilot? Start with [Copilot 101](Copilot-101.md)
 - Want the mental model? Read [How Copilot works in your IDE](How-Copilot-Works.md)
-- Want to understand visible Agent-mode activity? Read [One request, many rounds](One-Request-Many-Rounds.md)
+- Want to understand visible Agent mode activity? Read [One request, many rounds](One-Request-Many-Rounds.md)
 
 ## Find an answer
 

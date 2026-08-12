@@ -4,7 +4,7 @@ _For new and regular Copilot users - Last reviewed 12 August 2026_
 
 GitHub Copilot is a coding experience built around a language model, with software connecting that model to your IDE. In this wiki, that surrounding software is called the **agent harness**.
 
-Your **request** is the message you type. **Context** is all the information available to the model for one call. The harness packages that information as the **model input** (the **assembled prompt** in the diagram below).
+Your **request** is the message you type. The **model input** (the **assembled prompt** in the diagram below) is the complete package the harness sends for one model call. **Context** is the information contained in that package and therefore available to the model.
 
 [[_TOC_]]
 
@@ -47,7 +47,7 @@ The whole repository is not automatically copied into the model input. File cont
 
 ### 1. The model generates the next output
 
-The language model processes the current input and generates output one token at a time. Tokens are the model's numbered text units. The output can be prose, one or more tool requests, or both where the model integration supports it.
+The language model processes the current input and generates output one token at a time. A token represents a piece of text and has a numeric token ID. The output can be prose, one or more tool requests, or both where the model integration supports it.
 
 Models differ in capability, speed, context-window size, tool use and cost. Think of the model as the engine: changing it can alter how the same surrounding Copilot experience performs.
 
@@ -66,7 +66,7 @@ If the model is the engine, the harness is the vehicle around it: controls, stee
 
 ### 3. Context gives the model information for this call
 
-**Context** is all the information available to the model for its current call. It can include your request, instructions, relevant files or editor selections, earlier conversation, tool descriptions and results from searches, file reads or terminal commands.
+**Context** is the information contained in the model input and therefore available to the model for its current call. It can include your request, instructions, relevant files or editor selections, earlier conversation, tool descriptions and results from searches, file reads or terminal commands.
 
 A good request helps by stating:
 

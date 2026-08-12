@@ -11,11 +11,13 @@ Keep this page handy when you meet an unfamiliar term. The first three sections 
 | Term | Plain-English meaning | Whiteboard analogy |
 | --- | --- | --- |
 | **User request / user message** | The message you type and send to Copilot. This wiki normally calls it your **request** | The task you bring to the board |
-| **Context** | Information available to the model for its current call, such as instructions, your request, relevant editor or workspace material, earlier conversation and tool results | The information currently available at the board |
 | **Model input (assembled prompt)** | The complete package prepared and sent to the model. Documentation may shorten this to *prompt* | The incoming tiles placed on the board for this call |
+| **Context** | Information contained in the model input and therefore available to the model for its current call | The information currently available at the board |
 | **Model call** | One occasion when model input is sent to the model | One visit to the board |
-| **Token** | A numbered unit representing a piece of text that a model processes | One numbered magnetic tile |
+| **Token** | A piece of text used as a counted model unit; each token has a numeric token ID | One numbered magnetic tile |
 | **Context window** | The maximum token capacity shared by model input, generated output and supported reasoning | The fixed size of the whole board |
+
+**Prompt** is used inconsistently across products and documentation. In this wiki, **request** means what you type, **model input** means the full package prepared for a model call, and **prompt file** means a saved request that a person deliberately runs.
 
 See [Tokens and context windows](Tokens-and-Context-Windows.md) for the fuller explanation of tokenisation, capacity and compaction.
 
@@ -26,7 +28,7 @@ See [Tokens and context windows](Tokens-and-Context-Windows.md) for the fuller e
 | **Model** | Generates output one token at a time by predicting the next token from the current context | The engine: models differ in power, speed, efficiency and suitability |
 | **Tool** | A callable ability such as searching, reading, editing or running a command | The hands and equipment used to perform work |
 | **Agent harness** | Software around the model that supplies context and tools, validates and executes tool requests, manages approvals and limits, and repeats the loop | The vehicle around the engine: controls, steering and connection to the environment |
-| **Agent** | A model working through a harness with context and tools | The complete working setup |
+| **Agent** | A working system that uses a model through a harness to pursue a task | The complete working setup |
 
 **Agent harness** is a generic concept. On these pages, GitHub Copilot is the particular coding experience being described.
 
@@ -70,8 +72,8 @@ See [Tokens and context windows](Tokens-and-Context-Windows.md) for how tokenise
 
 ## Useful distinctions
 
-- **Request, context and model input:** your request is what you send; context is all the available information; model input is the package prepared for one call
-- **Model and agent:** the model generates output; an agent is the working system of model, harness, context and tools
+- **Request, model input and context:** your request is what you send; model input is the complete package prepared for one call; context is the information that package makes available to the model
+- **Model and agent:** the model generates output; an agent uses a model through a harness to pursue a task
 - **Skill and tool:** a skill describes how to perform a workflow; a tool performs an operation
 - **Instructions and enforcement:** instructions influence model behaviour; formatters, analysers, tests, permissions and repository controls enforce deterministic rules
 
