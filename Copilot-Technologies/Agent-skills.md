@@ -77,16 +77,17 @@ In current VS Code, run it as:
 /review-changes origin/develop
 ```
 
-Skills appear as slash commands in VS Code by default and can also be selected automatically. Visual Studio and JetBrains invocation controls differ, so check the installed client before teaching one command across the team.
+Use skills according to the client:
+
+- **VS Code:** select the skill automatically by describing a matching task, or invoke it directly with `/review-changes origin/develop`
+- **Visual Studio 2026 18.5 or later:** Copilot discovers applicable skills automatically. To make your intent clear, ask it to use the named `review-changes` skill; do not rely on the VS Code slash-command syntax
+- **JetBrains:** agent skills are a preview feature. Let Copilot select an applicable skill automatically, or ask it to use the skill by name; check the installed plugin before documenting a direct UI control
+
+Automatic selection depends on a clear skill name and description. If using a particular playbook matters, name it in the request and check the agent's references or progress rather than assuming it loaded.
 
 ## Skill or custom agent
 
-- Use the `review-changes` **skill** when the reusable asset is the review procedure
-- Add a `Reviewer` **custom agent** when the reusable asset also includes a worker role, chosen model, restricted tools or isolated delegation
-
-A Reviewer agent can use `review-changes` rather than duplicating the checklist. It might also use separate `security-review` or `api-contract-review` skills when those procedures are substantial and independently useful.
-
-Start with one complete skill. Split it only when a section is reused elsewhere, has its own supporting resources or should load selectively.
+This page's example is a skill because the reusable asset is the review procedure. A custom Reviewer agent can use it without duplicating the checklist. See [Choose the right Copilot technology](Choose-the-right-technology.md#skill-or-custom-agent) for the full skill, custom-agent and subagent scenarios.
 
 ## Other useful code-repository skills
 
@@ -121,3 +122,4 @@ Start with one complete skill. Split it only when a section is reused elsewhere,
 - [About agent skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)
 - [Agent skills in VS Code](https://code.visualstudio.com/docs/agent-customization/agent-skills)
 - [Agent skills in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/ide/copilot-agent-skills?view=visualstudio)
+- [Copilot customisation cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)

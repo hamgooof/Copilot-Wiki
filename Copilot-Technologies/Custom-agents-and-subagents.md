@@ -17,15 +17,16 @@ A custom agent can define:
 - Whether another agent may delegate work to it
 - Suggested handoffs to another agent
 
-This differs from manually selecting tools and typing a one-off prompt because the complete worker setup can be selected again by the team.
+This differs from manually selecting tools and typing a one-off request because the complete worker setup can be selected again by the team.
 
 ### Example: Reviewer
+
+This example focuses on the role. Add the valid read, search and source-control tools through the target IDE's configuration rather than copying tool names between clients.
 
 ```markdown
 ---
 name: Reviewer
 description: Review repository changes and return evidence-backed findings.
-tools: ['read', 'search']
 ---
 
 Work as an independent code reviewer.
@@ -37,30 +38,29 @@ Work as an independent code reviewer.
 - Return findings in the format required by that skill
 ```
 
-Tool names and supported fields vary by client. Treat this as an illustrative profile and use the target IDE's editor or documentation to select valid tools.
+The `review-changes` skill needs access to the branch diff as well as surrounding code. Tool names and supported fields vary by client, so use the target IDE's editor or documentation to select valid read, search and source-control or read-only terminal capabilities.
 
-Save a shared repository agent under `.github/agents`. In VS Code, select it from the agent picker. Current Visual Studio custom-agent support requires Visual Studio 2026 18.4 or later. JetBrains support remains Preview.
+Save a shared repository agent under `.github/agents`. Select it according to the client:
+
+- **VS Code:** choose it from the agent picker in Copilot Chat
+- **Visual Studio 2026 18.4 or later:** type `@` followed by the custom-agent name; the agent-picker dropdown is currently limited to Visual Studio 2026 Insiders
+- **JetBrains:** custom agents are a preview feature; choose a discovered agent through Copilot Chat's agent selector, whose label can vary by plugin version
+
+If the expected agent is absent, check the file location, installed client version and organisation policy before relying on it.
 
 ### When the custom agent earns its place
 
 Use the ordinary Ask or Agent experience for a one-off review. Create the Reviewer agent when the team repeatedly wants the same worker role, tool configuration, model choice or follow-up behaviour.
 
-The Reviewer can use several skills without owning their detailed checklists:
-
-- `review-changes`
-- `security-review`
-- `api-contract-review`
-- `frontend-quality-review`
-
-Those skills remain reusable by other agents and direct user requests.
+The Reviewer can use `review-changes` and other relevant skills without owning their detailed checklists. Those procedures remain reusable by other agents and direct user requests.
 
 ## Handoffs
 
-VS Code custom agents can offer buttons that move from one agent to another with a pre-filled prompt and relevant conversation context.
+VS Code custom agents can offer buttons that move from one agent to another with a pre-filled request and relevant conversation context.
 
-A handoff is useful when continuity is wanted, such as Plan to implementation. It should not be described as a clean independent review because the next agent continues with relevant context from the existing chat.
+A handoff is useful when continuity is wanted, such as Plan to implementation. For an independent review with less prior influence, begin from a fresh chat or use an isolated subagent.
 
-For a less anchored review, start a new chat and select the Reviewer, or delegate a scoped review to a subagent where supported.
+Start a new chat and select the Reviewer, or delegate a scoped review to a subagent where supported.
 
 ## Subagents
 
@@ -82,9 +82,9 @@ Return only Critical, Major and Minor findings with file and symbol locations.
 Do not edit files.
 ```
 
-By default, a VS Code subagent inherits the main agent, model and tools. A named custom agent can override those settings for the delegated task.
+By default, a VS Code subagent runs on the main conversation's model. A named custom agent can override the model and restrict the tools for the delegated task.
 
-Visual Studio does not currently support subagents. JetBrains support is Preview.
+The current first-party documentation describes the delegated workflow in detail for VS Code. Visual Studio does not currently support subagents, while GitHub lists JetBrains support as preview. Check the installed JetBrains plugin before relying on the feature, and avoid teaching the VS Code controls as a cross-client workflow.
 
 ## When a subagent helps
 
@@ -97,11 +97,7 @@ Avoid delegation for tiny or tightly coupled changes. It adds another model inte
 
 ## Skill, custom agent or subagent
 
-- **Skill:** reusable procedure used by the current worker
-- **Custom agent:** reusable worker configuration
-- **Subagent:** separate runtime worker handling a delegated task
-
-The [technology chooser](Choose-the-right-technology.md#skill-or-custom-agent) shows all three in one feature-development example.
+A skill supplies a reusable procedure, a custom agent supplies a reusable worker configuration, and a subagent supplies an isolated delegated run. See the [technology chooser](Choose-the-right-technology.md#skill-or-custom-agent) for the full comparison and feature-development scenarios.
 
 ## Sources
 

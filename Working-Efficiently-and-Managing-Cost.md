@@ -38,9 +38,8 @@ The screens available depend on your organisation's plan, IDE version and polici
 | Explain or investigate without editing | Chat or Ask |
 | Make one bounded edit | Inline chat or edit workflow |
 | Investigate and change several files | Agent |
-| Perform a repeatable specialist process | Skill |
 
-Agent can complete larger tasks independently, which can involve more rounds and tool output. Use it when that capability helps the task.
+Agent can complete larger tasks independently, which can involve more rounds and tool output. Use it when that capability helps the task. Skills are reusable guidance used within these interactions; the [technology chooser](Copilot-Technologies/Choose-the-right-technology.md) explains when they fit.
 
 ## 2. Define the finish line
 
@@ -87,38 +86,62 @@ Experiment with representative tasks and notice:
 - The quality and size of the final diff
 - Latency, AI-credit use and rework
 
-Try stronger reasoning models for difficult debugging and ambiguous design. Faster or lower-cost models can suit routine, well-scoped changes. A cheaper call is not cheaper overall if repeated corrections are needed.
+Try stronger reasoning models for difficult debugging and ambiguous design. Faster or lower-cost models can suit routine, well-scoped changes. Include corrections and reruns when judging the real cost of a model for a task.
 
 Changing the model, reasoning effort or enabled tools during a task can also change the prompt-cache boundary. Choose them before starting when practical, but do not turn configuration into a ritual for every request.
 
+### Why a long pause can matter
+
+When the start of a model request matches a recent request, the provider can reuse that prefix at the lower cached-input rate. After an idle period, some or all of that reusable state might no longer be available. The next request can therefore cost more even when your new message is short.
+
+For example, using GitHub's rates reviewed on 12 August 2026:
+
+| 100,000 repeated input tokens | Read from cache | Written to cache after a miss |
+| --- | ---: | ---: |
+| Claude Sonnet 4.6 | 3 AI credits | 37.5 AI credits |
+| Claude Opus 4.8 | 5 AI credits | 62.5 AI credits |
+
+This example counts only those 100,000 input tokens. It excludes new input, output and reasoning, and it illustrates the size of the difference rather than predicting when a cache miss will occur. Cache retention can vary by model, Copilot route and service load.
+
+If a later request is unexpectedly slow or expensive, VS Code's Cache Explorer can show how much input was reused and where the matching prefix changed.
+
 ## 6. Use Plan when the work is unclear
 
-Current VS Code includes a built-in Plan agent that performs read-only research, asks clarifying questions and prepares an implementation plan. Other IDEs expose their own planning experiences.
+Current VS Code includes a built-in Plan agent that performs read-only research, asks clarifying questions and prepares an implementation plan. In Visual Studio or JetBrains, use Ask or another read-only chat request to research and agree an implementation plan, then switch to Agent when edits are appropriate. This is a workflow fallback, not a claim that those clients have a dedicated Plan mode.
 
 Use planning when scope or design needs agreement before code changes. Skip it for obvious, small work.
 
-Continuing from Plan to implementation in the same session keeps the existing conversation. If you want a clean implementation context, save the agreed plan in the workspace and begin a new Agent session from it. Planning itself also uses model calls, so it is not an automatic cost reduction.
+Continuing from Plan to implementation in the same chat does not necessarily start a fresh context or save AI credits. If you want a clear context boundary, save a concise agreed plan in the workspace and begin a new Agent session from it. Planning itself also uses model calls, so any saving depends on whether it prevents enough misdirected work and rework for that task.
 
 ## 7. Guide tools without micromanaging every call
 
 The model requests tools and the harness defines how they operate. You normally do not write every search or terminal command yourself.
 
+For an ordinary request, the default tool selection is usually a sensible starting point. Available tools can vary with the client, model, session and organisation policy. Adjust the selection when it becomes confusing, exceeds a client limit or exposes capabilities unrelated to the task.
+
 Useful controls include:
 
 - Use Ask for ordinary read-only investigation where your IDE provides it
 - Point Copilot to the relevant file, failing test or error when you know it
-- Change the tool selection when irrelevant tools cause confusion, rather than resetting it for every chat
+- In VS Code, use the **Configure Tools** control when irrelevant tools cause confusion; use the equivalent in another client only where it is available
 - Put the correct focused build or test command in repository instructions
 - Use existing quiet or filtered command options when large logs repeatedly flood the conversation
 - Keep generated, vendored and build-output directories out of broad searches where practical
 
-If a repeatable command helps developers and CI as well as Copilot, give it a clear script or task name. Do not create AI-only scripts without another reason to maintain them.
+If a repeatable command helps developers and CI as well as Copilot, give it a clear script or task name. Keep scripts tied to a normal team or build need so somebody owns and maintains them.
 
 ## 8. Steer when progress drifts
 
 You are the expert on the repository and intended behaviour. Intervene when Copilot appears stuck in a negative loop, searches unrelated areas, misunderstands the goal or continues without useful progress.
 
-Tell it what it missed, point it towards the right component or command, reduce the scope or ask for a plan. Waiting for the turn to finish and then reviewing the IDE's **Files changed** view is also a normal workflow.
+Tell it what it missed, point it towards the right component or command, reduce the scope or ask for a plan. A useful correction states the observed problem, the intended boundary and the next check, for example:
+
+```text
+Stop changing the Angular client. The defect is in the orders API mapping.
+Inspect OrdersController and its focused tests, then explain the proposed fix before editing.
+```
+
+Steer early when the current direction is clearly wrong. If useful work is nearly complete, waiting for the final response and then reviewing the IDE's **Files changed** view can be less disruptive. After a large correction, restate the finish line so later rounds do not continue from the earlier misunderstanding.
 
 ## A compact working pattern
 
@@ -131,6 +154,11 @@ Tell it what it missed, point it towards the right component or command, reduce 
 7. Review the diff and test evidence
 8. Record durable decisions in repository or workspace files
 
+## What to read next
+
+- [Understand tokens and context windows](Tokens-and-Context-Windows.md)
+- [Choose a Copilot technology](Copilot-Technologies/Choose-the-right-technology.md), or look up a term in the [Copilot glossary](Copilot-Glossary.md)
+
 ## Sources
 
 - [Improving agent quality to optimise AI usage](https://docs.github.com/en/enterprise-cloud@latest/copilot/tutorials/optimize-ai-usage)
@@ -140,3 +168,5 @@ Tell it what it missed, point it towards the right component or command, reduce 
 - [Planning with agents in VS Code](https://code.visualstudio.com/docs/agents/run/planning)
 - [About Copilot automatic model selection](https://docs.github.com/en/copilot/concepts/models/auto-model-selection)
 - [Optimise AI usage in VS Code](https://code.visualstudio.com/docs/agents/guides/optimize-usage)
+- [Models and pricing for GitHub Copilot](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing)
+- [Diagnose prompt caching with the Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer)

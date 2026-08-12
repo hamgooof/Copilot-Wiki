@@ -1,21 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="470" viewBox="0 0 1000 470" role="img" aria-labelledby="title desc">
-  <title id="title">How a Copilot agent turn flows through the harness, model and tools</title>
-  <desc id="desc">A user request passes to the harness, then the model. If the model requests a tool, the harness runs it and its result feeds another model round. When no more tools are needed, a final response returns to the user.</desc>
-  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3155a6"/></marker></defs>
-  <rect width="1000" height="470" rx="22" fill="#f7f9fc"/>
-  <text x="42" y="48" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#17233c">From your request to Copilot's response</text>
-  <text x="42" y="76" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#4d5b75">A tool result can trigger another model round before the turn finishes.</text>
-  <g font-family="Segoe UI, Arial, sans-serif">
-    <rect x="42" y="135" width="145" height="72" rx="12" fill="#ffffff" stroke="#73819a" stroke-width="2"/><text x="114" y="165" text-anchor="middle" font-size="18" font-weight="700" fill="#17233c">You</text><text x="114" y="188" text-anchor="middle" font-size="15" fill="#4d5b75">Send a request</text>
-    <rect x="245" y="135" width="190" height="72" rx="12" fill="#e8edff" stroke="#3155a6" stroke-width="2"/><text x="340" y="165" text-anchor="middle" font-size="18" font-weight="700" fill="#263b76">Harness</text><text x="340" y="188" text-anchor="middle" font-size="15" fill="#4c5d8e">Assembles the prompt</text>
-    <rect x="493" y="135" width="170" height="72" rx="12" fill="#17233c" stroke="#3155a6" stroke-width="2"/><text x="578" y="165" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">Model</text><text x="578" y="188" text-anchor="middle" font-size="15" fill="#dbe5fa">Generates output</text>
-    <polygon points="760,126 838,171 760,216 682,171" fill="#fff1d9" stroke="#9a6416" stroke-width="2"/><text x="760" y="165" text-anchor="middle" font-size="16" font-weight="700" fill="#704709">Tool</text><text x="760" y="185" text-anchor="middle" font-size="16" font-weight="700" fill="#704709">requested?</text>
-    <rect x="820" y="290" width="140" height="72" rx="12" fill="#e9f6ef" stroke="#2c7b59" stroke-width="2"/><text x="890" y="320" text-anchor="middle" font-size="18" font-weight="700" fill="#1f6245">Tool runs</text><text x="890" y="343" text-anchor="middle" font-size="15" fill="#47745f">Result returned</text>
-    <rect x="493" y="290" width="170" height="72" rx="12" fill="#f3eaff" stroke="#8052ad" stroke-width="2"/><text x="578" y="320" text-anchor="middle" font-size="18" font-weight="700" fill="#653493">Next round</text><text x="578" y="343" text-anchor="middle" font-size="15" fill="#76568f">Result joins context</text>
-    <rect x="245" y="290" width="190" height="72" rx="12" fill="#e7f6fb" stroke="#397f96" stroke-width="2"/><text x="340" y="320" text-anchor="middle" font-size="18" font-weight="700" fill="#17617a">Final response</text><text x="340" y="343" text-anchor="middle" font-size="15" fill="#3f6b7a">When tools are finished</text>
-    <rect x="42" y="290" width="145" height="72" rx="12" fill="#ffffff" stroke="#73819a" stroke-width="2"/><text x="114" y="320" text-anchor="middle" font-size="18" font-weight="700" fill="#17233c">You</text><text x="114" y="343" text-anchor="middle" font-size="15" fill="#4d5b75">Review the result</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="520" viewBox="0 0 1000 520" role="img" aria-labelledby="title desc">
+  <title id="title">How a Copilot request reaches a response, with or without tools</title>
+  <desc id="desc">The first lane shows a request passing from the user through the harness and model to a final response when no tools are needed. The second lane shows the repeating loop when the model requests one or more tools: the harness runs them, their results join the next model input, and another round begins.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3155a6"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="520" rx="22" fill="#f7f9fc"/>
+  <text x="42" y="46" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#17233c">From your request to Copilot's response</text>
+  <text x="42" y="75" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#4d5b75">A simple answer may need one model call. Tools add further rounds inside the same turn.</text>
+
+  <rect x="30" y="96" width="940" height="126" rx="16" fill="#ffffff" stroke="#c2ccdf" stroke-width="2"/>
+  <text x="50" y="124" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#3155a6">NO TOOLS NEEDED - ONE ROUND</text>
+
+  <g fill="none" stroke="#3155a6" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M124 173 H147"/>
+    <path d="M285 173 H308"/>
+    <path d="M430 173 H453"/>
+    <path d="M610 173 H633"/>
+    <path d="M796 173 H819"/>
   </g>
-  <g fill="none" stroke="#3155a6" stroke-width="3" marker-end="url(#arrow)"><path d="M187 171 H235"/><path d="M435 171 H483"/><path d="M663 171 H676"/><path d="M838 171 H890 V280"/><path d="M820 326 H673"/><path d="M578 290 V218"/><path d="M760 216 V255 H435 V280"/><path d="M245 326 H197"/></g>
-  <text x="854" y="158" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#3155a6">yes</text><text x="705" y="246" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#3155a6">no</text>
-  <text x="500" y="425" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#4d5b75">The harness manages this loop; the model requests actions and the tools perform them.</text>
+
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <rect x="42" y="145" width="82" height="56" rx="10" fill="#ffffff" stroke="#73819a" stroke-width="2"/>
+    <text x="83" y="180" text-anchor="middle" font-size="18" font-weight="700" fill="#17233c">You</text>
+
+    <rect x="153" y="145" width="132" height="56" rx="10" fill="#e8edff" stroke="#3155a6" stroke-width="2"/>
+    <text x="219" y="180" text-anchor="middle" font-size="18" font-weight="700" fill="#263b76">Harness</text>
+
+    <rect x="314" y="145" width="116" height="56" rx="10" fill="#17233c" stroke="#3155a6" stroke-width="2"/>
+    <text x="372" y="180" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">Model</text>
+
+    <rect x="459" y="145" width="151" height="56" rx="10" fill="#fff1d9" stroke="#9a6416" stroke-width="2"/>
+    <text x="534" y="180" text-anchor="middle" font-size="18" font-weight="700" fill="#704709">No tool request</text>
+
+    <rect x="639" y="145" width="157" height="56" rx="10" fill="#e7f6fb" stroke="#397f96" stroke-width="2"/>
+    <text x="718" y="180" text-anchor="middle" font-size="18" font-weight="700" fill="#17617a">Final response</text>
+
+    <rect x="825" y="145" width="92" height="56" rx="10" fill="#ffffff" stroke="#73819a" stroke-width="2"/>
+    <text x="871" y="180" text-anchor="middle" font-size="18" font-weight="700" fill="#17233c">You</text>
+  </g>
+
+  <rect x="30" y="246" width="940" height="226" rx="16" fill="#ffffff" stroke="#c2ccdf" stroke-width="2"/>
+  <text x="50" y="277" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#9a6416">TOOLS NEEDED - REPEAT THIS LOOP UNTIL COMPLETE</text>
+
+  <g fill="none" stroke="#3155a6" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M215 342 H246"/>
+    <path d="M372 342 H403"/>
+    <path d="M559 342 H590"/>
+    <path d="M756 342 H787"/>
+    <path d="M873 374 V430 H130 V382"/>
+  </g>
+
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <rect x="45" y="310" width="170" height="64" rx="11" fill="#e8edff" stroke="#3155a6" stroke-width="2"/>
+    <text x="130" y="335" text-anchor="middle" font-size="18" font-weight="700" fill="#263b76">Harness assembles</text>
+    <text x="130" y="358" text-anchor="middle" font-size="18" fill="#4c5d8e">model input</text>
+
+    <rect x="252" y="310" width="120" height="64" rx="11" fill="#17233c" stroke="#3155a6" stroke-width="2"/>
+    <text x="312" y="349" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">Model</text>
+
+    <rect x="409" y="310" width="150" height="64" rx="11" fill="#fff1d9" stroke="#9a6416" stroke-width="2"/>
+    <text x="484" y="349" text-anchor="middle" font-size="18" font-weight="700" fill="#704709">Tool request(s)</text>
+
+    <rect x="596" y="310" width="160" height="64" rx="11" fill="#e9f6ef" stroke="#2c7b59" stroke-width="2"/>
+    <text x="676" y="335" text-anchor="middle" font-size="18" font-weight="700" fill="#1f6245">Harness runs</text>
+    <text x="676" y="358" text-anchor="middle" font-size="18" fill="#47745f">tool(s)</text>
+
+    <rect x="793" y="310" width="160" height="64" rx="11" fill="#f3eaff" stroke="#8052ad" stroke-width="2"/>
+    <text x="873" y="335" text-anchor="middle" font-size="18" font-weight="700" fill="#653493">Results join</text>
+    <text x="873" y="358" text-anchor="middle" font-size="18" fill="#76568f">the next input</text>
+  </g>
+
+  <rect x="357" y="414" width="286" height="31" rx="15" fill="#3155a6"/>
+  <text x="500" y="435" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffffff">each loop is another round</text>
+  <text x="500" y="499" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#4d5b75">A model can request one or more tools; the harness decides how to execute them.</text>
 </svg>

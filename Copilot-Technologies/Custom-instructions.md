@@ -13,7 +13,7 @@ Custom instructions are standing guidance that Copilot applies automatically wit
 | Repository-wide instructions | `.github/copilot-instructions.md` | Work across the repository |
 | Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the YAML `applyTo` pattern |
 
-GitHub currently supports both forms in VS Code and Visual Studio. JetBrains support varies by plugin version, and GitHub's detailed pages are not yet fully consistent about path-specific instructions there.
+GitHub currently lists both forms for Copilot Chat in VS Code, Visual Studio and JetBrains. JetBrains custom instructions are marked preview in GitHub's lifecycle table.
 
 ## What belongs in repository-wide instructions
 
@@ -79,7 +79,7 @@ The target must be a file the local harness can access. This keeps detailed exam
 
 Repository instructions are automatically added to relevant requests. That saves repetition, but every always-applied line also competes with the current task, code and tool results for context.
 
-Keep instructions short enough to review regularly. Detailed occasional workflows belong in [skills](Agent-skills.md), and manually invoked requests can belong in [prompt files](Prompt-files-and-other-IDE-features.md#prompt-files).
+Keep instructions short enough to review regularly. Detailed occasional workflows belong in [skills](Agent-skills.md), and manually invoked requests can belong in [prompt files](Prompt-files.md).
 
 ## Advanced note: `AGENTS.md`
 

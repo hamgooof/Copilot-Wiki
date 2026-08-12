@@ -2,7 +2,7 @@
 
 _For new and regular Copilot users - Last reviewed 12 August 2026_
 
-Instructions, skills, prompt files and custom agents can all guide Copilot. The useful question is not "which one is best?" but "what are we trying to reuse?"
+Instructions, skills, prompt files and custom agents can all guide Copilot. Choose based on what you want to reuse.
 
 [[_TOC_]]
 
@@ -11,7 +11,7 @@ Instructions, skills, prompt files and custom agents can all guide Copilot. The 
 1. **A rule or fact should apply to most repository work:** use [repository instructions](Custom-instructions.md)
 2. **Guidance applies only to particular files or folders:** use [path-specific instructions](Custom-instructions.md#path-specific-instructions)
 3. **Copilot needs a repeatable procedure for one kind of task:** use an [agent skill](Agent-skills.md)
-4. **A person should deliberately run the same saved request with new inputs:** use a [prompt file](Prompt-files-and-other-IDE-features.md#prompt-files)
+4. **A person should deliberately run the same saved request with new inputs:** use a [prompt file](Prompt-files.md)
 5. **Copilot needs a reusable role, model or tool configuration:** use a [custom agent](Custom-agents-and-subagents.md#custom-agent)
 6. **A separate worker would help isolate delegated work:** use a [subagent](Custom-agents-and-subagents.md#subagents) where supported
 7. **A rule must always be enforced:** use a formatter, analyser, test, permission or repository control
@@ -23,7 +23,7 @@ Instructions, skills, prompt files and custom agents can all guide Copilot. The 
 | [Repository instructions](Custom-instructions.md) | Shared facts and rules | Applied automatically | Correct build and test commands |
 | [Path-specific instructions](Custom-instructions.md#path-specific-instructions) | Rules for matching code | Applied for relevant files | Angular conventions under `src/client` |
 | [Skill](Agent-skills.md) | A task procedure and supporting resources | Loaded when relevant or invoked directly | Review branch changes against a checklist |
-| [Prompt file](Prompt-files-and-other-IDE-features.md#prompt-files) | A saved request | Invoked by a person | Trace callers of a supplied API symbol |
+| [Prompt file](Prompt-files.md) | A saved request | Invoked by a person | Trace callers of a supplied API symbol |
 | [Custom agent](Custom-agents-and-subagents.md#custom-agent) | A worker role and configuration | Selected or delegated | Read-focused independent Reviewer |
 | [Subagent](Custom-agents-and-subagents.md#subagents) | Isolated delegated work | Invoked by another agent | Investigate one question and return a report |
 
@@ -38,7 +38,7 @@ One agent can use several skills. The same skill can be reused by different agen
 
 ### Scenario A: occasional structured review
 
-Run this from the ordinary Ask or Agent experience:
+In VS Code, run this slash command from the ordinary Ask or Agent experience:
 
 ```text
 /review-changes origin/develop
@@ -63,10 +63,10 @@ Do not split every checklist heading into a skill. Start with one `review-change
 
 ### Scenario C: ordinary feature work
 
-1. Use the built-in Plan agent when the Angular and .NET change needs investigation
+1. In VS Code, use the built-in Plan agent when the Angular and .NET change needs investigation. In Visual Studio or JetBrains, ask for an implementation plan in Ask or another read-only chat request
 2. Use the general Agent to implement it
 3. Let a testing skill supply the repository's test procedure and conventions
-4. Start a new chat and invoke the review skill for an independent pass
+4. Start a new chat and ask it to use the review skill for an independent pass, following the [client-specific skill guidance](Agent-skills.md#example-review-branch-changes)
 
 Plan, Implement, Test and Review are workflow phases. They do not each need to become a custom agent.
 
@@ -76,7 +76,7 @@ Use a **prompt file** when the person should choose exactly when to run a saved 
 
 Use a **skill** when the procedure can be selected automatically during a larger task, or when it carries a fuller workflow with supporting resources.
 
-Both can appear as slash commands in current VS Code. Their lifecycle and invocation controls differ by IDE.
+Both can appear as slash commands in current VS Code. Do not teach that syntax as universal: their lifecycle and invocation controls differ by IDE.
 
 ## Instructions or skill
 
@@ -89,21 +89,13 @@ Use existing components from the shared Angular library.
 
 Use a skill for the detailed procedure: which tests to select, how to interpret failures and how to report the evidence.
 
-## Current IDE support
+## Check client support
 
-The latest official documentation reported the following on 12 August 2026:
+See the reviewed [cross-IDE support table](../Copilot-Technologies.md#current-ide-support) and its version caveats before sharing one setup or invocation method across VS Code, Visual Studio and JetBrains.
 
-| Feature | VS Code | Visual Studio | JetBrains |
-| --- | --- | --- | --- |
-| Custom instructions | Supported | Supported | Preview in GitHub's lifecycle table |
-| Prompt files | Public preview | Public preview | Public preview |
-| Custom agents | Supported | Visual Studio 2026 18.4+ | Preview |
-| Subagents | Supported | Not supported | Preview |
-| Agent skills | Supported | Visual Studio 2026 18.5+ | Preview |
+## What to read next
 
-Support depends on the installed IDE and Copilot extension or plugin version. Visual Studio 2022 17.14 does not provide every feature listed for Visual Studio 2026. GitHub still labels several JetBrains customisation features as Preview.
-
-Check the current support pages before sharing one setup across all three clients.
+Open the implementation page for the option you chose, or use the [Copilot glossary](../Copilot-Glossary.md) when two terms still seem close.
 
 ## Sources
 
