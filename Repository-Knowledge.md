@@ -1,6 +1,6 @@
 # Repository knowledge for people and agents
 
-_For developers and repository maintainers - Last reviewed 27 August 2026_
+_For developers and repository maintainers - Last reviewed 28 August 2026_
 
 A small, task-driven knowledge map can help people and agents find the repository information that matters before they start exploring code. The aim is to reduce repeated orientation and avoid agent rounds spent ingesting and processing code merely to rediscover existing behaviour, boundaries and rules.
 
@@ -20,9 +20,25 @@ Repository knowledge is not one large briefing that every agent should read. It 
 4. Those documents provide expected behaviour, boundaries and rules before code inspection begins
 5. The repository remains the evidence for how the system is actually implemented
 
-![A failing-test task comparing repeated orientation rounds with a reviewed route into selected repository knowledge before the normal reproduce, inspect, fix and rerun loop](Media/poc-repository-knowledge-routing.svg =900x)
+![An observed Field Visits implementation comparing orientation without repository knowledge against a small pointer, root index and two focused guides](Media/poc-repository-knowledge-routing.svg =900x)
 
-The diagram illustrates the effect to test, not a guaranteed reduction. A useful route should help the agent start closer to the relevant behaviour and rules; it does not remove the need to reproduce the problem, inspect implementation evidence, make the change and verify it.
+The diagram reports one matched pilot, not a general benchmark. A useful route can help the agent start closer to the relevant behaviour and rules; it does not remove the need to inspect implementation evidence, make the change and verify it.
+
+### What happened in the first bounded pilot
+
+The same Sonnet 4.5 model implemented a protected React and .NET Field Visits feature from matched repository states. The documented condition added one 298-character standing pointer, a root index and two focused guides.
+
+| Observed measure | Without route | With route |
+| --- | ---: | ---: |
+| Successful reads before the first edit | 34 | 26 |
+| Model requests before the first edit | 15 | 11 |
+| Total model requests | 30 | 28 |
+| Total input tokens | 1,095,614 | 1,055,217 |
+| External acceptance checks | 24/24 | 24/24 |
+| Observed billed AIC | 83.65 | 92.55 |
+| Cache-normalised AIC estimate | 83.65 | 80.44 |
+
+The routed result also added stronger API and front-end tests. Its observed bill was distorted by one 47,446-token request that unexpectedly received no cache read even though the system prompt, tools and conversation prefix were unchanged; caching resumed on the next request. Making both initial requests cold and treating that isolated miss as a normal prefix hit estimates 80.44 rather than 92.55 AIC. Pricing every input token as uncached gives the same direction, 3.6% lower for the routed condition. This is evidence from one pair, not a general saving guarantee.
 
 The index is a router, not a manifest to ingest. A link tells the agent where to look when a question makes that document relevant. It does not mean that the whole documentation tree should become model input at the start of every request.
 
@@ -171,11 +187,11 @@ Start with one representative task area and its normal change workflow. Do not b
 
 Do not count the bootstrap alone as a success or failure. Its proposed benefit is amortised across later work.
 
-Emerging studies of always-loaded `AGENTS.md` and similar context files report mixed results: some found higher inference cost without a measurable correctness gain, while another found lower output and elapsed time but did not evaluate correctness. Those treatments are not the indexed, on-demand pattern described here. They reinforce the need to test task outcomes rather than the presence of documentation or one usage measure in isolation.
+Emerging studies of always-loaded `AGENTS.md` and similar context files report mixed results: some found higher inference cost without a measurable correctness gain, while another found lower output and elapsed time but did not evaluate correctness. Those treatments are not the indexed, on-demand pattern described here. The bounded pilot above reduced orientation measures and produced a modest cache-normalised cost estimate. Together, they reinforce the need to test task outcomes rather than the presence of documentation or one usage measure in isolation.
 
 Compare representative tasks from the same repository state with and without the reviewed routes. Record first-pass correctness, acceptance-test results, exploratory searches, model rounds, tool failures, human corrections, review time, latency and total AI credits. Include the pilot creation and maintenance cost when judging longer-term value.
 
-Control the model, repository commit, task, tools and success criteria where practical. A lower token or tool-call count is useful only when the result still meets the quality bar.
+Control the model, repository commit, task, tools and success criteria where practical. Record cache reads per request, not only in aggregate, and show a cache-normalised estimate when an isolated miss would reverse the result. Counterbalance condition order when repeats are affordable. A lower token or tool-call count is useful only when the result still meets the quality bar.
 
 > **Test separately:** evaluate [SDD and model routing](Spec-Driven-Development.md#evaluate-the-workflow) in different comparisons so that any repository-orientation benefit is not attributed to SDD.
 

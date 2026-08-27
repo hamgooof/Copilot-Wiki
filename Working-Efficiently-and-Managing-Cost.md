@@ -1,6 +1,6 @@
 # Working efficiently and managing cost
 
-_For regular Copilot users - Last reviewed 27 August 2026_
+_For regular Copilot users - Last reviewed 28 August 2026_
 
 > **Three useful habits:** start a fresh session for unrelated work, describe the outcome and evidence, and keep always-on instructions short.
 
@@ -128,6 +128,8 @@ Use planning when scope or design needs agreement before code changes. Skip it f
 In VS Code, **Start Implementation** carries the plan and conversation context to the chosen implementation agent. The Plan agent's automatic memory file is cleared when the conversation ends. If you want a durable plan and clear context boundary, use **Open in Editor**, save the concise agreed plan, and begin a new Agent session from it.
 
 A handoff is useful for continuity; a fresh session reads the saved plan as ordinary input. Neither route automatically saves AI credits. Planning itself uses model calls, so its value may be accuracy, reviewability and resumability even when total usage rises. See [Spec-Driven Development](Spec-Driven-Development.md) for durable specification, plan and task options and a matched evaluation.
+
+![Same-agent continuation retains accumulated context, a custom-agent handoff changes instructions while retaining the transcript, and a fresh chat can start from a bounded saved plan](Media/poc-context-cost-options.svg =760x)
 
 ## 7. Guide tools without micromanaging every call
 

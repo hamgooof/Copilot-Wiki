@@ -1,6 +1,6 @@
 # Agent skills
 
-_For developers creating repeatable Copilot workflows - Last reviewed 12 August 2026_
+_For developers creating repeatable Copilot workflows - Last reviewed 28 August 2026_
 
 An agent skill is a reusable playbook for performing one kind of task. It can contain instructions, scripts, examples, templates and reference material. Copilot discovers the skill from its name and description. The skill body loads when Copilot selects it, or when a person invokes it directly in a client that supports explicit invocation.
 
@@ -28,6 +28,8 @@ Store a team-owned project skill under:
 Project skills can be reviewed and versioned with the repository. Personal skills under `~/.copilot/skills` are available across projects in clients that support them.
 
 Current VS Code documentation says skill discovery starts with the name and description, the `SKILL.md` body loads when the skill is used, and referenced resources are read as needed. The exact discovery cost and controls can differ between clients and versions.
+
+![A skill's name and description are discoverable, while its body and linked resources load only when the task selects them](../Media/poc-skill-progressive-loading.svg =760x)
 
 ## Example: review branch changes
 

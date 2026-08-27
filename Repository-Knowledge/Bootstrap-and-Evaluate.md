@@ -1,6 +1,6 @@
 # Bootstrap and evaluate a repository-knowledge pilot
 
-_For developers trialling the pattern - Last reviewed 27 August 2026_
+_For developers trialling the pattern - Last reviewed 28 August 2026_
 
 This runbook creates a small task-driven knowledge router for one representative area. It deliberately avoids generating a repository encyclopaedia.
 
@@ -14,6 +14,8 @@ Choose:
 - One normal activity, such as planning and implementing a bounded change
 - Two or three later tasks that can test whether the routes reduce rediscovery
 - A repository commit and success criteria that can be reused for matched comparisons
+
+Write the task contract precisely enough that both conditions implement the same behaviour. Name filter bounds, permission semantics and required verification where an apparently ordinary phrase could support several valid interpretations.
 
 Record the AI credits and human review time spent creating the pilot. Those costs belong in the eventual evaluation.
 
@@ -143,7 +145,9 @@ For both conditions, retain the raw conversation and telemetry where policy perm
 - Review time and elapsed time
 - Input, output, cache and total AI-credit usage
 
-Inspect raw logs rather than relying only on a harness summary. Confirm which documents and messages were actually supplied to each model request.
+Inspect raw logs rather than relying only on a harness summary. Confirm which documents and messages were actually supplied to each model request. Read the decoded request messages and the separately stored system prompt and tool definitions when the client records them. OTel may contain lifecycle and usage records without containing the verbatim prompt, even when content capture is enabled.
+
+If a smoke request is needed, run it in a neutral workspace rather than one measured condition. For repeated comparisons, counterbalance the order and precondition caches consistently. Inspect cache reads per request: one transient miss can dominate an otherwise smaller run. Report observed billing, total prompt volume and a clearly labelled cache-normalised estimate rather than relying on aggregate non-cached input alone.
 
 Include the planning, implementation, review and maintenance cost. A shorter run is not an improvement if quality falls.
 

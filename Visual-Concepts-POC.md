@@ -8,9 +8,9 @@ _Draft visual review page - 27 August 2026_
 
 ## 1. Repository knowledge as task-driven routing
 
-This uses a concrete failing-test task. It compares repeated orientation rounds with a reviewed route that selects the relevant behaviour and rules before both paths enter the same reproduce, inspect, fix and rerun loop.
+This now uses the observed React and .NET Field Visits pilot. It compares orientation reads and model requests before the first edit, then shows the shared acceptance outcome and a cache-normalised cost estimate beside the observed billing anomaly.
 
-![A failing-test task comparing repeated orientation rounds with a reviewed route into selected repository knowledge before the normal reproduce, inspect, fix and rerun loop](Media/poc-repository-knowledge-routing.svg =900x)
+![An observed Field Visits implementation comparing orientation without repository knowledge against a small pointer, root index and two focused guides](Media/poc-repository-knowledge-routing.svg =900x)
 
 Related page: [Repository knowledge for people and agents](Repository-Knowledge.md)
 

@@ -1,10 +1,12 @@
 # Choose the right Copilot technology
 
-_For new and regular Copilot users - Last reviewed 27 August 2026_
+_For new and regular Copilot users - Last reviewed 28 August 2026_
 
 Instructions, skills, prompt files and custom agents can all guide Copilot. Choose based on what you want to reuse.
 
 First distinguish the reusable thing from the technology that helps deliver it. [Repository knowledge](../Repository-Knowledge.md) is versioned information that several agents and workflows can read. [Spec-Driven Development](../Spec-Driven-Development.md) is a process that can combine planning, files, agents and review points. Neither is another Copilot technology.
+
+![Rules route to instructions, procedures to skills, saved requests to prompt files, worker roles to custom agents, isolated work to subagents and guarantees to deterministic enforcement](../Media/poc-technology-choice.svg =760x)
 
 [[_TOC_]]
 
