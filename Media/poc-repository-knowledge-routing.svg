@@ -1,45 +1,93 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1030" viewBox="0 0 760 1030" role="img" aria-labelledby="title desc">
-  <title id="title">Repository knowledge routes a task to selected documents</title>
-  <desc id="desc">A persistence change moves from a task through a small root index, then selected architecture, rules and process routes. The selected knowledge joins task context before code inspection. Unrelated history remains unloaded.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Repository knowledge can shorten orientation before a failing-test fix</title>
+  <desc id="desc">An example task says the checkout retry test is failing. Without a reviewed route, an agent may spend rounds finding commands, searching broadly and inferring the retry contract. With a reviewed route, standing instructions provide the command and root pointer, then the index selects the persistence behaviour and rules. Both paths then enter the same reproduce, inspect, fix and rerun loop. The possible reduction is an illustration to test, not a measured result.</desc>
   <defs>
-    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#3155a6"/></marker>
+    <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3155a6"/></marker>
+    <marker id="greyArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8794aa"/></marker>
+    <marker id="greenArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2d7a57"/></marker>
   </defs>
-  <rect width="760" height="1030" rx="24" fill="#f7f9fc"/>
+  <rect width="1200" height="620" rx="24" fill="#f7f9fc"/>
   <g font-family="Segoe UI, Arial, sans-serif">
-    <text x="38" y="52" font-size="32" font-weight="700" fill="#17233c">Route to what this task needs</text>
-    <text x="38" y="84" font-size="20" fill="#4d5b75">The index is a router, not a reading list.</text>
+    <text x="48" y="50" font-size="29" font-weight="700" fill="#17233c">Start closer to the failing test</text>
+    <text x="48" y="80" font-size="18" fill="#4d5b75">Repository knowledge aims to replace repeated orientation with a targeted route.</text>
 
-    <rect x="70" y="125" width="620" height="92" rx="17" fill="#fff1d9" stroke="#d6a957" stroke-width="2"/>
-    <text x="98" y="163" font-size="24" font-weight="700" fill="#815412">Task</text>
-    <text x="98" y="195" font-size="21" fill="#82683c">Change persistence retry behaviour</text>
-    <line x1="380" y1="217" x2="380" y2="258" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+    <rect x="48" y="105" width="1104" height="62" rx="14" fill="#17233c"/>
+    <text x="75" y="144" font-size="21" font-weight="700" fill="#ffffff">Task: the checkout retry test is failing</text>
 
-    <rect x="70" y="270" width="620" height="112" rx="17" fill="#e8edff" stroke="#8fa5db" stroke-width="2"/>
-    <text x="98" y="310" font-size="24" font-weight="700" fill="#263b76">Small root index</text>
-    <text x="98" y="343" font-size="20" fill="#4c5d8e">Activity: code change</text>
-    <text x="420" y="343" font-size="20" fill="#4c5d8e">Area: back-end persistence</text>
-    <line x1="380" y1="382" x2="380" y2="423" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="48" y="210" font-size="19" font-weight="700" fill="#815412">Without a reviewed route</text>
+    <g transform="translate(48,230)">
+      <rect width="154" height="100" rx="14" fill="#fff1d9" stroke="#d6a957" stroke-width="2"/>
+      <text x="77" y="38" text-anchor="middle" font-size="17" font-weight="700" fill="#815412">Find commands</text>
+      <text x="77" y="66" text-anchor="middle" font-size="15" fill="#82683c">Read scripts and</text>
+      <text x="77" y="86" text-anchor="middle" font-size="15" fill="#82683c">configuration</text>
+    </g>
+    <line x1="202" y1="280" x2="226" y2="280" stroke="#8794aa" stroke-width="3" marker-end="url(#greyArrow)"/>
+    <g transform="translate(234,230)">
+      <rect width="154" height="100" rx="14" fill="#fff1d9" stroke="#d6a957" stroke-width="2"/>
+      <text x="77" y="38" text-anchor="middle" font-size="17" font-weight="700" fill="#815412">Search broadly</text>
+      <text x="77" y="66" text-anchor="middle" font-size="15" fill="#82683c">Read several files</text>
+      <text x="77" y="86" text-anchor="middle" font-size="15" fill="#82683c">to find the area</text>
+    </g>
+    <line x1="388" y1="280" x2="412" y2="280" stroke="#8794aa" stroke-width="3" marker-end="url(#greyArrow)"/>
+    <g transform="translate(420,230)">
+      <rect width="174" height="100" rx="14" fill="#fff1d9" stroke="#d6a957" stroke-width="2"/>
+      <text x="87" y="38" text-anchor="middle" font-size="17" font-weight="700" fill="#815412">Infer the contract</text>
+      <text x="87" y="66" text-anchor="middle" font-size="15" fill="#82683c">Rediscover retry</text>
+      <text x="87" y="86" text-anchor="middle" font-size="15" fill="#82683c">behaviour and rules</text>
+    </g>
 
-    <rect x="70" y="435" width="620" height="103" rx="17" fill="#f3eaff" stroke="#b89bd5" stroke-width="2"/>
-    <text x="98" y="475" font-size="24" font-weight="700" fill="#653493">Architecture route</text>
-    <text x="98" y="511" font-size="20" fill="#76568f">Expected behaviour, boundaries and connections</text>
-    <line x1="380" y1="538" x2="380" y2="579" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="48" y="386" font-size="19" font-weight="700" fill="#1f6245">With a reviewed route</text>
+    <g transform="translate(48,406)">
+      <rect width="250" height="100" rx="14" fill="#e8edff" stroke="#8fa5db" stroke-width="2"/>
+      <text x="125" y="37" text-anchor="middle" font-size="17" font-weight="700" fill="#263b76">Standing instructions</text>
+      <text x="125" y="66" text-anchor="middle" font-size="15" fill="#4c5d8e">Canonical command</text>
+      <text x="125" y="86" text-anchor="middle" font-size="15" fill="#4c5d8e">+ root index pointer</text>
+    </g>
+    <line x1="298" y1="456" x2="330" y2="456" stroke="#3155a6" stroke-width="3" marker-end="url(#blueArrow)"/>
+    <g transform="translate(338,406)">
+      <rect width="256" height="100" rx="14" fill="#e9f6ef" stroke="#86bea2" stroke-width="2"/>
+      <text x="128" y="37" text-anchor="middle" font-size="17" font-weight="700" fill="#1f6245">Index selects two leaves</text>
+      <text x="128" y="66" text-anchor="middle" font-size="15" fill="#47745f">Persistence behaviour</text>
+      <text x="128" y="86" text-anchor="middle" font-size="15" fill="#47745f">+ area-specific rules</text>
+    </g>
 
-    <rect x="70" y="591" width="620" height="103" rx="17" fill="#e9f6ef" stroke="#86bea2" stroke-width="2"/>
-    <text x="98" y="631" font-size="24" font-weight="700" fill="#1f6245">Rules route</text>
-    <text x="98" y="667" font-size="20" fill="#47745f">Constraints that change implementation decisions</text>
-    <line x1="380" y1="694" x2="380" y2="735" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M594 280 C632 280 622 340 666 340" fill="none" stroke="#8794aa" stroke-width="3" marker-end="url(#greyArrow)"/>
+    <path d="M594 456 C632 456 622 350 666 350" fill="none" stroke="#2d7a57" stroke-width="3" marker-end="url(#greenArrow)"/>
 
-    <rect x="70" y="747" width="620" height="103" rx="17" fill="#ffffff" stroke="#b9c5dc" stroke-width="2"/>
-    <text x="98" y="787" font-size="24" font-weight="700" fill="#17233c">Process route</text>
-    <text x="98" y="823" font-size="20" fill="#4d5b75">How this kind of change is verified</text>
-    <line x1="380" y1="850" x2="380" y2="891" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+    <rect x="682" y="215" width="470" height="286" rx="18" fill="#ffffff" stroke="#b9c5dc" stroke-width="2"/>
+    <text x="714" y="253" font-size="19" font-weight="700" fill="#17233c">The normal fix loop still happens</text>
+    <g transform="translate(714,283)">
+      <rect width="94" height="132" rx="13" fill="#e8edff" stroke="#8fa5db" stroke-width="2"/>
+      <text x="47" y="34" text-anchor="middle" font-size="16" font-weight="700" fill="#263b76">Reproduce</text>
+      <text x="47" y="68" text-anchor="middle" font-size="14" fill="#4c5d8e">Run the</text>
+      <text x="47" y="88" text-anchor="middle" font-size="14" fill="#4c5d8e">focused test</text>
+      <text x="47" y="116" text-anchor="middle" font-size="14" font-weight="700" fill="#263b76">fails</text>
+    </g>
+    <line x1="808" y1="349" x2="830" y2="349" stroke="#3155a6" stroke-width="3" marker-end="url(#blueArrow)"/>
+    <g transform="translate(838,283)">
+      <rect width="94" height="132" rx="13" fill="#e9f6ef" stroke="#86bea2" stroke-width="2"/>
+      <text x="47" y="34" text-anchor="middle" font-size="16" font-weight="700" fill="#1f6245">Inspect</text>
+      <text x="47" y="68" text-anchor="middle" font-size="14" fill="#47745f">Exact test</text>
+      <text x="47" y="88" text-anchor="middle" font-size="14" fill="#47745f">and code</text>
+      <text x="47" y="116" text-anchor="middle" font-size="14" font-weight="700" fill="#1f6245">cause</text>
+    </g>
+    <line x1="932" y1="349" x2="954" y2="349" stroke="#3155a6" stroke-width="3" marker-end="url(#blueArrow)"/>
+    <g transform="translate(962,283)">
+      <rect width="74" height="132" rx="13" fill="#f3eaff" stroke="#b89bd5" stroke-width="2"/>
+      <text x="37" y="34" text-anchor="middle" font-size="16" font-weight="700" fill="#653493">Fix</text>
+      <text x="37" y="68" text-anchor="middle" font-size="14" fill="#76568f">Edit</text>
+      <text x="37" y="88" text-anchor="middle" font-size="14" fill="#76568f">cause</text>
+    </g>
+    <line x1="1036" y1="349" x2="1058" y2="349" stroke="#3155a6" stroke-width="3" marker-end="url(#blueArrow)"/>
+    <g transform="translate(1066,283)">
+      <rect width="62" height="132" rx="13" fill="#e5f4f7" stroke="#82b8ca" stroke-width="2"/>
+      <text x="31" y="34" text-anchor="middle" font-size="15" font-weight="700" fill="#17617a">Rerun</text>
+      <text x="31" y="68" text-anchor="middle" font-size="14" fill="#3f6b7a">Test</text>
+      <text x="31" y="116" text-anchor="middle" font-size="14" font-weight="700" fill="#17617a">passes</text>
+    </g>
+    <text x="917" y="463" text-anchor="middle" font-size="16" fill="#4d5b75">Knowledge narrows orientation; it does not replace evidence or verification.</text>
 
-    <rect x="70" y="903" width="620" height="86" rx="17" fill="#17233c"/>
-    <text x="98" y="940" font-size="24" font-weight="700" fill="#ffffff">Selected task context</text>
-    <text x="98" y="972" font-size="20" fill="#dbe5fa">Then inspect code, configuration and tests</text>
-
-    <rect x="493" y="397" width="197" height="32" rx="8" fill="#e9edf2"/>
-    <text x="591" y="420" text-anchor="middle" font-size="17" fill="#6e7888">History: not loaded</text>
+    <rect x="48" y="544" width="1104" height="45" rx="10" fill="#edf2fa"/>
+    <text x="600" y="573" text-anchor="middle" font-size="17" fill="#33425d">Illustration, not a measured result: compare matched tasks and inspect raw request logs.</text>
   </g>
 </svg>

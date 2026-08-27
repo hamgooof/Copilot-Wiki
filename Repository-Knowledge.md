@@ -20,7 +20,9 @@ Repository knowledge is not one large briefing that every agent should read. It 
 4. Those documents provide expected behaviour, boundaries and rules before code inspection begins
 5. The repository remains the evidence for how the system is actually implemented
 
-![A task moving through a small root index and selected child indexes to a bounded set of repository knowledge](Media/poc-repository-knowledge-routing.svg =760x)
+![A failing-test task comparing repeated orientation rounds with a reviewed route into selected repository knowledge before the normal reproduce, inspect, fix and rerun loop](Media/poc-repository-knowledge-routing.svg =900x)
+
+The diagram illustrates the effect to test, not a guaranteed reduction. A useful route should help the agent start closer to the relevant behaviour and rules; it does not remove the need to reproduce the problem, inspect implementation evidence, make the change and verify it.
 
 The index is a router, not a manifest to ingest. A link tells the agent where to look when a question makes that document relevant. It does not mean that the whole documentation tree should become model input at the start of every request.
 

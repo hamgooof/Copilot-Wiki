@@ -8,9 +8,9 @@ _Draft visual review page - 27 August 2026_
 
 ## 1. Repository knowledge as task-driven routing
 
-This replaces the impression that an agent should read every repository document at the start. The task moves through small indexes and selects only the leaves needed before code inspection.
+This uses a concrete failing-test task. It compares repeated orientation rounds with a reviewed route that selects the relevant behaviour and rules before both paths enter the same reproduce, inspect, fix and rerun loop.
 
-![A repository task routes through a root index and selected architecture, rules and process documents while unrelated material remains unloaded](Media/poc-repository-knowledge-routing.svg =760x)
+![A failing-test task comparing repeated orientation rounds with a reviewed route into selected repository knowledge before the normal reproduce, inspect, fix and rerun loop](Media/poc-repository-knowledge-routing.svg =900x)
 
 Related page: [Repository knowledge for people and agents](Repository-Knowledge.md)
 
