@@ -1,6 +1,6 @@
 # Working efficiently and managing cost
 
-_For regular Copilot users - Last reviewed 12 August 2026_
+_For regular Copilot users - Last reviewed 27 August 2026_
 
 > **Three useful habits:** start a fresh session for unrelated work, describe the outcome and evidence, and keep always-on instructions short.
 
@@ -25,7 +25,7 @@ Code completions and next-edit suggestions are currently not billed in AI credit
 
 - **GitHub:** open your profile menu, select **Copilot settings**, then **Usage**
 - **VS Code:** select the Copilot icon in the status bar
-- **Visual Studio:** select the Copilot icon, then **Copilot Consumptions**
+- **Visual Studio:** select the Copilot badge, then **Copilot Usage**; older versions may call it **Copilot Consumptions**
 - **JetBrains:** select the Copilot icon, then **View quota usage**
 
 The screens available depend on your organisation's plan, IDE version and policies.
@@ -74,6 +74,8 @@ A fresh session removes the previous conversation history. It does not remove re
 - Remove duplicated or contradictory guidance
 - Prefer formatters, analysers and tests for rules they can enforce
 
+If a repository needs more detail, keep a short pointer to a [repository-knowledge index](Repository-Knowledge.md#use-the-index-for-smart-lookup) and let the agent read only task-relevant documents. Those documents still consume input when read. The proposed benefit is less repeated orientation and correction across later work, which needs testing rather than assuming.
+
 ## 5. Choose a model for the task at hand
 
 There is rarely one best model for an entire repository. A model that performs well on an Angular refactor might be less convincing on a .NET API design or SQL query.
@@ -94,7 +96,7 @@ Changing the model, reasoning effort or enabled tools during a task can stop the
 
 When the start of a model request matches a recent request, the provider can reuse that prefix at the lower cached-input rate. After an idle period, some or all of that reusable state might no longer be available. The next request can therefore cost more even when your new message is short.
 
-For example, using GitHub's rates reviewed on 12 August 2026:
+For example, using GitHub's rates reviewed on 27 August 2026:
 
 | 100,000 repeated input tokens | Read from cache | Written to cache after a miss |
 | --- | ---: | ---: |
@@ -105,13 +107,27 @@ This example counts only those 100,000 input tokens. It excludes new input, outp
 
 If a later request is unexpectedly slow or expensive, VS Code's Cache Explorer can show how much input was reused and where the matching prefix changed.
 
+### Count model work around tools and files
+
+There is no fixed per-file or per-tool credit formula. Count the model interactions around the operation:
+
+- A model-generated read, command, edit or file-write request is model output
+- File content, search results, terminal output and edit results included in a later model call become input
+- Generated plan, documentation and code content supplied through an edit tool is output
+- A fresh session that reads a saved plan processes that plan as ordinary input
+- Further validation, correction, delegation and review can add calls and tokens
+
+Current GitHub documentation does not describe a separate AI-credit fee for the operating-system act of writing a file. A saved file is not automatically cached. Prompt caching is a separate reuse mechanism based on a matching model-request prefix and current provider rules.
+
 ## 6. Use Plan when the work is unclear
 
-Current VS Code and Visual Studio versions include a built-in Plan agent that performs read-only research, asks clarifying questions and prepares an implementation plan. In JetBrains or a version without Plan, use Ask or another read-only chat request to agree an implementation plan, then switch to Agent when edits are appropriate.
+Current VS Code and Visual Studio versions include a built-in Plan agent that performs read-only research, asks clarifying questions and prepares an implementation plan. JetBrains also provides Plan. In an older or policy-restricted client without Plan, use Ask or another read-only chat request to agree an implementation plan, then switch to Agent when edits are appropriate.
 
 Use planning when scope or design needs agreement before code changes. Skip it for obvious, small work.
 
-Continuing from Plan to implementation in the same chat does not necessarily start a fresh context or save AI credits. If you want a clear context boundary, save a concise agreed plan in the workspace and begin a new Agent session from it. Planning itself also uses model calls, so any saving depends on whether it prevents enough misdirected work and rework for that task.
+In VS Code, **Start Implementation** carries the plan and conversation context to the chosen implementation agent. The Plan agent's automatic memory file is cleared when the conversation ends. If you want a durable plan and clear context boundary, use **Open in Editor**, save the concise agreed plan, and begin a new Agent session from it.
+
+A handoff is useful for continuity; a fresh session reads the saved plan as ordinary input. Neither route automatically saves AI credits. Planning itself uses model calls, so its value may be accuracy, reviewability and resumability even when total usage rises. See [Spec-Driven Development](Spec-Driven-Development.md) for durable specification, plan and task options and a matched evaluation.
 
 ## 7. Guide tools without micromanaging every call
 
@@ -161,12 +177,16 @@ Steer early when the current direction is clearly wrong. If useful work is nearl
 
 ## Sources
 
-- [Improving agent quality to optimise AI usage](https://docs.github.com/en/enterprise-cloud@latest/copilot/tutorials/optimize-ai-usage)
+- [Improving agent quality to optimize AI usage](https://docs.github.com/en/copilot/tutorials/optimize-ai-usage)
 - [Usage-based billing for organisations and enterprises](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises)
 - [Monitoring GitHub AI Credits usage](https://docs.github.com/en/copilot/how-tos/manage-and-track-spending/monitor-ai-usage)
 - [Best practices for using AI in VS Code](https://code.visualstudio.com/docs/agents/best-practices)
 - [Planning with agents in VS Code](https://code.visualstudio.com/docs/agents/run/planning)
+- [Sessions and handoff in VS Code](https://code.visualstudio.com/docs/agents/concepts/sessions)
+- [Set up a context engineering flow in VS Code](https://code.visualstudio.com/docs/agents/guides/context-engineering-guide)
 - [About Copilot automatic model selection](https://docs.github.com/en/copilot/concepts/models/auto-model-selection)
 - [Optimise AI usage in VS Code](https://code.visualstudio.com/docs/agents/guides/optimize-usage)
 - [Models and pricing for GitHub Copilot](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing)
 - [Diagnose prompt caching with the Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer)
+- [Plan mode in Copilot Chat for JetBrains](https://docs.github.com/en/copilot/how-tos/chat-with-copilot/chat-in-ide?tool=jetbrains)
+- [Manage Copilot usage and models in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/ide/copilot-usage-and-models?view=visualstudio)

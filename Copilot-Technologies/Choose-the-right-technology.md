@@ -1,8 +1,10 @@
 # Choose the right Copilot technology
 
-_For new and regular Copilot users - Last reviewed 12 August 2026_
+_For new and regular Copilot users - Last reviewed 27 August 2026_
 
 Instructions, skills, prompt files and custom agents can all guide Copilot. Choose based on what you want to reuse.
+
+First distinguish the reusable thing from the technology that helps deliver it. [Repository knowledge](../Repository-Knowledge.md) is versioned information that several agents and workflows can read. [Spec-Driven Development](../Spec-Driven-Development.md) is a process that can combine planning, files, agents and review points. Neither is another Copilot technology.
 
 [[_TOC_]]
 
@@ -63,12 +65,11 @@ Do not split every checklist heading into a skill. Start with one `review-change
 
 ### Scenario C: ordinary feature work
 
-1. In VS Code or a current Visual Studio version, use the built-in Plan agent when the Angular and .NET change needs investigation. In JetBrains or a version without Plan, ask for an implementation plan in Ask or another read-only chat request
-2. Use the general Agent to implement it
-3. Let a testing skill supply the repository's test procedure and conventions
-4. Start a new chat and ask it to use the review skill for an independent pass, following the [client-specific skill guidance](Agent-skills.md#example-review-branch-changes)
+Use the built-in Plan agent when a cross-cutting change needs investigation, the general Agent for implementation, and a testing skill when the repository has a repeatable test procedure. Start a new chat for an independent review when prior implementation context would bias the check.
 
 Plan, Implement, Test and Review are workflow phases. They do not each need to become a custom agent.
+
+For durable specifications, plans, task splits, human review points and fresh-session options, use the [Spec-Driven Development guide](../Spec-Driven-Development.md). In a client without the documented VS Code controls, use a read-only planning request and save the approved plan explicitly.
 
 ## Prompt file or skill
 
@@ -95,7 +96,7 @@ See the reviewed [cross-IDE support table](../Copilot-Technologies.md#current-id
 
 ## What to read next
 
-Open the implementation page for the option you chose, or use the [Copilot glossary](../Copilot-Glossary.md) when two terms still seem close.
+Open the implementation page for the option you chose, build [repository knowledge](../Repository-Knowledge.md), or use the [Copilot glossary](../Copilot-Glossary.md) when two terms still seem close.
 
 ## Sources
 

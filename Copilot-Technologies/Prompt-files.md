@@ -1,10 +1,12 @@
 # Prompt files
 
-_For Copilot users in VS Code, Visual Studio and JetBrains - Last reviewed 12 August 2026_
+_For Copilot users in VS Code, Visual Studio and JetBrains - Last reviewed 27 August 2026_
 
 Prompt files are saved requests that a person invokes deliberately. They are useful when the same task needs new inputs each time but should not run automatically.
 
-> Prompt files are in public preview and subject to change. GitHub currently supports them in VS Code, Visual Studio and JetBrains, with different controls in each client.
+> Prompt files are supported in VS Code and Visual Studio and remain in preview in JetBrains, with different controls in each client.
+
+> **VS Code host limit:** prompt files work with local agents running in the VS Code extension host. Current Agent Host sessions do not use them. Use an agent skill when the same playbook must work through Agent Host, and verify the target client before standardising a prompt-file workflow.
 
 [[_TOC_]]
 

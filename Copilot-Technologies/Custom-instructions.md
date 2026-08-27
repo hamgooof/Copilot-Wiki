@@ -1,6 +1,6 @@
 # Custom instructions
 
-_For developers and repository maintainers - Last reviewed 12 August 2026_
+_For developers and repository maintainers - Last reviewed 27 August 2026_
 
 Custom instructions are standing guidance that Copilot applies automatically within a defined scope. They are a good home for concise repository facts, commands and conventions that matter frequently.
 
@@ -67,13 +67,18 @@ Small examples can clarify a team decision, such as whether C# tests use `Method
 
 ## Link to detail instead of copying it
 
-An instruction can direct Copilot to a repository document when a task needs fuller guidance:
+An instruction can direct Copilot to a repository document when a task needs fuller guidance. For a larger codebase, point to a small index and let the agent select relevant detail:
 
 ```markdown
-- Before changing a public API contract, read [API compatibility](../docs/api-compatibility.md)
+Repository knowledge is indexed at [`.docs/index.md`](../.docs/index.md).
+Before planning or changing an unfamiliar area, read the index, then only the linked documents relevant to the task.
 ```
 
-The target must be a file the local harness can access. This keeps detailed examples out of every request while leaving the source reviewable by the team. Actual loading behaviour can vary by client, so write the instruction as an explicit direction to read the file.
+The target must be a file the local harness can access. This keeps detailed examples out of every request while leaving the source reviewable by the team. `.docs` is one reasonable location, not a requirement; `docs/` or concise root documents can use the same pattern.
+
+A link is not a promise that every target is injected automatically. In VS Code, automatic inclusion of referenced instruction files depends on `chat.includeReferencedInstructions`, while an ordinary repository document can be read with tools when the request directs the agent to it. Check the response references or customisation diagnostics when loading behaviour matters.
+
+See [Repository knowledge for people and agents](../Repository-Knowledge.md) for the index, bootstrap and maintenance pattern.
 
 ## Context and usage
 
@@ -103,3 +108,4 @@ For a team using all three IDEs, start with Copilot's `.github` instruction file
 - [Support for different types of custom instructions](https://docs.github.com/en/copilot/reference/custom-instructions-support)
 - [About customising Copilot responses](https://docs.github.com/en/copilot/concepts/prompting/response-customization)
 - [Use custom instructions in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
+- [Set up a context engineering flow in VS Code](https://code.visualstudio.com/docs/agents/guides/context-engineering-guide)

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="520" viewBox="0 0 1000 520" role="img" aria-labelledby="title desc">
+  <title id="title">Selective repository knowledge lookup</title>
+  <desc id="desc">A small standing instruction points to a repository knowledge index. The index routes the current task to two relevant documents while an unrelated guide remains unloaded. The selected documents join the task context.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 z" fill="#3155a6"/></marker>
+    <marker id="mutedArrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 z" fill="#98a5ba"/></marker>
+  </defs>
+  <rect width="1000" height="520" rx="22" fill="#f7f9fc"/>
+  <text x="42" y="50" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#17233c">Load repository knowledge selectively</text>
+  <text x="42" y="79" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#4d5b75">A small pointer guides lookup. Only documents useful to the current task need to become model input.</text>
+
+  <rect x="42" y="155" width="190" height="124" rx="17" fill="#e8edff" stroke="#8fa5db" stroke-width="2"/>
+  <text x="137" y="190" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#263b76">Small instruction</text>
+  <text x="137" y="218" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#4c5d8e">Read the index, then</text>
+  <text x="137" y="240" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#4c5d8e">follow relevant links</text>
+
+  <line x1="232" y1="217" x2="292" y2="217" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <rect x="310" y="128" width="220" height="178" rx="17" fill="#ffffff" stroke="#b9c5dc" stroke-width="2"/>
+  <text x="420" y="164" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700" fill="#17233c">Knowledge index</text>
+  <rect x="334" y="184" width="172" height="31" rx="8" fill="#e9f6ef"/><text x="420" y="205" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#1f6245">Architecture overview</text>
+  <rect x="334" y="223" width="172" height="31" rx="8" fill="#e7f6fb"/><text x="420" y="244" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#17617a">Build and validation</text>
+  <rect x="334" y="262" width="172" height="25" rx="8" fill="#e9edf2"/><text x="420" y="280" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#536074">Other area guide</text>
+
+  <path d="M530 200 C575 200 575 154 620 154" fill="none" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M530 239 C575 239 575 252 620 252" fill="none" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M530 275 C575 275 575 351 620 351" fill="none" stroke="#98a5ba" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#mutedArrow)"/>
+
+  <rect x="642" y="110" width="204" height="88" rx="15" fill="#e9f6ef" stroke="#86bea2" stroke-width="2"/>
+  <text x="744" y="145" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#1f6245">Architecture</text>
+  <text x="744" y="171" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#47745f">selected for this task</text>
+
+  <rect x="642" y="208" width="204" height="88" rx="15" fill="#e7f6fb" stroke="#82b8ca" stroke-width="2"/>
+  <text x="744" y="243" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#17617a">Build and tests</text>
+  <text x="744" y="269" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#3f6b7a">selected for this task</text>
+
+  <rect x="642" y="307" width="204" height="88" rx="15" fill="#f2f4f7" stroke="#b7c0ce" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="744" y="342" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#536074">Other area guide</text>
+  <text x="744" y="368" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#6e7888">not loaded for this task</text>
+
+  <path d="M846 154 C887 154 887 213 918 213" fill="none" stroke="#3155a6" stroke-width="4"/>
+  <path d="M846 252 C887 252 887 213 918 213" fill="none" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+  <rect x="884" y="177" width="78" height="104" rx="16" fill="#17233c"/>
+  <text x="923" y="211" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#ffffff">Task</text>
+  <text x="923" y="232" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#ffffff">context</text>
+  <text x="923" y="258" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#dbe5fa">for this run</text>
+
+  <rect x="42" y="440" width="920" height="40" rx="10" fill="#edf2fa"/>
+  <text x="502" y="466" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#33425d">The index guides lookup. A link does not guarantee that every linked file is automatically injected.</text>
+</svg>
