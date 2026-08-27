@@ -78,7 +78,7 @@ The target must be a file the local harness can access. This keeps detailed exam
 
 A link is not a promise that every target is injected automatically. In VS Code, automatic inclusion of referenced instruction files depends on `chat.includeReferencedInstructions`, while an ordinary repository document can be read with tools when the request directs the agent to it. Check the response references or customisation diagnostics when loading behaviour matters.
 
-See [Repository knowledge for people and agents](../Repository-Knowledge.md) for the index, bootstrap and maintenance pattern.
+See [Repository knowledge for people and agents](../Repository-Knowledge.md) for the task-routing pattern, and use its [bounded pilot](../Repository-Knowledge/Bootstrap-and-Evaluate.md) when trialling the approach.
 
 ## Context and usage
 

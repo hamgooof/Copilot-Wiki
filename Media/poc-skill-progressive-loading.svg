@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="850" viewBox="0 0 760 850" role="img" aria-labelledby="title desc">
+  <title id="title">Skills use progressive disclosure</title>
+  <desc id="desc">A small skill name and description are discoverable. After a request matches, the skill body loads. Only then are any relevant scripts, templates or references read. Unrelated skill bodies remain unloaded.</desc>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#3155a6"/></marker></defs>
+  <rect width="760" height="850" rx="24" fill="#f7f9fc"/>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="38" y="52" font-size="32" font-weight="700" fill="#17233c">Discover broadly, load narrowly</text>
+    <text x="38" y="84" font-size="20" fill="#4d5b75">Only the selected playbook and necessary resources become context.</text>
+
+    <rect x="70" y="126" width="620" height="102" rx="17" fill="#e8edff" stroke="#8fa5db" stroke-width="2"/>
+    <text x="98" y="166" font-size="24" font-weight="700" fill="#263b76">1. Discovery metadata</text>
+    <text x="98" y="202" font-size="20" fill="#4c5d8e">Name and short description remain visible</text>
+    <line x1="380" y1="228" x2="380" y2="268" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <rect x="70" y="280" width="620" height="102" rx="17" fill="#ffffff" stroke="#b9c5dc" stroke-width="2"/>
+    <text x="98" y="320" font-size="24" font-weight="700" fill="#17233c">2. Matching request</text>
+    <text x="98" y="356" font-size="20" fill="#4d5b75">For example: review this branch</text>
+    <line x1="380" y1="382" x2="380" y2="422" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <rect x="70" y="434" width="620" height="102" rx="17" fill="#f3eaff" stroke="#b89bd5" stroke-width="2"/>
+    <text x="98" y="474" font-size="24" font-weight="700" fill="#653493">3. Selected skill body</text>
+    <text x="98" y="510" font-size="20" fill="#76568f">The workflow and checklist now load</text>
+    <line x1="380" y1="536" x2="380" y2="576" stroke="#3155a6" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <rect x="70" y="588" width="620" height="102" rx="17" fill="#e9f6ef" stroke="#86bea2" stroke-width="2"/>
+    <text x="98" y="628" font-size="24" font-weight="700" fill="#1f6245">4. Necessary resources</text>
+    <text x="98" y="664" font-size="20" fill="#47745f">Read only relevant scripts, templates or references</text>
+
+    <rect x="70" y="728" width="620" height="74" rx="17" fill="#e9edf2"/>
+    <text x="380" y="774" text-anchor="middle" font-size="22" font-weight="700" fill="#536074">Unrelated skill bodies remain unloaded</text>
+  </g>
+</svg>

@@ -68,7 +68,7 @@ VS Code uses similar handoff language for more than one transition. The custom-a
 
 | Transition | What moves | Useful when |
 | --- | --- | --- |
-| Handoff | The pre-filled request and relevant conversation context | The next agent needs planning context and a visible transition |
+| Handoff | Documentation says the pre-filled request and relevant context; local probes retained the complete visible transcript and tool traffic | The next agent needs planning context and a visible transition |
 | New chat from a saved plan | Only the context the new session reads, including the plan file | A clean conversation and durable artefact are more valuable than continuity |
 | Subagent | A bounded brief to an isolated worker, followed by its result | One investigation or review should not fill the parent context |
 

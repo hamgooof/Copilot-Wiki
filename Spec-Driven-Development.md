@@ -67,7 +67,7 @@ Several VS Code features can support the transition. They are not interchangeabl
 | Option | What it provides | Context boundary | Durability |
 | --- | --- | --- | --- |
 | Built-in **Plan** | Read-only research, clarification and an implementation plan | **Start Implementation** carries the plan and conversation context to the chosen implementation agent | The automatic `/memories/session/plan.md` is cleared when the conversation ends |
-| Custom planning agent | Reusable planning role, tool restrictions, optional model and handoff buttons | A handoff moves to the target agent with relevant conversation context | Chat output is not durable unless it is saved |
+| Custom planning agent | Reusable planning role, tool restrictions, optional model and handoff buttons | Documentation says the handoff moves with relevant context; local probes retained the complete visible transcript and tool traffic | Chat output is not durable unless it is saved |
 | Saved plan in a new chat | Explicit, reviewable input for a new worker | The new chat starts without the planning conversation and reads the plan as ordinary context | Durable when stored in the repository, workspace or tracked issue |
 | Subagent | Isolated worker for one delegated question or task | Receives a bounded brief, not the parent's full conversation, and returns a result | Its useful result must be captured by the parent or in a file |
 
@@ -139,7 +139,7 @@ Run separate comparisons:
 1. Direct implementation versus a reviewed specification, plan and tasks, using the same repository context
 2. The same approved plan implemented by a strong model and by a balanced or efficient model
 3. Handoff continuity versus a fresh session reading the same durable plan
-4. Tasks with and without [repository knowledge](Repository-Knowledge.md#test-the-repository-knowledge-hypothesis-separately), reported as a different experiment
+4. Tasks with and without [repository knowledge](Repository-Knowledge.md#test-the-hypothesis-separately), reported as a different experiment
 
 Record acceptance-criteria pass rate, human corrections, review time, total AI credits, model calls or rounds where visible, tool failures, retries, diff size, unnecessary changes, latency and ability to resume. Include planner, implementer, subagent and reviewer usage.
 

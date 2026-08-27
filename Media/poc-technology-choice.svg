@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="940" viewBox="0 0 760 940" role="img" aria-labelledby="title desc">
+  <title id="title">Choose a Copilot technology by what is reused</title>
+  <desc id="desc">Six rows connect the reusable thing to an appropriate mechanism: rule to instructions, procedure to skill, saved request to prompt file, worker role to custom agent, isolated delegated work to subagent, and hard guarantee to deterministic enforcement.</desc>
+  <rect width="760" height="940" rx="24" fill="#f7f9fc"/>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="38" y="52" font-size="32" font-weight="700" fill="#17233c">What are you trying to reuse?</text>
+    <text x="38" y="84" font-size="20" fill="#4d5b75">Choose the mechanism after identifying the reusable thing.</text>
+
+    <g>
+      <rect x="50" y="124" width="660" height="110" rx="17" fill="#ffffff" stroke="#b9c5dc" stroke-width="2"/>
+      <text x="78" y="165" font-size="23" font-weight="700" fill="#17233c">Rule or repository fact</text>
+      <text x="78" y="201" font-size="20" fill="#4d5b75">Applied automatically where relevant</text>
+      <text x="678" y="185" text-anchor="end" font-size="24" font-weight="700" fill="#263b76">Instructions</text>
+    </g>
+    <g>
+      <rect x="50" y="250" width="660" height="110" rx="17" fill="#ffffff" stroke="#b9c5dc" stroke-width="2"/>
+      <text x="78" y="291" font-size="23" font-weight="700" fill="#17233c">Procedure or checklist</text>
+      <text x="78" y="327" font-size="20" fill="#4d5b75">Loaded when the task matches</text>
+      <text x="678" y="311" text-anchor="end" font-size="24" font-weight="700" fill="#653493">Skill</text>
+    </g>
+    <g>
+      <rect x="50" y="376" width="660" height="110" rx="17" fill="#ffffff" stroke="#b9c5dc" stroke-width="2"/>
+      <text x="78" y="417" font-size="23" font-weight="700" fill="#17233c">Saved request</text>
+      <text x="78" y="453" font-size="20" fill="#4d5b75">A person deliberately invokes it</text>
+      <text x="678" y="437" text-anchor="end" font-size="24" font-weight="700" fill="#17617a">Prompt file</text>
+    </g>
+    <g>
+      <rect x="50" y="502" width="660" height="110" rx="17" fill="#ffffff" stroke="#b9c5dc" stroke-width="2"/>
+      <text x="78" y="543" font-size="23" font-weight="700" fill="#17233c">Worker role, tools or model</text>
+      <text x="78" y="579" font-size="20" fill="#4d5b75">Selected or delegated for the work</text>
+      <text x="678" y="563" text-anchor="end" font-size="24" font-weight="700" fill="#1f6245">Custom agent</text>
+    </g>
+    <g>
+      <rect x="50" y="628" width="660" height="110" rx="17" fill="#ffffff" stroke="#b9c5dc" stroke-width="2"/>
+      <text x="78" y="669" font-size="23" font-weight="700" fill="#17233c">Isolated delegated work</text>
+      <text x="78" y="705" font-size="20" fill="#4d5b75">Bounded context returned to a parent</text>
+      <text x="678" y="689" text-anchor="end" font-size="24" font-weight="700" fill="#815412">Subagent</text>
+    </g>
+    <g>
+      <rect x="50" y="754" width="660" height="126" rx="17" fill="#fff1d9" stroke="#d6a957" stroke-width="2"/>
+      <text x="78" y="795" font-size="23" font-weight="700" fill="#815412">Guarantee that must not drift</text>
+      <text x="78" y="831" font-size="20" fill="#82683c">Make it executable rather than advisory</text>
+      <text x="678" y="817" text-anchor="end" font-size="23" font-weight="700" fill="#815412">Test / policy</text>
+    </g>
+    <text x="380" y="916" text-anchor="middle" font-size="18" fill="#4d5b75">Repository knowledge and SDD are content and process, not extra Copilot technologies.</text>
+  </g>
+</svg>
