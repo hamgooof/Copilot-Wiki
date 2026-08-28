@@ -121,6 +121,10 @@ For a task such as **change the persistence retry behaviour**, a good route is:
 
 Unrelated front-end guidance, historical decisions and broad repository summaries remain unloaded unless the task creates a reason to read them.
 
+The same idea can be applied to a cross-stack React feature. The route starts with two small knowledge reads, then expands into the connected code surfaces only after the task requires them:
+
+![A protected React page task selecting front-end and domain knowledge before inspecting and changing route, navigation, permissions, API hook, schema, page, styles and tests](Media/repository-knowledge-frontend-change-surface.svg =900x)
+
 ## What belongs in focused documents
 
 Prioritise stable information that changes a decision or narrows investigation:

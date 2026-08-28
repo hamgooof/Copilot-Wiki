@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="760" viewBox="0 0 1300 760" role="img" aria-labelledby="title desc">
+  <title id="title">Change surface for a protected React page</title>
+  <desc id="desc">A concrete task first selects the front-end architecture and relevant domain documents, then changes route, navigation, permission, API adapter, form schema, page, styles and tests without reading every repository document.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#365f54"/></marker>
+    <style>.title{font:700 29px system-ui,sans-serif;fill:#17372e}.sub{font:15px system-ui,sans-serif;fill:#586c65}.head{font:700 18px system-ui,sans-serif;fill:#17372e}.body{font:14px system-ui,sans-serif;fill:#4d625b}.box{stroke:#90aba2;stroke-width:2}.line{stroke:#365f54;stroke-width:3;fill:none;marker-end:url(#arrow)}.thin{stroke-width:2}</style>
+  </defs>
+  <rect width="1300" height="760" rx="24" fill="#f5f8f6"/>
+  <text x="50" y="58" class="title">Example: add a protected inspection-finding page</text>
+  <text x="50" y="86" class="sub">Select two light knowledge reads, then inspect and change the connected code surfaces.</text>
+
+  <rect x="50" y="135" width="260" height="110" rx="16" fill="#f1dfa6" class="box"/>
+  <text x="75" y="175" class="head">Task intent</text><text x="75" y="205" class="body">Capture a finding for a</text><text x="75" y="226" class="body">site inspection</text>
+  <rect x="405" y="120" width="290" height="70" rx="14" fill="#d8e9e3" class="box"/>
+  <text x="430" y="151" class="head">Front-end application</text><text x="430" y="174" class="body">Route, query, form and view boundaries</text>
+  <rect x="405" y="210" width="290" height="70" rx="14" fill="#d8e9e3" class="box"/>
+  <text x="430" y="241" class="head">Relevant domain page</text><text x="430" y="264" class="body">Inspection behaviour and ownership</text>
+  <path d="M310 190 H380 V155 H405" class="line"/><path d="M380 190 V245 H405" class="line"/>
+
+  <rect x="815" y="120" width="430" height="160" rx="18" fill="#e9efed" class="box"/>
+  <text x="845" y="157" class="head">Focused source inspection</text>
+  <text x="845" y="187" class="body">Current router and navigation</text><text x="845" y="211" class="body">Permission constants and target endpoints</text><text x="845" y="235" class="body">One analogous feature and its tests</text><text x="845" y="259" class="body">Back-end contract for the new page</text>
+  <path d="M695 155 H815" class="line"/><path d="M695 245 H760 V225 H815" class="line"/>
+
+  <text x="50" y="360" class="head">Connected change surface</text>
+  <g transform="translate(50 395)"><rect width="170" height="90" rx="14" fill="#c8e0d8" class="box"/><text x="25" y="37" class="head">Route</text><text x="25" y="63" class="body">Protected path</text></g>
+  <g transform="translate(250 395)"><rect width="170" height="90" rx="14" fill="#c8e0d8" class="box"/><text x="25" y="37" class="head">Navigation</text><text x="25" y="63" class="body">Visible entry</text></g>
+  <g transform="translate(450 395)"><rect width="170" height="90" rx="14" fill="#c8e0d8" class="box"/><text x="25" y="37" class="head">Permission</text><text x="25" y="63" class="body">UI and endpoint</text></g>
+  <g transform="translate(650 395)"><rect width="170" height="90" rx="14" fill="#c8e0d8" class="box"/><text x="25" y="37" class="head">API hook</text><text x="25" y="63" class="body">Query or mutation</text></g>
+  <g transform="translate(850 395)"><rect width="170" height="90" rx="14" fill="#c8e0d8" class="box"/><text x="25" y="37" class="head">Schema</text><text x="25" y="63" class="body">Form to request</text></g>
+  <g transform="translate(1050 395)"><rect width="170" height="90" rx="14" fill="#c8e0d8" class="box"/><text x="25" y="37" class="head">Page + SCSS</text><text x="25" y="63" class="body">States and layout</text></g>
+  <path d="M1030 280 V335 H135 V395" class="line"/>
+  <path d="M220 440 H250" class="line thin"/><path d="M420 440 H450" class="line thin"/><path d="M620 440 H650" class="line thin"/><path d="M820 440 H850" class="line thin"/><path d="M1020 440 H1050" class="line thin"/>
+
+  <rect x="410" y="570" width="480" height="95" rx="18" fill="#f1dfa6" class="box"/>
+  <text x="445" y="608" class="head">Boundary tests and affected full checks</text>
+  <text x="445" y="636" class="body">Prove adapters, permissions, interaction and contract assumptions</text>
+  <path d="M1135 485 V530 H650 V570" class="line"/>
+
+  <text x="50" y="720" class="sub">The route to the task is short because the index selects relevant knowledge instead of loading the entire tree.</text>
+</svg>
