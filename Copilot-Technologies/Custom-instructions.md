@@ -1,8 +1,8 @@
 # Custom instructions
 
-_For developers and repository maintainers - Last reviewed 27 August 2026_
+_For developers and repository maintainers - Last reviewed 4 October 2026_
 
-Custom instructions are standing guidance that Copilot applies automatically within a defined scope. They are a good home for concise repository facts, commands and conventions that matter frequently.
+Custom instructions are standing guidance that Copilot applies automatically within a defined scope. They are a good home for concise repository facts, commands and conventions that matter frequently. Think of them as house rules taped to the dashboard: every driver sees them on every trip, so keep them short.
 
 [[_TOC_]]
 
@@ -14,6 +14,15 @@ Custom instructions are standing guidance that Copilot applies automatically wit
 | Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the YAML `applyTo` pattern |
 
 GitHub currently lists both forms for Copilot Chat in VS Code, Visual Studio and JetBrains. JetBrains custom instructions are marked preview in GitHub's lifecycle table.
+
+## Create your first file
+
+1. Create `.github/copilot-instructions.md` in the repository root
+2. Paste the example from the next section and change it to match your repository
+3. Ask Copilot a question about the repository in chat
+4. Expand **References** in the response and confirm the file is listed
+
+VS Code can also generate a first draft from the repository: the Agent Customizations editor can start a chat that analyses the repository and creates instructions. Review the draft like any other change before committing it.
 
 ## What belongs in repository-wide instructions
 
@@ -67,30 +76,23 @@ Small examples can clarify a team decision, such as whether C# tests use `Method
 
 ## Link to detail instead of copying it
 
-An instruction can direct Copilot to a repository document when a task needs fuller guidance. For a larger codebase, point to a small index and let the agent select relevant detail:
+An instruction can direct Copilot to a repository document when a task needs fuller guidance. For a larger codebase, point to a small index and let the agent select relevant detail; [Keep the entry point small](../Repository-Knowledge.md#keep-the-entry-point-small) shows the pointer to use.
 
-```markdown
-Repository knowledge is indexed at [`.docs/index.md`](../.docs/index.md).
-Before planning or changing an unfamiliar area, read the index, then only the linked documents relevant to the task.
-```
+The target must be a file the local harness can access. This keeps detailed examples out of every model call while leaving the source reviewable by the team. `.docs` is one reasonable location, not a requirement; `docs/` or concise root documents can use the same pattern.
 
-The target must be a file the local harness can access. This keeps detailed examples out of every request while leaving the source reviewable by the team. `.docs` is one reasonable location, not a requirement; `docs/` or concise root documents can use the same pattern.
-
-A link is not a promise that every target is injected automatically. In VS Code, automatic inclusion of referenced instruction files depends on `chat.includeReferencedInstructions`, while an ordinary repository document can be read with tools when the request directs the agent to it. Check the response references or customisation diagnostics when loading behaviour matters.
+A link is not a promise that every target is injected automatically. In VS Code, automatic inclusion of referenced instruction files depends on `chat.includeReferencedInstructions`, while an ordinary repository document can be read with tools when your request directs the agent to it. Check the response references or customisation diagnostics when loading behaviour matters.
 
 See [Repository knowledge for people and agents](../Repository-Knowledge.md) for the task-routing pattern, and use its [bounded pilot](../Repository-Knowledge/Bootstrap-and-Evaluate.md) when trialling the approach.
 
 ## Context and usage
 
-Repository instructions are automatically added to relevant requests. That saves repetition, but every always-applied line also competes with the current task, code and tool results for context.
+Repository instructions are automatically added to the model input for relevant model calls. That saves repetition, but every always-applied line also competes with the current task, code and tool results for context.
 
 Keep instructions short enough to review regularly. Detailed occasional workflows belong in [skills](Agent-skills.md), and manually invoked requests can belong in [prompt files](Prompt-files.md).
 
 ## Advanced note: `AGENTS.md`
 
-`AGENTS.md` is a portable instruction format used by several compatible coding agents. In current Copilot Chat support, VS Code recognises it; Visual Studio and JetBrains do not list it for their normal Copilot Chat experience.
-
-For a team using all three IDEs, start with Copilot's `.github` instruction files. Consider `AGENTS.md` only when portability to another supported harness solves a real problem, then verify discovery in the clients the team uses.
+`AGENTS.md` is a portable instruction format that VS Code recognises, but Visual Studio and JetBrains do not list it for normal Copilot Chat. For a team using all three IDEs, use Copilot's `.github` instruction files.
 
 ## Review checklist
 

@@ -1,12 +1,12 @@
 # Prompt files
 
-_For Copilot users in VS Code, Visual Studio and JetBrains - Last reviewed 27 August 2026_
+_For Copilot users in VS Code, Visual Studio and JetBrains - Last reviewed 4 October 2026_
 
-Prompt files are saved requests that a person invokes deliberately. They are useful when the same task needs new inputs each time but should not run automatically.
+Prompt files are saved requests that a person invokes deliberately. They are useful when the same task needs new inputs each time but should not run automatically. A prompt file is like a saved sat-nav destination: nothing happens until you choose to start it.
 
 > Prompt files are supported in VS Code and Visual Studio and remain in preview in JetBrains, with different controls in each client.
 
-> **VS Code host limit:** prompt files work with local agents running in the VS Code extension host. Current Agent Host sessions do not use them. Use an agent skill when the same playbook must work through Agent Host, and verify the target client before standardising a prompt-file workflow.
+> **VS Code is moving prompt files to skills.** For new work in VS Code, prefer an [agent skill](Agent-skills.md). See [VS Code deprecation](#vs-code-deprecation) at the end of this page.
 
 [[_TOC_]]
 
@@ -71,6 +71,12 @@ Check the current client documentation before standardising UI steps across a te
 The API-path example is one saved task. It does not need a persistent role or a special worker configuration.
 
 Use a custom agent only if tracing is part of a wider recurring role with its own instructions, tools or model. A prompt file can also select a custom agent where the client supports that combination.
+
+## VS Code deprecation
+
+VS Code's documentation (checked 4 October 2026) says: "Prompt files are deprecated for Agent Host sessions and aren't loaded by Agent Host. They continue to work with the Local agent for now, but the Local agent will be removed in a future release."
+
+In practice, prompt files still run today in the session type VS Code calls the Local agent, but not in Agent Host sessions, and the Local agent itself is due to be removed. VS Code recommends converting existing prompt files to agent skills, and offers a prompt-file migration for this. Use a skill for any playbook the team will rely on, and check the Visual Studio and JetBrains documentation separately before changing a workflow there.
 
 ## Sources
 

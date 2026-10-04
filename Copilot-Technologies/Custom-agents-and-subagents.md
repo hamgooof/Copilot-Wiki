@@ -1,6 +1,6 @@
 # Custom agents and subagents
 
-_For developers using Copilot agent mode in a supported IDE - Last reviewed 27 August 2026_
+_For developers using Copilot agent mode in a supported IDE - Last reviewed 4 October 2026_
 
 A **custom agent** defines a reusable worker configuration. A **subagent** is a separate worker created to complete a delegated task. A custom agent can be used directly or, where supported, invoked as a subagent.
 
@@ -17,11 +17,13 @@ A custom agent can define:
 - Whether another agent may delegate work to it
 - Suggested handoffs to another agent
 
+Think of a custom agent as a vehicle fitted out for one job, with a chosen engine and only the equipment that job needs.
+
 This differs from manually selecting tools and typing a one-off request because the complete worker setup can be selected again by the team.
 
 ### Example: Reviewer
 
-This example focuses on the role. Add the valid read, search and source-control tools through the target IDE's configuration rather than copying tool names between clients.
+This example focuses on the role. Add the valid read, search and source-control tools through the target IDE's configuration rather than copying tool names between clients. In VS Code, open the `.agent.md` file and use the tools picker to choose read and search tools only; it writes valid names for you.
 
 ```markdown
 ---
@@ -56,19 +58,17 @@ The Reviewer can use `review-changes` and other relevant skills without owning t
 
 ## Handoffs
 
-VS Code custom agents can offer buttons that move from one agent to another with a pre-filled request and relevant conversation context.
+VS Code custom agents can offer buttons that move from one agent to another with a pre-filled request and the conversation so far.
 
-A handoff is useful when continuity is wanted, such as planning to implementation. It is not a fresh context boundary and it does not make the plan durable.
+A handoff is useful when continuity is wanted, such as planning to implementation. It is not a fresh context boundary and it does not make the plan durable. A handoff is changing driver without stopping: the new driver is handed the full journey log.
 
-VS Code uses similar handoff language for more than one transition. The custom-agent documentation describes handoff buttons as moving with **relevant context**. The session documentation separately says that changing a session's target carries its conversation history and context, while the built-in Plan documentation says **Start Implementation** carries the plan and conversation context. Do not treat those descriptions as one stronger promise about custom-agent context selection.
-
-> **Observed, not contractual:** local VS Code 1.131 and Claude Haiku 4.5 probes on 27 August 2026 exactly continued every visible user and assistant message through normal handoffs and direct agent selection. The target system prompt replaced the source agent instructions, but a real edit's visible tool call, arguments and result also reached the tester. Completed-turn reasoning was absent from the later handoff request, although reasoning was reused inside the implementer's active post-tool loop. Every tested agent change reported zero cached input while later same-agent requests could use cached input. This combination can make a long handoff expensive. The result covers small, uncompacted conversations on the recorded version; it is not a permanent full-history or cache contract.
+In practice, a handoff carries the whole visible conversation, including tool calls and results, and the cache usually restarts. Use a saved plan in a new chat when you want a smaller, clean start.
 
 ![A planning conversation moving through a normal agent transition that replaces agent instructions but retains visible messages and tool traffic, compared with a fresh context boundary](../Media/custom-agent-context-boundaries.svg =900x)
 
 | Transition | What moves | Useful when |
 | --- | --- | --- |
-| Handoff | Documentation says the pre-filled request and relevant context; local probes retained the complete visible transcript and tool traffic | The next agent needs planning context and a visible transition |
+| Handoff | The pre-filled request and the whole visible conversation, including tool calls and results | The next agent needs planning context and a visible transition |
 | New chat from a saved plan | Only the context the new session reads, including the plan file | A clean conversation and durable artefact are more valuable than continuity |
 | Subagent | A bounded brief to an isolated worker, followed by its result | One investigation or review should not fill the parent context |
 
@@ -106,6 +106,8 @@ The fallback array is VS Code-specific. Other Copilot surfaces that can read `.g
 
 VS Code tries the array in order until a model is available. If `model` is absent, the model picker selection is used. Availability depends on the Copilot plan, organisation policy and installed client, so confirm the exact names in the picker before sharing a configuration.
 
+A handoff can also name a one-off model (`handoffs.model`); prefer setting the model on the target agent instead.
+
 This supports a human-directed option:
 
 1. Leave `model` unset on a planning agent so the person deliberately selects a reasoning-capable model
@@ -114,28 +116,15 @@ This supports a human-directed option:
 
 For the built-in Plan flow, the corresponding current settings are `chat.planAgent.defaultModel` and `github.copilot.chat.implementAgent.model`.
 
-### Keep the handoff model separate
-
-`handoffs.model` is a different field. It accepts one qualified model name for that transition, not a fallback array:
-
-```yaml
-handoffs:
-  - label: Start implementation with a one-off model
-    agent: plan-implementer
-    prompt: Implement the approved plan above.
-    send: false
-    model: GPT-5.4 mini (copilot)
-```
-
-Current VS Code implementation applies this as a transition override after selecting the target agent, ahead of the target agent's top-level `model`. The public schema documents both fields but does not publish that complete precedence as a compatibility promise. Prefer configuring the implementation model in one place. Usually that means setting the target agent's fallback list and omitting `handoffs.model`; use the handoff field only for an intentional one-off override.
-
 > **Version-sensitive behaviour:** retest model routing after material VS Code or Copilot updates. An older local experiment found custom-agent model pins were ignored, while current documentation and implementation support them.
 
-A capable planner and narrower worker can improve reviewability and reduce task ambiguity. Planning, cache rebuilding, workers and review also add model work, so this is not evidence that the combined workflow is cheaper. Use [matched workflow trials](../Spec-Driven-Development.md#evaluate-the-workflow).
+A capable planner and narrower worker can improve reviewability and reduce task ambiguity. Planning, cache rebuilding, workers and review also add model work, so this is not evidence that the combined workflow is cheaper.
 
 ## Subagents
 
 Current VS Code documentation describes a subagent as a stateless delegated worker with its own context. The parent passes a task, the child works independently, and only its result returns to the parent.
+
+A subagent is a second vehicle sent on an errand: only its delivery note comes back.
 
 The parent cannot send a follow-up message to the same completed subagent, so the delegation should include:
 
@@ -148,7 +137,7 @@ Example:
 
 ```text
 Use the Reviewer agent as a subagent.
-Review the current branch against origin/develop.
+Review the current branch against develop.
 Return only Critical, Major and Minor findings with file and symbol locations.
 Do not edit files.
 ```
@@ -159,7 +148,7 @@ Current VS Code documentation gives this model priority for a subagent:
 2. The custom agent's top-level `model`, including its fallback array
 3. The parent conversation's model
 
-An explicitly requested subagent model cannot exceed the cost tier of the parent model. A high-tier coordinator can therefore route to a narrower worker in the same or a lower tier, subject to model availability and organisation policy. The subagent's separate context and additional model calls can still increase total AI-credit use.
+An explicitly requested subagent model cannot be a more expensive model than the parent's. A coordinator can therefore route to a worker on an equally priced or cheaper model, subject to model availability and organisation policy. The subagent's separate context and additional model calls can still increase total AI-credit use.
 
 The current first-party documentation describes the delegated workflow in detail for VS Code. Current Visual Studio documentation does not list subagents as supported, while GitHub lists JetBrains support as preview. Check the installed JetBrains plugin before relying on the feature, and avoid teaching the VS Code controls as a cross-client workflow.
 
@@ -170,7 +159,7 @@ The current first-party documentation describes the delegated workflow in detail
 - Independent questions can be investigated separately
 - The main agent should receive a concise result rather than every intermediate step
 
-Avoid delegation for tiny or tightly coupled changes. It adds another model interaction and the parent still needs to validate the result.
+Avoid delegation for tiny or tightly coupled changes. It adds more model calls and the parent still needs to validate the result.
 
 ## Skill, custom agent or subagent
 
@@ -184,7 +173,6 @@ Planning, implementation and review are workflow phases. They do not each need a
 - [Subagents in VS Code](https://code.visualstudio.com/docs/agents/run/subagents)
 - [Planning with agents in VS Code](https://code.visualstudio.com/docs/agents/run/planning)
 - [Sessions and handoff in VS Code](https://code.visualstudio.com/docs/agents/concepts/sessions)
-- [Current VS Code handoff model implementation](https://github.com/microsoft/vscode/blob/4227cbcd9ecacd36425e1cccbcb36c12809394c2/src/vs/workbench/contrib/chat/browser/widget/chatWidget.ts#L1768-L1786)
 - [Custom agents configuration reference](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
 - [Custom agents in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/ide/copilot-specialized-agents?view=visualstudio)
 - [Copilot customisation cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)

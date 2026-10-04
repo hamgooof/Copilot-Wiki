@@ -1,12 +1,12 @@
 # Choose the right Copilot technology
 
-_For new and regular Copilot users - Last reviewed 28 August 2026_
+_For new and regular Copilot users - Last reviewed 4 October 2026_
 
 Instructions, skills, prompt files and custom agents can all guide Copilot. Choose based on what you want to reuse.
 
-First distinguish the reusable thing from the technology that helps deliver it. [Repository knowledge](../Repository-Knowledge.md) is versioned information that several agents and workflows can read. [Spec-Driven Development](../Spec-Driven-Development.md) is a process that can combine planning, files, agents and review points. Neither is another Copilot technology.
+First ask what you want to reuse; then pick the technology. [Repository knowledge](../Repository-Knowledge.md) is versioned information that several agents and workflows can read. [Spec-Driven Development](../Spec-Driven-Development.md) is a process that can combine planning, files, agents and review points. Neither is another Copilot technology.
 
-![Rules route to instructions, procedures to skills, saved requests to prompt files, worker roles to custom agents, isolated work to subagents and guarantees to deterministic enforcement](../Media/poc-technology-choice.svg =760x)
+![Rules route to instructions, procedures to skills, saved requests to prompt files, worker roles to custom agents, isolated work to subagents and guarantees to deterministic enforcement](../Media/technology-choice.svg =760x)
 
 [[_TOC_]]
 
@@ -15,7 +15,7 @@ First distinguish the reusable thing from the technology that helps deliver it. 
 1. **A rule or fact should apply to most repository work:** use [repository instructions](Custom-instructions.md)
 2. **Guidance applies only to particular files or folders:** use [path-specific instructions](Custom-instructions.md#path-specific-instructions)
 3. **Copilot needs a repeatable procedure for one kind of task:** use an [agent skill](Agent-skills.md)
-4. **A person should deliberately run the same saved request with new inputs:** use a [prompt file](Prompt-files.md)
+4. **A person should deliberately run the same saved request with new inputs:** use a [prompt file](Prompt-files.md); in VS Code, prefer a skill you invoke by name (see [Prompt file or skill](#prompt-file-or-skill))
 5. **Copilot needs a reusable role, model or tool configuration:** use a [custom agent](Custom-agents-and-subagents.md#custom-agent)
 6. **A separate worker would help isolate delegated work:** use a [subagent](Custom-agents-and-subagents.md#subagents) where supported
 7. **A rule must always be enforced:** use a formatter, analyser, test, permission or repository control
@@ -38,14 +38,14 @@ This is the distinction most people need:
 - A **custom agent defines the worker**: role, continuing instructions, tools, model, subagent access and handoffs
 - A **skill defines a playbook**: steps, checklist, examples, scripts, references and output format
 
-One agent can use several skills. The same skill can be reused by different agents.
+One agent can use several skills. The same skill can be reused by different agents. If the model is the engine, a custom agent is a vehicle fitted out for one job, and a skill is a route card any vehicle can pick up when the job matches.
 
 ### Scenario A: occasional structured review
 
 In VS Code, enter this slash command in Copilot Chat:
 
 ```text
-/review-changes origin/develop
+/review-changes develop
 ```
 
 The skill compares the branches, applies the team checklist and returns Critical, Major and Minor findings. No custom agent is needed because the reusable asset is the procedure.
@@ -80,6 +80,8 @@ Use a **prompt file** when the person should choose exactly when to run a saved 
 Use a **skill** when the procedure can be selected automatically during a larger task, or when it carries a fuller workflow with supporting resources.
 
 Both can appear as slash commands in current VS Code. Do not teach that syntax as universal: their lifecycle and invocation controls differ by IDE.
+
+For new work in VS Code, prefer a skill. VS Code has deprecated prompt files for Agent Host sessions and recommends converting existing prompt files to skills; see the [note on the Prompt files page](Prompt-files.md#vs-code-deprecation).
 
 ## Instructions or skill
 

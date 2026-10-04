@@ -1,6 +1,6 @@
 # Bootstrap and evaluate a repository-knowledge pilot
 
-_For developers trialling the pattern - Last reviewed 28 August 2026_
+_For a repository maintainer piloting this once; most readers only need the [parent page](../Repository-Knowledge.md) - Last reviewed 4 October 2026_
 
 This runbook creates a small task-driven knowledge router for one representative area. It deliberately avoids generating a repository encyclopaedia.
 
@@ -15,7 +15,7 @@ Choose:
 - Two or three later tasks that can test whether the routes reduce rediscovery
 - A repository commit and success criteria that can be reused for matched comparisons
 
-Write the task contract precisely enough that both conditions implement the same behaviour. Name filter bounds, permission semantics and required verification where an apparently ordinary phrase could support several valid interpretations.
+Write the task contract precisely enough that both conditions implement the same behaviour. Spell out details that could be read two ways, such as exact validation rules and who may access a page.
 
 Record the AI credits and human review time spent creating the pilot. Those costs belong in the eventual evaluation.
 
@@ -91,11 +91,11 @@ Do not add the standing instruction pointer yet. First return:
 - commands or checks used to validate links and structure
 ```
 
-Use bounded subagents only when an investigation is genuinely independent and their context isolation is useful. A small pilot may be clearer with one agent.
+Use one agent for the pilot.
 
 ## 3. Review the routes before enabling them
 
-Use a fresh reviewer or review subagent. Give it the approved plan and exact change range:
+Use a fresh reviewer or review subagent. Give it the approved plan and exact change range, written as `<base>...<head>`: for example `develop...HEAD`, the commits on your branch.
 
 ```text
 Review the repository-knowledge pilot in <base>...<head> against the approved plan at <saved-plan-path>.
@@ -112,44 +112,20 @@ Verify every material claim against source, configuration, tests, schemas or oth
 - contradictions with existing instructions or implementation
 - links, anchors and ordering that will fail in the published wiki or repository
 
-Report confirmed defects by severity, then unresolved questions. For each defect give the route or file, evidence, why it matters and the smallest correction. “Not established” is an acceptable conclusion.
+Report confirmed defects by severity, then unresolved questions. For each defect give the route or file, evidence, why it matters and the smallest correction. "Not established" is an acceptable conclusion.
 ```
 
 Correct confirmed defects without expanding the pilot into unrelated areas.
 
 ## 4. Add the small entry point
 
-Only after the review passes, add or refine the concise repository-wide pointer:
-
-```markdown
-Repository knowledge is indexed at [`.docs/index.md`](../.docs/index.md).
-Before planning or changing an unfamiliar area, read the index, then only the routes relevant to the task.
-Treat the repository as implementation evidence. If it contradicts a document, report the conflict and propose a focused update.
-```
+Only after the review passes, add or refine the concise repository-wide pointer shown in [Keep the entry point small](../Repository-Knowledge.md#keep-the-entry-point-small).
 
 Add short canonical build, test and lint commands alongside it only when they apply broadly. Do not automatically include the contents of every linked document.
 
 ## 5. Evaluate later tasks
 
-Run two or three representative tasks from the same repository state:
-
-1. Baseline without the knowledge pointer or routes
-2. Matched run with the reviewed pilot available
-
-For both conditions, retain the raw conversation and telemetry where policy permits. Compare:
-
-- First-pass correctness and acceptance-test results
-- Code searches and files read for orientation
-- Model rounds and tool failures before productive work begins
-- Incorrect assumptions and human corrections
-- Review time and elapsed time
-- Input, output, cache and total AI-credit usage
-
-Inspect raw logs rather than relying only on a harness summary. Confirm which documents and messages were actually supplied to each model request. Read the decoded request messages and the separately stored system prompt and tool definitions when the client records them. OTel may contain lifecycle and usage records without containing the verbatim prompt, even when content capture is enabled.
-
-If a smoke request is needed, run it in a neutral workspace rather than one measured condition. For repeated comparisons, counterbalance the order and precondition caches consistently. Inspect cache reads per request: one transient miss can dominate an otherwise smaller run. Report observed billing, total prompt volume and a clearly labelled cache-normalised estimate rather than relying on aggregate non-cached input alone.
-
-Include the planning, implementation, review and maintenance cost. A shorter run is not an improvement if quality falls.
+Try two or three ordinary tasks in the area and note whether Copilot found the right files faster and needed fewer corrections. Share what you find with the repository's maintainers.
 
 ## Focused maintenance review
 
@@ -175,4 +151,4 @@ Prefer this manual signal before considering hooks or automatic semantic rewrite
 
 - Return to [Repository knowledge for people and agents](../Repository-Knowledge.md)
 - Check [Custom instructions](../Copilot-Technologies/Custom-instructions.md) before adding the standing pointer
-- Keep the [SDD evaluation](../Spec-Driven-Development.md#evaluate-the-workflow) separate from this pilot
+- Keep any [Spec-Driven Development](../Spec-Driven-Development.md) comparison separate from this pilot

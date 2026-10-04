@@ -1,6 +1,6 @@
 # Copilot 101
 
-_A first-day guide to working with Copilot. Last reviewed 12 August 2026._
+_A first-day guide to working with Copilot. Last reviewed 4 October 2026._
 
 GitHub Copilot can help with small questions, focused edits and larger tasks. Start with a request you can easily check, then give it only as much access and scope as the work needs.
 
@@ -16,9 +16,11 @@ Choose the smallest interaction that fits the job:
 | Ask or read-only chat | Explanations, questions and investigation | Copilot answers without editing your code |
 | Inline chat | A question or edit tied to selected code | The conversation stays beside that code |
 | Agent mode | Investigation, multi-file work and validation | Copilot can use enabled tools, edit files, run commands and respond to results |
-| Plan (VS Code and current Visual Studio versions) | Researching and agreeing an approach before edits | Copilot investigates and proposes a plan. In other clients, ask for a read-only implementation plan instead |
+| Plan (VS Code, Visual Studio and JetBrains) | Researching and agreeing an approach before edits | Copilot investigates and proposes a plan |
 
-Agent mode is useful whenever investigation, changes and validation match the task. Keep the task bounded and review what it does.
+Inline suggestions do not currently use AI credits on paid plans. Chat, Plan and Agent requests use your organisation's AI credits, and Agent tasks use the most. See [Working efficiently and managing cost](Working-Efficiently-and-Managing-Cost.md).
+
+Use Agent mode when the task needs Copilot to look around, change files and check its own work. Keep the task bounded and review what it does.
 
 ## Open Copilot in your IDE
 
@@ -59,18 +61,20 @@ Copilot can be useful and still be wrong. Compare its answer or changes with the
 - Check that it stayed within the requested files and behaviour
 - Read the diff, especially generated or broadly formatted changes
 - Run or inspect the relevant tests yourself when the change matters
+- Exercise the change itself (call the endpoint, open the page). Tests that Copilot wrote can pass while the feature is broken
 - Ask a follow-up when the evidence is incomplete: "What did you check, and what remains uncertain?"
 
 ## What happens underneath
 
 Copilot combines a language model with software in your IDE. That surrounding software is the harness: it prepares the information the model sees and runs requested tools such as search, file editing and tests.
 
-[How Copilot works](How-Copilot-Works.md) explains the model, harness, context and tools in full. [One request, many rounds](One-Request-Many-Rounds.md) shows why an Agent task can involve several internal cycles.
+[How Copilot works](How-Copilot-Works.md) explains the model, harness, context and tools in full. [One turn, many rounds](One-Turn-Many-Rounds.md) shows why an Agent task can involve several internal cycles.
 
 ## Where to go next
 
 - Learn the [mental model behind Copilot](How-Copilot-Works.md)
 - Learn [how to work efficiently and manage cost](Working-Efficiently-and-Managing-Cost.md)
+- Build your first customisation: [Custom instructions](Copilot-Technologies/Custom-instructions.md)
 - Choose a shared [Copilot customisation](Copilot-Technologies.md) when a useful behaviour should be reused by a team
 
 ## Sources

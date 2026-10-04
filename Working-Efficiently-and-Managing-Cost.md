@@ -1,6 +1,6 @@
 # Working efficiently and managing cost
 
-_For regular Copilot users - Last reviewed 28 August 2026_
+_For regular Copilot users - Last reviewed 4 October 2026_
 
 > **Three useful habits:** start a fresh session for unrelated work, describe the outcome and evidence, and keep always-on instructions short.
 
@@ -60,6 +60,8 @@ Add a regression test and run the focused orders tests.
 
 This gives Copilot enough direction to avoid broad exploration and unnecessary rework.
 
+If the work comes from a ticket, paste its acceptance criteria as the **Evidence** line; they are already your finish line.
+
 ## 3. Start a new session for unrelated work
 
 Continue a session while its earlier decisions and evidence remain useful. Start a new one when the goal, repository or problem changes.
@@ -74,7 +76,7 @@ A fresh session removes the previous conversation history. It does not remove re
 - Remove duplicated or contradictory guidance
 - Prefer formatters, analysers and tests for rules they can enforce
 
-If a repository needs more detail, keep a short pointer to a [repository-knowledge index](Repository-Knowledge.md#use-the-index-for-smart-lookup) and let the agent read only task-relevant documents. Those documents still consume input when read. The proposed benefit is less repeated orientation and correction across later work, which needs testing rather than assuming.
+If a repository needs more detail, keep a short pointer to a [repository-knowledge index](Repository-Knowledge.md#keep-the-root-index-small) and let the agent read only task-relevant documents. Those documents still consume input when read. The proposed benefit is less repeated orientation and correction across later work, which needs testing rather than assuming.
 
 ## 5. Choose a model for the task at hand
 
@@ -90,11 +92,13 @@ Experiment with representative tasks and notice:
 
 Try stronger reasoning models for difficult debugging and ambiguous design. Faster or lower-cost models can suit routine, well-scoped changes. Include corrections and reruns when judging the real cost of a model for a task.
 
-Changing the model, reasoning effort or enabled tools during a task can stop the next request from matching the previously cached input. Choose them before starting when practical, but do not turn configuration into a ritual for every request.
+For a simple read-only question, try a low-cost model first; a larger model earns its cost on a wide investigation or when speed matters.
+
+Changing the model, reasoning effort or enabled tools during a task can stop the next model call from matching the previously cached input. Choose them before starting when practical, but do not turn configuration into a ritual for every request you send.
 
 ### Why a long pause can matter
 
-When the start of a model request matches a recent request, the provider can reuse that prefix at the lower cached-input rate. After an idle period, some or all of that reusable state might no longer be available. The next request can therefore cost more even when your new message is short.
+When the start of a model call's input matches a recent model call, the provider can reuse that prefix at the lower cached-input rate. After an idle period it expires. For Claude models, assume that a pause of more than about five minutes means the next model call pays full price to re-read the conversation; some models keep it for longer. The next model call can therefore cost more even when your new message is short.
 
 For example, using GitHub's rates reviewed on 27 August 2026:
 
@@ -105,19 +109,11 @@ For example, using GitHub's rates reviewed on 27 August 2026:
 
 This example counts only those 100,000 input tokens. It excludes new input, output and reasoning, and it illustrates the size of the difference rather than predicting when a cache miss will occur. Cache retention can vary by model, Copilot route and service load.
 
-If a later request is unexpectedly slow or expensive, VS Code's Cache Explorer can show how much input was reused and where the matching prefix changed.
+If a turn is unexpectedly slow or expensive, VS Code's Cache Explorer can show how much input each model call reused and where the matching prefix changed. Cache Explorer lists each model call as a "model turn"; this wiki calls it a round.
 
 ### Count model work around tools and files
 
-There is no fixed per-file or per-tool credit formula. Count the model interactions around the operation:
-
-- A model-generated read, command, edit or file-write request is model output
-- File content, search results, terminal output and edit results included in a later model call become input
-- Generated plan, documentation and code content supplied through an edit tool is output
-- A fresh session that reads a saved plan processes that plan as ordinary input
-- Further validation, correction, delegation and review can add calls and tokens
-
-Current GitHub documentation does not describe a separate AI-credit fee for the operating-system act of writing a file. A saved file is not automatically cached. Prompt caching is a separate reuse mechanism based on a matching model-request prefix and current provider rules.
+Anything the model writes, including tool requests and file content, is output. Anything read back in a later call, including file content, search results and a saved plan, is input. Writing a file has no separate fee, and a saved file is not automatically cached.
 
 ## 6. Use Plan when the work is unclear
 
@@ -127,9 +123,11 @@ Use planning when scope or design needs agreement before code changes. Skip it f
 
 In VS Code, **Start Implementation** carries the plan and conversation context to the chosen implementation agent. The Plan agent's automatic memory file is cleared when the conversation ends. If you want a durable plan and clear context boundary, use **Open in Editor**, save the concise agreed plan, and begin a new Agent session from it.
 
-A handoff is useful for continuity; a fresh session reads the saved plan as ordinary input. Neither route automatically saves AI credits. Planning itself uses model calls, so its value may be accuracy, reviewability and resumability even when total usage rises. See [Spec-Driven Development](Spec-Driven-Development.md) for durable specification, plan and task options and a matched evaluation.
+See [Spec-Driven Development](Spec-Driven-Development.md) for durable specification, plan and task options.
 
-![Same-agent continuation retains accumulated context, a custom-agent handoff changes instructions while retaining the transcript, and a fresh chat can start from a bounded saved plan](Media/poc-context-cost-options.svg =760x)
+A handoff is changing driver without stopping: the new driver is handed the full journey log. A fresh chat with a saved plan is a new car that gets only the printed route.
+
+![Same-agent continuation retains accumulated context, a custom-agent handoff changes instructions while retaining the transcript, and a fresh chat can start from a bounded saved plan](Media/context-cost-options.svg =760x)
 
 ## 7. Guide tools without micromanaging every call
 

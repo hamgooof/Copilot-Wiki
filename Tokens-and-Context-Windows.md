@@ -1,8 +1,8 @@
 # Tokens and context windows
 
-_For new and regular Copilot users - Last reviewed 12 August 2026_
+_For new and regular Copilot users - Last reviewed 4 October 2026_
 
-A model first splits text into tokens. A token represents a piece of text and has a numeric token ID. The context window is the limited working capacity shared by the model's input, generated output and any supported reasoning.
+Before a model sees text, a tokeniser splits it into tokens. A token represents a piece of text and has a numeric token ID. The context window is the limited working capacity shared by the model's input, generated output and any supported reasoning. VS Code reserves space for the model response, so you normally do not need to manage that reserve yourself.
 
 [[_TOC_]]
 
@@ -11,13 +11,13 @@ A model first splits text into tokens. A token represents a piece of text and ha
 Imagine the model working at a whiteboard of a fixed size:
 
 - Pieces of text are converted into numbered **tokens**, like numbered magnetic tiles
-- The **model input** (the **assembled prompt**) is the set of incoming tiles placed on the board for one model call
+- The **model input** is everything placed on the board for one model call: instructions, the conversation so far, file contents and tool results
 - The **context window** is the whole board, including space reserved for the answer and any supported reasoning
-- Later rounds can add messages and tool results
+- The board is all the model can see. Anything not on it, including earlier sessions, does not exist for this call
 - **Compaction** replaces some older detail with a shorter summary
-- A **new session** starts without the previous conversation history
+- A **new session** starts with a clean board
 
-A useful board contains the information needed for the task, with enough room left for the model to work and answer.
+A useful board contains the information needed for the task, with enough room left for the model to work and answer. A bigger board does not help if it is covered in material the task does not need.
 
 ## What a token is
 
@@ -27,17 +27,7 @@ A piece can be a word, part of a word, punctuation or a special symbol. Product 
 
 ![One tokeniser turning pieces of text into numeric token IDs](Media/tokenisation-example.svg =720x)
 
-The example shows one tokeniser. Token IDs are not universal. Different models, including models from the same family, can split the same text differently and produce different token counts. Most Copilot users do not need to calculate this manually.
-
-## Model input, context and context window
-
-These terms are related but not interchangeable:
-
-- **Model input** is the complete package the harness sends for one model call
-- **Context** is the information contained in that package and therefore available to the model for the call
-- The **context window** is the maximum capacity shared by model input, generated output and supported reasoning
-
-VS Code reserves space for the model response and can compact conversation history before the window is exhausted. You normally do not need to manage that reserve yourself.
+The example shows one tokeniser. Token IDs are not universal. Different models, including models from the same family, can split the same text differently and produce different token counts. Most Copilot users do not need to calculate this manually. As a rough guide, one token is about four characters of English text, though the count for the same text varies noticeably between models.
 
 ## Token counts in more detail
 
@@ -54,13 +44,11 @@ Exact prices, cache eligibility and usage displays depend on the model and Copil
 
 A **turn** runs from your message to Copilot's final response. A **round** is one pass through the model-and-tools loop.
 
-This simplified context-growth illustration is based on the checkout task in [One request, many rounds](One-Request-Many-Rounds.md). It uses four equal blocks so the arithmetic stays easy to follow; the fuller walk-through separates the agent's actions into six rounds.
-
-The blocks represent the starting input, a search result, file content and test output. They illustrate material accumulating, rather than mapping one-to-one to the six actions on the rounds page.
+This simplified picture of the checkout task in [One turn, many rounds](One-Turn-Many-Rounds.md) uses four equal blocks; real rounds vary in size.
 
 ![Four simplified stages showing model input growing during the checkout-test turn, followed by compaction](Media/context-growth-across-rounds.svg =780x)
 
-In the simplified illustration, each stage adds one equal block while carrying earlier blocks forward: `1 + 2 + 3 + 4 = 10` blocks of input processing. Longer turns can therefore grow quickly. Real usage is less tidy because tool output varies and Copilot can use caching, filtering and compaction.
+In the simplified illustration, each stage adds one equal block while carrying earlier blocks forward: `1 + 2 + 3 + 4 = 10` blocks of input processing. Longer turns can therefore grow quickly. The hatched blocks were already sent in an earlier round: if the provider still holds them in its cache, they are read at the lower cached-input price, while the newest block is new input. Real usage is less tidy because tool output varies and Copilot can use caching, filtering and compaction.
 
 This is a context-growth illustration, not a billing formula. Billing also depends on generated output, model pricing and the Copilot implementation.
 
@@ -80,7 +68,7 @@ Some IDE versions display how much of the context window is used, reserved and f
 
 In current VS Code agent sessions, select the context indicator in Chat to inspect the session and compact it when the control is available. VS Code also provides Agent Debug Logs and Cache Explorer for deeper diagnosis.
 
-[Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer) compares consecutive requests and their matching input prefix. Treat it as a cache diagnostic, not as proof of the literal network payload sent to a model provider or the provider's complete effective state.
+[Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer) compares consecutive model calls and their matching input prefix. Treat it as a cache diagnostic, not as proof of the literal network payload sent to a model provider or the provider's complete effective state.
 
 ## Common sources of context bloat
 
@@ -94,7 +82,7 @@ Relevant context can improve quality. Irrelevant material can consume capacity, 
 
 ## What to read next
 
-- Follow the full checkout example in [One request, many rounds](One-Request-Many-Rounds.md)
+- Follow the full checkout example in [One turn, many rounds](One-Turn-Many-Rounds.md)
 - Apply the practical habits in [Working efficiently and managing cost](Working-Efficiently-and-Managing-Cost.md)
 - Look up a term in the [Copilot glossary](Copilot-Glossary.md)
 
@@ -106,4 +94,5 @@ Relevant context can improve quality. Irrelevant material can consume capacity, 
 - [Microsoft Learn: tokens and token IDs](https://learn.microsoft.com/en-us/dotnet/ai/conceptual/understanding-tokens)
 - [Microsoft.ML.Tokenizers](https://learn.microsoft.com/en-us/dotnet/ai/how-to/use-tokenizers)
 - [OpenAI tokenizer](https://platform.openai.com/tokenizer)
+- [OpenAI: what are tokens and how to count them](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them)
 - [Diagnose prompt caching with Cache Explorer](https://code.visualstudio.com/docs/agents/agent-troubleshooting/cache-explorer)

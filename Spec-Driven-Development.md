@@ -1,8 +1,10 @@
 # Spec-Driven Development
 
-_For developers planning and delivering non-trivial changes - Last reviewed 27 August 2026_
+_For developers planning and delivering non-trivial changes - Last reviewed 4 October 2026_
 
 **Spec-Driven Development (SDD)** puts durable intent before implementation. A specification defines what should be built, then planning and task stages refine how it will be delivered before code is changed.
+
+**If your team writes tickets with requirements and acceptance criteria, you already have the specification.** What SDD adds is a reviewed plan and small tasks *before* the agent edits code, and a review of the result against those acceptance criteria.
 
 SDD can improve alignment, staged review, resumability and the reviewability of implementation. It also adds work and model calls. Treat cost reduction as something to measure, not as the definition or promised outcome of the process.
 
@@ -42,13 +44,13 @@ SDD is most useful when:
 - Work must pause and resume without losing agreed intent
 - The final diff needs a clear basis for acceptance
 
-For an obvious one-file correction with a focused test, a full specification, plan and task set may cost more than it adds. Scale the artefacts to the risk. A short ticket with acceptance criteria and a brief implementation plan can still use the same intent-first principle without installing Spec Kit.
+For an obvious one-file correction with a focused test, a full specification, plan and task set may cost more than it adds. Scale the artefacts to the risk. For most tickets here, start with the lighter variation below; Spec Kit is optional.
 
 ## A lighter human-directed variation
 
 The following is one SDD-inspired variation, not the official or only form of SDD:
 
-1. Write or refine the requirement and acceptance criteria
+1. Paste the ticket's requirement and acceptance criteria into a Plan session, or save them as `docs/specs/<TICKET-KEY>.md` so later sessions can read them
 2. Let a capable planning model investigate the repository at architectural level
 3. Save a concise plan and divide it into bounded, dependency-aware tasks
 4. Have a person review the intent and plan
@@ -67,11 +69,11 @@ Several VS Code features can support the transition. They are not interchangeabl
 | Option | What it provides | Context boundary | Durability |
 | --- | --- | --- | --- |
 | Built-in **Plan** | Read-only research, clarification and an implementation plan | **Start Implementation** carries the plan and conversation context to the chosen implementation agent | The automatic `/memories/session/plan.md` is cleared when the conversation ends |
-| Custom planning agent | Reusable planning role, tool restrictions, optional model and handoff buttons | Documentation says the handoff moves with relevant context; local probes retained the complete visible transcript and tool traffic | Chat output is not durable unless it is saved |
+| Custom planning agent | Reusable planning role, tool restrictions, optional model and handoff buttons | Carries the whole visible conversation, so it does not shrink context | Chat output is not durable unless it is saved |
 | Saved plan in a new chat | Explicit, reviewable input for a new worker | The new chat starts without the planning conversation and reads the plan as ordinary context | Durable when stored in the repository, workspace or tracked issue |
 | Subagent | Isolated worker for one delegated question or task | Receives a bounded brief, not the parent's full conversation, and returns a result | Its useful result must be captured by the parent or in a file |
 
-![Specification, plan, tasks and implementation separated by human review gates, followed by a comparison of custom-agent handoff continuity and a fresh chat from a saved plan](Media/sdd-reviewed-flow.svg =840x)
+![The ticket's requirement and acceptance criteria, plan, tasks and build separated by human review gates, with the result checked against the acceptance criteria](Media/sdd-reviewed-flow.svg =840x)
 
 Use **Open in Editor** from the built-in Plan agent when the plan needs to survive the session. In a new Agent chat, reference the saved plan and ask it to implement only the next approved task.
 
@@ -95,17 +97,9 @@ A stronger planner and narrower workers may improve quality because the planner 
 
 ## Understand what the stages cost
 
-[One request, many rounds](One-Request-Many-Rounds.md) explains the model-and-tool loop. In an SDD workflow, the same mechanics apply:
+[One turn, many rounds](One-Turn-Many-Rounds.md) explains the model-and-tool loop. The usual rules apply: see [Count model work around tools and files](Working-Efficiently-and-Managing-Cost.md#count-model-work-around-tools-and-files). A saved plan is ordinary input when read; it is not cheaper because an agent wrote it.
 
-| Event | Usage consequence |
-| --- | --- |
-| A model writes specification, plan, task or code content | The generated text or edit payload is model output |
-| A model requests a file read, search, command or edit | The tool request is model output; current GitHub documentation does not assign one fixed credit charge to the operating-system action itself |
-| A tool returns file content, search results, command output or an edit result | Material included in a later model call becomes input |
-| A new session reads a saved plan | The plan is ordinary input when supplied to the model |
-| An agent validates, corrects or asks another worker | Each additional round or worker can add calls, input and output |
-
-A saved plan is not cached merely because another agent wrote it. Prompt caching is separate and depends on a sufficiently matching request prefix, model and current Copilot route. Switching models creates a new model-specific cache boundary. Cache writes, cached input and fresh input have different current prices for some models.
+Prompt caching is separate and depends on a sufficiently matching model-call prefix, model and current Copilot route. Switching models creates a new model-specific cache boundary. Cache writes, cached input and fresh input have different current prices for some models.
 
 See [Working efficiently and managing cost](Working-Efficiently-and-Managing-Cost.md) and [Tokens and context windows](Tokens-and-Context-Windows.md) for the billing and context foundations.
 
@@ -119,6 +113,8 @@ The developer can inspect the plan, change the next prompt or choose the saved-p
 
 After implementation, use a fresh Reviewer chat or an isolated review subagent. Give it the specification, plan, changed files and validation evidence. Ask for supported findings rather than edits. Let a person decide which findings become corrective tasks.
 
+An AI reviewer is useful for spotting gaps, but it is not a correctness check. In internal trials, blind AI review scores did not track whether the code actually worked. Keep running the acceptance criteria as the gate.
+
 ## Decompose large features cautiously
 
 Start with the least elaborate split that makes the work bounded:
@@ -129,35 +125,6 @@ Start with the least elaborate split that makes the work bounded:
 4. Only when one phase is still too large, create a roadmap of independent sub-specifications
 
 Spec Kit's large-feature guidance treats each sub-specification as its own complete feature with a specification, plan and tasks. The roadmap records dependencies and state. This is safer than one enormous specification or a deep agent tree, but it adds coordination and should be reserved for work that needs it.
-
-## Evaluate the workflow
-
-Use representative work and hold the repository commit, requirement, tools, acceptance tests and review rubric constant. Repeat enough runs to expose model variability.
-
-Run separate comparisons:
-
-1. Direct implementation versus a reviewed specification, plan and tasks, using the same repository context
-2. The same approved plan implemented by a strong model and by a balanced or efficient model
-3. Handoff continuity versus a fresh session reading the same durable plan
-4. Tasks with and without [repository knowledge](Repository-Knowledge.md#test-the-hypothesis-separately), reported as a different experiment
-
-Record acceptance-criteria pass rate, human corrections, review time, total AI credits, model calls or rounds where visible, tool failures, retries, diff size, unnecessary changes, latency and ability to resume. Include planner, implementer, subagent and reviewer usage.
-
-> **To test:** one small internal fixture experiment, with one run per cell, found that plan plus implementation cost more than monolithic implementation. It did not test amortised repository knowledge. Treat accuracy, reviewability and resumability as possible value even when total cost rises.
-
-### Using remaining workplace credits responsibly
-
-For Copilot Business and Enterprise, included AI credits are pooled at the billing-entity level. Current GitHub documentation says unused included credits do not carry over and the pool resets at `00:00:00 UTC` on the first day of each calendar month. Additional usage and individual limits depend on organisation policy.
-
-Before an end-of-period trial:
-
-1. Check the workplace usage view, reset date, user budget and whether paid overage is allowed
-2. Reserve a bounded set of matched tasks and stop conditions
-3. Run the most informative comparison first
-4. Review quality before spending more credits on repeats
-5. Keep results scoped to the recorded client, extension, models and date
-
-The visible balance may belong to a shared pool, not to one person. Expiring included allowance is an opportunity to run a quality-first test only when the organisation's policy and other users' needs permit it.
 
 ## Cross-IDE limits
 

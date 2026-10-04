@@ -1,8 +1,8 @@
 # Agent skills
 
-_For developers creating repeatable Copilot workflows - Last reviewed 28 August 2026_
+_For developers creating repeatable Copilot workflows - Last reviewed 4 October 2026_
 
-An agent skill is a reusable playbook for performing one kind of task. It can contain instructions, scripts, examples, templates and reference material. Copilot discovers the skill from its name and description. The skill body loads when Copilot selects it, or when a person invokes it directly in a client that supports explicit invocation.
+An agent skill is a reusable playbook for performing one kind of task. It can contain instructions, scripts, examples, templates and reference material. Copilot discovers the skill from its name and description. The skill body loads when Copilot selects it, or when a person invokes it directly in a client that supports explicit invocation. If the model is the engine, a skill is a route card any vehicle can pick up when the job matches.
 
 [[_TOC_]]
 
@@ -29,7 +29,9 @@ Project skills can be reviewed and versioned with the repository. Personal skill
 
 Current VS Code documentation says skill discovery starts with the name and description, the `SKILL.md` body loads when the skill is used, and referenced resources are read as needed. The exact discovery cost and controls can differ between clients and versions.
 
-![A skill's name and description are discoverable, while its body and linked resources load only when the task selects them](../Media/poc-skill-progressive-loading.svg =760x)
+Every skill's name and description is sent with every model call, so a vague or overlapping description costs a little each time and can pick the wrong skill.
+
+![A skill's name and description are sent with every model call, while its body and linked resources load only when the task selects them](../Media/skill-progressive-loading.svg =760x)
 
 ## Example: review branch changes
 
@@ -48,7 +50,7 @@ This skill performs a complete, structured review without requiring a custom age
 ```markdown
 ---
 name: review-changes
-description: Review the current branch against a supplied base reference. Use for a structured pre-PR or peer review.
+description: Review the current branch against a supplied base reference. Use before merging or for a peer review.
 argument-hint: "[base branch or commit]"
 ---
 
@@ -76,16 +78,16 @@ If no findings survive review, say so and list the checks completed.
 In current VS Code, run it as:
 
 ```text
-/review-changes origin/develop
+/review-changes develop
 ```
 
 Use skills according to the client:
 
-- **VS Code:** select the skill automatically by describing a matching task, or invoke it directly with `/review-changes origin/develop`
+- **VS Code:** select the skill automatically by describing a matching task, or invoke it directly with `/review-changes develop`
 - **Visual Studio 2026 18.5 or later:** Copilot discovers applicable skills automatically. To make your intent clear, ask it to use the named `review-changes` skill; do not rely on the VS Code slash-command syntax
 - **JetBrains:** agent skills are a preview feature. Let Copilot select an applicable skill automatically, or ask it to use the skill by name; check the installed plugin before documenting a direct UI control
 
-Automatic selection depends on a clear skill name and description. If using a particular playbook matters, name it in the request and check the agent's references or progress rather than assuming it loaded.
+Automatic selection depends on a clear skill name and description. If using a particular playbook matters, name it in your request and check the agent's references or progress rather than assuming it loaded.
 
 ## Skill or custom agent
 

@@ -1,12 +1,12 @@
 # Repository knowledge for people and agents
 
-_For developers and repository maintainers - Last reviewed 28 August 2026_
+_For developers and repository maintainers - Last reviewed 4 October 2026_
 
-A small, task-driven knowledge map can help people and agents find the repository information that matters before they start exploring code. The aim is to reduce repeated orientation and avoid agent rounds spent ingesting and processing code merely to rediscover existing behaviour, boundaries and rules.
+A small, task-driven knowledge map can help people and agents find the repository information that matters before they start exploring code. The aim is fewer rounds spent re-reading code just to rediscover how an area is meant to work.
 
 The agent should load only the knowledge relevant to the task, then verify it against the repository.
 
-> **Hypothesis, not a saving claim:** creating and maintaining repository knowledge has a cost. Test whether a small routing structure reduces later searches, model rounds, mistaken assumptions, corrections and review time without reducing result quality.
+> **Hypothesis, not a saving claim:** creating and maintaining repository knowledge has a cost. Test whether a small routing structure reduces later searches, model calls, mistaken assumptions, corrections and review time without reducing result quality.
 
 [[_TOC_]]
 
@@ -20,27 +20,13 @@ Repository knowledge is not one large briefing that every agent should read. It 
 4. Those documents provide expected behaviour, boundaries and rules before code inspection begins
 5. The repository remains the evidence for how the system is actually implemented
 
-![An observed Field Visits implementation comparing orientation without repository knowledge against a small pointer, root index and two focused guides](Media/poc-repository-knowledge-routing.svg =900x)
+![A small standing instruction points to the repository knowledge index, which routes the task to two relevant documents while an unrelated guide stays unloaded](Media/repository-knowledge-selective-context.svg =900x)
 
-The diagram reports one matched pilot, not a general benchmark. A useful route can help the agent start closer to the relevant behaviour and rules; it does not remove the need to inspect implementation evidence, make the change and verify it.
+In one small internal trial the agent read fewer files before its first edit when the routes were present, and passed the same acceptance checks. The cost difference was too small and the sample too small to call a saving.
 
-### What happened in the first bounded pilot
+The index is a router, not a manifest to ingest. A link tells the agent where to look when a question makes that document relevant. It does not mean that the whole documentation tree should become model input at the start of every model call.
 
-The same Sonnet 4.5 model implemented a protected React and .NET Field Visits feature from matched repository states. The documented condition added one 298-character standing pointer, a root index and two focused guides.
-
-| Observed measure | Without route | With route |
-| --- | ---: | ---: |
-| Successful reads before the first edit | 34 | 26 |
-| Model requests before the first edit | 15 | 11 |
-| Total model requests | 30 | 28 |
-| Total input tokens | 1,095,614 | 1,055,217 |
-| External acceptance checks | 24/24 | 24/24 |
-| Observed billed AIC | 83.65 | 92.55 |
-| Cache-normalised AIC estimate | 83.65 | 80.44 |
-
-The routed result also added stronger API and front-end tests. Its observed bill was distorted by one 47,446-token request that unexpectedly received no cache read even though the system prompt, tools and conversation prefix were unchanged; caching resumed on the next request. Making both initial requests cold and treating that isolated miss as a normal prefix hit estimates 80.44 rather than 92.55 AIC. Pricing every input token as uncached gives the same direction, 3.6% lower for the routed condition. This is evidence from one pair, not a general saving guarantee.
-
-The index is a router, not a manifest to ingest. A link tells the agent where to look when a question makes that document relevant. It does not mean that the whole documentation tree should become model input at the start of every request.
+The index is the building directory in the lobby. It tells you which floor to go to, not what is in every office. The agent still has to walk in and look, by verifying against the code.
 
 Repository knowledge is independently useful. [Spec-Driven Development](Spec-Driven-Development.md) can consume it, but SDD is neither a prerequisite nor the source of any benefit the knowledge map might produce.
 
@@ -69,6 +55,7 @@ For a larger repository, an illustrative shape is:
   index.md
   architecture/
     index.md
+    frontend.md
     persistence.md
   rules/
     index.md
@@ -112,7 +99,7 @@ The root does not need to list every leaf document. It can link to a child index
 
 For a task such as **change the persistence retry behaviour**, a good route is:
 
-1. Use the small standing instructions already supplied to the request
+1. Use the small standing instructions already included in the model input
 2. Read the root index and identify the activity as a code change and the area as back-end persistence
 3. Follow the architecture route to learn the expected persistence behaviour and boundaries
 4. Follow the rules route for implementation constraints specific to that area
@@ -120,10 +107,6 @@ For a task such as **change the persistence retry behaviour**, a good route is:
 6. Inspect the relevant code, configuration and tests to confirm the documents still match reality
 
 Unrelated front-end guidance, historical decisions and broad repository summaries remain unloaded unless the task creates a reason to read them.
-
-The same idea can be applied to a cross-stack React feature. The route starts with two small knowledge reads, then expands into the connected code surfaces only after the task requires them:
-
-![A protected React page task selecting front-end and domain knowledge before inspecting and changing route, navigation, permissions, API hook, schema, page, styles and tests](Media/repository-knowledge-frontend-change-surface.svg =900x)
 
 ## What belongs in focused documents
 
@@ -163,7 +146,7 @@ Treat the repository as implementation evidence. If it contradicts a document, r
 
 Include canonical build, test and lint commands alongside this pointer when they are short and apply broadly. Link to a runbook when the workflow has many variants or troubleshooting steps. Do not duplicate the same commands in several knowledge documents.
 
-A Markdown link is a direction to read the target, not a promise that every linked file is eagerly added to every request. Loading behaviour depends on the client and settings. In VS Code, inspect response references or customisation diagnostics when this matters.
+A Markdown link is a direction to read the target, not a promise that every linked file is eagerly added to every model call. Loading behaviour depends on the client and settings. In VS Code, inspect response references or customisation diagnostics when this matters.
 
 ## Maintain it without an AI documentation tax
 
@@ -191,13 +174,13 @@ Start with one representative task area and its normal change workflow. Do not b
 
 Do not count the bootstrap alone as a success or failure. Its proposed benefit is amortised across later work.
 
-Emerging studies of always-loaded `AGENTS.md` and similar context files report mixed results: some found higher inference cost without a measurable correctness gain, while another found lower output and elapsed time but did not evaluate correctness. Those treatments are not the indexed, on-demand pattern described here. The bounded pilot above reduced orientation measures and produced a modest cache-normalised cost estimate. Together, they reinforce the need to test task outcomes rather than the presence of documentation or one usage measure in isolation.
+Emerging studies of always-loaded `AGENTS.md` and similar context files report mixed results: some found higher inference cost without a measurable correctness gain, while another found lower output and elapsed time but did not evaluate correctness. Those treatments are not the indexed, on-demand pattern described here. They reinforce the need to test task outcomes rather than the presence of documentation or one usage measure in isolation.
 
-Compare representative tasks from the same repository state with and without the reviewed routes. Record first-pass correctness, acceptance-test results, exploratory searches, model rounds, tool failures, human corrections, review time, latency and total AI credits. Include the pilot creation and maintenance cost when judging longer-term value.
+Compare representative tasks from the same repository state with and without the reviewed routes. Record first-pass correctness, acceptance-test results, exploratory searches, model calls, tool failures, human corrections, review time, latency and total AI credits. Include the pilot creation and maintenance cost when judging longer-term value.
 
-Control the model, repository commit, task, tools and success criteria where practical. Record cache reads per request, not only in aggregate, and show a cache-normalised estimate when an isolated miss would reverse the result. Counterbalance condition order when repeats are affordable. A lower token or tool-call count is useful only when the result still meets the quality bar.
+A lower token or tool-call count is useful only when the result still meets the quality bar.
 
-> **Test separately:** evaluate [SDD and model routing](Spec-Driven-Development.md#evaluate-the-workflow) in different comparisons so that any repository-orientation benefit is not attributed to SDD.
+> **Test separately:** evaluate SDD and model routing in different comparisons so that any repository-orientation benefit is not attributed to SDD.
 
 ## What to read next
 

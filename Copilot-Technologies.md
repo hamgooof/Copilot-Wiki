@@ -1,10 +1,14 @@
 # Copilot technologies
 
-_A directory for shaping Copilot's behaviour. Last reviewed 27 August 2026._
+_A directory for shaping Copilot's behaviour. Last reviewed 4 October 2026._
 
 Instructions, skills, prompt files and custom agents change different parts of the Copilot experience. Start with the smallest shared setup that solves a real team problem.
 
 For first-day guidance, start with [Copilot 101](Copilot-101.md). The cross-IDE support summary is below; the linked pages explain how each technology works.
+
+Every customisation is text that the harness places in a known slot of the [model input](How-Copilot-Works.md#what-reaches-the-model). Some slots are filled on every model call, so they cost something every time; others are filled only when needed.
+
+![The model input stack with a tag on each layer: repository instructions and skill names and descriptions are sent with every model call, path instructions when a matching file is involved, a skill body when selected, a selected custom agent replaces the agent layer, a prompt file becomes your request when run, and a subagent runs a separate stack whose result alone comes back](Media/customisation-entry-points.svg =760x)
 
 ## Choose and use a technology
 
@@ -16,9 +20,11 @@ For first-day guidance, start with [Copilot 101](Copilot-101.md). The cross-IDE 
 
 The chooser helps with the decision. The other pages show where each option earns its place in a repository.
 
+Most teams start with repository instructions, add one skill for a procedure they repeat, and only later create a custom agent. Prompt files are optional: VS Code has deprecated them for Agent Host sessions and recommends converting them to skills, so prefer a skill for anything new.
+
 ## Use these building blocks in wider practices
 
-Copilot technologies can support practices without defining them:
+Two team practices build on these technologies:
 
 - [Repository knowledge for people and agents](Repository-Knowledge.md) is reusable information, with instructions providing a small entry point
 - [Spec-Driven Development](Spec-Driven-Development.md) is an intent-first development process that can use Plan, custom agents, handoffs, saved files and subagents
@@ -36,12 +42,14 @@ The following reflects the official documentation reviewed on 27 August 2026. Su
 | Feature | VS Code | Visual Studio | JetBrains |
 | --- | --- | --- | --- |
 | Custom instructions | Supported | Supported | Preview in GitHub's lifecycle table |
-| Prompt files | Supported | Supported | Preview |
+| Prompt files | Supported, deprecated for Agent Host sessions† | Supported | Preview |
 | Custom agents | Supported | Visual Studio 2026 18.4+* | Preview |
 | Subagents | Supported | Not documented as supported | Preview |
 | Agent skills | Supported | Visual Studio 2026 18.5+* | Preview |
 
 \* Microsoft documents custom agents from Visual Studio 2026 18.4 and agent skills from 18.5. Visual Studio 2022 17.14 does not provide every feature listed for Visual Studio 2026.
+
+† VS Code's prompt-file documentation (checked 4 October 2026) says prompt files are not loaded by Agent Host and continue to work with the Local agent for now, which will be removed in a future release. See [Prompt files](Copilot-Technologies/Prompt-files.md#vs-code-deprecation).
 
 ## Keep the first setup useful
 
@@ -51,6 +59,7 @@ A useful first customisation fixes a problem people already recognise: a repeate
 
 - [Copilot customisation cheat sheet](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)
 - [Copilot feature matrix](https://docs.github.com/en/copilot/reference/copilot-feature-matrix)
+- [Prompt files in VS Code](https://code.visualstudio.com/docs/agent-customization/prompt-files)
 - [Agent customisation in VS Code](https://code.visualstudio.com/docs/agents/concepts/customization)
 - [Agent skills in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/ide/copilot-agent-skills?view=visualstudio)
 - [Custom agents in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/ide/copilot-specialized-agents?view=visualstudio)
