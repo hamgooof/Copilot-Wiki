@@ -2,26 +2,24 @@
 
 _For new and regular Copilot users - Last reviewed 4 October 2026_
 
-GitHub Copilot is a coding experience built around a language model, with software connecting that model to your IDE. In this wiki, that surrounding software is called the **agent harness**.
+GitHub Copilot is a language model plus the software in your IDE that feeds it and acts for it. This wiki calls that software the **agent harness**, or **harness** for short.
 
 [[_TOC_]]
 
 ## The 30-second explanation
 
-Each time the harness sends model input to the model is a **model call**.
+1. You type your request
+2. The harness builds the model input: your request plus instructions, history and anything else it thinks the model needs
+3. The model replies with text, tool requests, or both
+4. The harness runs the tools, asking you first where approval is needed
+5. The tool results go into the next model input
+6. Steps 2 to 5 repeat until the model replies with no tool requests. That reply is the final response
 
-1. You send Copilot a request
-2. The harness assembles the model input
-3. The model generates output: prose, one or more tool requests, or both where the model integration supports it
-4. The harness validates and executes requested tools, asking you for approval where required
-5. Tool results become available as context for the next model call
-6. The loop continues until Copilot returns its final response
+Each pass through steps 2 to 5 is one **model call**.
 
-Your **request** is the message you type. The **model input** (the **assembled prompt** in the diagram below) is the complete package the harness sends for one model call. **Context** is the information contained in that package and therefore available to the model.
+> **A word about "turn".** Different documentation uses it differently. Some count every step as a turn: a *user turn* when you send a message, an *LLM turn* each time the model is called, a *tool turn* when a tool runs. VS Code's Cache Explorer lists each model call as a "model turn", and several SDKs count model calls in their `max_turns` limits. **In this wiki a turn is the whole exchange: your message, all the work Copilot does, and its final answer. Each model call inside it is a round.** We never qualify "turn"; for the steps inside a round we say *your request*, *model input*, *model call*, *model output* (which may contain *tool requests*), *tool result* and *final response*. When you read "turn" elsewhere, check which meaning is in use.
 
-> **A word about "turn".** Different documentation uses it differently. Some count every step as a turn: a *user turn* when you send a message, an *LLM turn* each time the model is called, a *tool turn* when a tool runs. VS Code's Cache Explorer lists each model call as a "model turn", and several SDKs count model calls in their `max_turns` limits. **In this wiki a turn is the whole exchange: your message, all the work Copilot does, and its final answer. Each model call inside it is a round.** When you read "turn" elsewhere, check which meaning is in use.
-
-A quick question might need one round (one model call) and no tools. Fixing a feature can require several rounds of searching, reading, editing, testing and correcting.
+A quick question takes one round. Fixing a bug can take several rounds of searching, reading, editing and testing.
 
 ![A user request passing through the harness and model, with an optional tool loop, before a final response returns](Media/agent-loop.svg =760x)
 
@@ -45,15 +43,15 @@ Three things follow:
 - **Everything in the window counts.** The prediction depends on the whole input, not just the last few words. "good" on its own predicts punctuation; after "He shouted" it predicts "night" and "morning". An irrelevant file in the window is not harmless padding: it is part of what the next token is predicted from.
 - **Reasoning is more tokens.** Text the model writes becomes part of what it predicts from next, so good intermediate text makes good later text more likely, and junk makes junk more likely.
 
-Irrelevant context tends to hurt rather than merely take up space. Research has found that accuracy drops when the relevant passage sits in the middle of a long input ([Liu et al., *Lost in the Middle*, 2023](https://arxiv.org/abs/2307.03172)), and that performance degrades as input grows and as distractors are added, even when the needed fact is present ([Chroma, *Context Rot*, 2025](https://www.trychroma.com/research/context-rot)). Architectures differ in how they are built and trained; next-token prediction is the common core.
+Irrelevant context does harm, not just take up space. Models get worse at using a fact when it sits in the middle of a long input, and as the input grows longer and noisier, even when the fact is there ([Liu et al., 2023](https://arxiv.org/abs/2307.03172); [Chroma, 2025](https://www.trychroma.com/research/context-rot)).
 
 ## What reaches the model
 
-The request in the chat box is only the part you typed. Before calling the model, the harness can assemble a larger model input containing instructions, conversation history, tool descriptions and task information.
+What you type is a small part of what the model sees.
 
 ![Illustrative categories that can form the model input](Media/context-assembly.svg =760x)
 
-Depending on the IDE, mode and task, that input can contain:
+That input can include:
 
 - Built-in system instructions and descriptions of available tools
 - Repository, path-specific or personal instructions
@@ -63,17 +61,13 @@ Depending on the IDE, mode and task, that input can contain:
 - File content or other material you explicitly reference
 - Search, file, terminal and editing results from earlier rounds
 
-These categories explain what may be present. They are not shown in assembly order, and not every category appears in every model call.
-
-The whole repository is not automatically copied into the model input. File content can be supplied as editor context, attached explicitly or retrieved when the model requests search and read tools.
+Copilot does not send your whole repository. A file reaches the model only if it is open, you attach it, or the model asks to search or read it.
 
 ## The four parts worth remembering
 
 ### 1. The model generates the next output
 
-The language model processes the current input and generates output one token at a time. A token represents a piece of text and has a numeric token ID. The output can be prose, one or more tool requests, or both where the model integration supports it.
-
-Models differ in capability, speed, context-window size, tool use and cost. Think of the model as the engine: changing it can alter how the same surrounding Copilot experience performs.
+This is the next-token predictor described above. Models differ in quality, speed, context-window size, tool use and price, and you can switch between them in the model picker.
 
 ### 2. The harness runs the experience
 
@@ -84,13 +78,11 @@ The harness is the software around the model. It:
 - Validates and executes tool requests
 - Returns tool results as context for later calls
 - Manages the agent loop, approvals and limits
-- Adapts the experience for different model families: for example, Claude models edit files with `replace_string_in_file` and GPT models with `apply_patch`, and the harness selects different system prompts for different models
+- Gives each model family its own tools and system prompt, because models are trained differently: Claude models edit files with `replace_string_in_file`, GPT models with `apply_patch`, and Gemini models get reminders to call tools instead of narrating them
 
 The VS Code team puts it this way: *the model is the engine; the harness is the car.* Swapping the engine changes performance, but the car decides where the engine's power goes.
 
 ### 3. Context gives the model information for this call
-
-Context can include your request, instructions, relevant files or editor selections, earlier conversation, tool descriptions and results from searches, file reads or terminal commands.
 
 A good request helps by stating:
 
@@ -99,11 +91,9 @@ A good request helps by stating:
 - Which constraints matter
 - How success should be checked
 
-The request is one source of context, not the whole of it. The context window has a finite capacity. Useful evidence can improve the next decision; irrelevant material still occupies space and can distract the model.
-
 ### 4. Tools give the model hands
 
-The model cannot directly open a file, edit code or run a test. Tools give it hands to work in your local workspace.
+The model cannot open a file, edit code or run a test by itself. It asks the harness to, using tools.
 
 Common tools can:
 
@@ -125,7 +115,7 @@ You may still need to supply:
 - The command or evidence that proves the work is correct
 - A clear boundary when words such as "improve" could cover half the repository
 
-Writing these details into the request or an accessible repository file reduces discovery work and guessing.
+Put them in your message, or in a file in the repository, and Copilot stops guessing.
 
 ## Where customisations fit
 

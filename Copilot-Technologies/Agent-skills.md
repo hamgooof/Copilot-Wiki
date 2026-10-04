@@ -2,7 +2,7 @@
 
 _For developers creating repeatable Copilot workflows - Last reviewed 4 October 2026_
 
-An agent skill is a reusable playbook for performing one kind of task. It can contain instructions, scripts, examples, templates and reference material. Copilot discovers the skill from its name and description. The skill body loads when Copilot selects it, or when a person invokes it directly in a client that supports explicit invocation. If the model is the engine, a skill is a route card any vehicle can pick up when the job matches.
+An agent skill is a playbook for one kind of task: a `SKILL.md` file, plus any scripts, examples or templates it needs. Copilot always sees each skill's name and description. It loads the full playbook only when your task matches, or when you call the skill by name. If the model is the engine, a skill is a route card any vehicle can pick up when the job matches.
 
 [[_TOC_]]
 
@@ -15,7 +15,7 @@ Use a skill when a task needs:
 - Detailed guidance that should load only for relevant work
 - Supporting scripts, examples or references
 
-A skill changes the method used for a task. It does not normally replace the active agent's overall role, model or tool configuration.
+A skill changes how Copilot does the task, not who does it. The agent, its model and its tools stay the same.
 
 ## Project and personal skills
 
@@ -25,17 +25,15 @@ Store a team-owned project skill under:
 .github/skills/<skill-name>/SKILL.md
 ```
 
-Project skills can be reviewed and versioned with the repository. Personal skills under `~/.copilot/skills` are available across projects in clients that support them.
+Project skills can be reviewed and versioned with the repository. Personal skills in `~/.copilot/skills` work in all your projects.
 
-Current VS Code documentation says skill discovery starts with the name and description, the `SKILL.md` body loads when the skill is used, and referenced resources are read as needed. The exact discovery cost and controls can differ between clients and versions.
-
-Every skill's name and description is sent with every model call, so a vague or overlapping description costs a little each time and can pick the wrong skill.
+Every skill's name and description is sent with every model call. Keep the description short and specific: a vague one costs a little every time and can make Copilot pick the wrong skill.
 
 ![A skill's name and description are sent with every model call, while its body and linked resources load only when the task selects them](../Media/skill-progressive-loading.svg =760x)
 
 ## Example: review branch changes
 
-This skill performs a complete, structured review without requiring a custom agent.
+This skill runs a full review by itself. You do not need a custom agent.
 
 ```text
 .github/
@@ -81,17 +79,17 @@ In current VS Code, run it as:
 /review-changes develop
 ```
 
-Use skills according to the client:
+Use skills in each IDE:
 
-- **VS Code:** select the skill automatically by describing a matching task, or invoke it directly with `/review-changes develop`
+- **VS Code:** describe the task and Copilot picks the skill, or run `/review-changes develop`
 - **Visual Studio 2026 18.5 or later:** Copilot discovers applicable skills automatically. To make your intent clear, ask it to use the named `review-changes` skill; do not rely on the VS Code slash-command syntax
-- **JetBrains:** agent skills are a preview feature. Let Copilot select an applicable skill automatically, or ask it to use the skill by name; check the installed plugin before documenting a direct UI control
+- **Rider and WebStorm (preview):** describe the task, or ask Copilot to use the `review-changes` skill by name
 
-Automatic selection depends on a clear skill name and description. If using a particular playbook matters, name it in your request and check the agent's references or progress rather than assuming it loaded.
+If you need a particular skill, name it in your request and check the response shows it was used.
 
 ## Skill or custom agent
 
-This page's example is a skill because the reusable asset is the review procedure. A custom Reviewer agent can use it without duplicating the checklist. See [Choose the right Copilot technology](Choose-the-right-technology.md#skill-or-custom-agent) for the full skill, custom-agent and subagent scenarios.
+A custom Reviewer agent can use this skill without copying its checklist. See [Choose the right Copilot technology](Choose-the-right-technology.md#skill-or-custom-agent) for the full skill, custom-agent and subagent scenarios.
 
 ## Other useful code-repository skills
 
@@ -109,7 +107,7 @@ This page's example is a skill because the reusable asset is the review procedur
 - Loading the main file with reference material that could live in linked resources
 - Creating several overlapping skills whose descriptions match the same task
 - Treating natural-language steps as deterministic enforcement
-- Bundling scripts without reviewing their trust, permissions and portability
+- Adding scripts without checking what they do and what they can access
 
 ## Design checklist
 
@@ -118,7 +116,7 @@ This page's example is a skill because the reusable asset is the review procedur
 - Keep the main workflow concise
 - Link large examples and references
 - State preconditions, validation and expected output
-- Test both automatic selection and explicit invocation where supported
+- Check that Copilot picks the skill when you describe the task, and when you call it by name
 - Review the result like any other repository change
 
 ## Sources

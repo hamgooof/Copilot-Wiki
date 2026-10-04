@@ -2,7 +2,7 @@
 
 _For developers and repository maintainers - Last reviewed 4 October 2026_
 
-Custom instructions are standing guidance that Copilot applies automatically within a defined scope. They are a good home for concise repository facts, commands and conventions that matter frequently. Think of them as house rules taped to the dashboard: every driver sees them on every trip, so keep them short.
+Custom instructions are Markdown files that Copilot adds to your chat automatically. Use them for the short facts Copilot needs most of the time: build commands, where things live, team conventions. Think of them as house rules taped to the dashboard: every driver sees them on every trip, so keep them short.
 
 [[_TOC_]]
 
@@ -13,7 +13,7 @@ Custom instructions are standing guidance that Copilot applies automatically wit
 | Repository-wide instructions | `.github/copilot-instructions.md` | Work across the repository |
 | Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the YAML `applyTo` pattern |
 
-GitHub currently lists both forms for Copilot Chat in VS Code, Visual Studio and JetBrains. JetBrains custom instructions are marked preview in GitHub's lifecycle table.
+Both forms work in VS Code, Visual Studio, Rider and WebStorm (preview in Rider and WebStorm).
 
 ## Create your first file
 
@@ -22,14 +22,14 @@ GitHub currently lists both forms for Copilot Chat in VS Code, Visual Studio and
 3. Ask Copilot a question about the repository in chat
 4. Expand **References** in the response and confirm the file is listed
 
-VS Code can also generate a first draft from the repository: the Agent Customizations editor can start a chat that analyses the repository and creates instructions. Review the draft like any other change before committing it.
+In VS Code, the Agent Customizations editor can draft this file for you from the repository. Review the draft before you commit it.
 
 ## What belongs in repository-wide instructions
 
 - A compact map of the repository
 - The actual build, test and lint commands
-- Choices that genuinely apply across the repository
-- A few important boundaries
+- Conventions that apply everywhere, not just in one project
+- Things Copilot must not do, such as breaking public API contracts
 - Pointers to detailed local documentation
 
 Example:
@@ -62,7 +62,7 @@ applyTo: "src/api/**/*.cs"
 
 A separate front-end file could apply Angular component, state-management and testing conventions under `src/client`.
 
-When repository-wide and matching path-specific instructions both apply, both can be used. Keep the universal file genuinely universal and local detail in the scoped file.
+When you work on a file that matches a path-specific pattern, Copilot uses both files. Keep the repository-wide file for rules that apply everywhere.
 
 ## Where coding conventions belong
 
@@ -72,27 +72,27 @@ Ask three questions:
 2. **Does it apply across the repository?** Keep a short statement in repository-wide instructions
 3. **Does it apply to one language, project or folder?** Use path-specific instructions
 
-Small examples can clarify a team decision, such as whether C# tests use `Method_Condition_Result` names. Long code samples are costly to maintain and occupy context whenever the instruction applies.
+A one-line example helps, such as `Method_Condition_Result` for C# test names. Long code samples go out of date and are sent every time the instruction applies.
 
 ## Link to detail instead of copying it
 
 An instruction can direct Copilot to a repository document when a task needs fuller guidance. For a larger codebase, point to a small index and let the agent select relevant detail; [Keep the entry point small](../Repository-Knowledge.md#keep-the-entry-point-small) shows the pointer to use.
 
-The target must be a file the local harness can access. This keeps detailed examples out of every model call while leaving the source reviewable by the team. `.docs` is one reasonable location, not a requirement; `docs/` or concise root documents can use the same pattern.
+Link to a file in the repository so Copilot can open it. The detail stays out of every model call, and the team can still review it. Any folder works: `.docs`, `docs/` or a file in the root.
 
-A link is not a promise that every target is injected automatically. In VS Code, automatic inclusion of referenced instruction files depends on `chat.includeReferencedInstructions`, while an ordinary repository document can be read with tools when your request directs the agent to it. Check the response references or customisation diagnostics when loading behaviour matters.
+A link does not mean Copilot reads the file. In VS Code, linked instruction files are added automatically only if the `chat.includeReferencedInstructions` setting allows it. Other documents are read only when the agent opens them, for example because your request tells it to. Check **References** in the response to see what was used.
 
 See [Repository knowledge for people and agents](../Repository-Knowledge.md) for the task-routing pattern, and use its [bounded pilot](../Repository-Knowledge/Bootstrap-and-Evaluate.md) when trialling the approach.
 
 ## Context and usage
 
-Repository instructions are automatically added to the model input for relevant model calls. That saves repetition, but every always-applied line also competes with the current task, code and tool results for context.
+Copilot adds your repository instructions to the model input on every relevant model call. That saves you repeating yourself, but every line takes space your code and tool results could use.
 
-Keep instructions short enough to review regularly. Detailed occasional workflows belong in [skills](Agent-skills.md), and manually invoked requests can belong in [prompt files](Prompt-files.md).
+Keep instructions short enough to review regularly. Put longer, occasional workflows in a [skill](Agent-skills.md).
 
 ## Advanced note: `AGENTS.md`
 
-`AGENTS.md` is a portable instruction format that VS Code recognises, but Visual Studio and JetBrains do not list it for normal Copilot Chat. For a team using all three IDEs, use Copilot's `.github` instruction files.
+VS Code reads `AGENTS.md`, but Visual Studio, Rider and WebStorm do not list it for Copilot Chat. If your team uses more than VS Code, stick to the `.github` files.
 
 ## Review checklist
 
@@ -102,7 +102,7 @@ Keep instructions short enough to review regularly. Detailed occasional workflow
 - Are build and test commands still correct?
 - Can a formatter, analyser or test enforce a rule instead?
 - Could a long workflow become a skill or linked document?
-- Has someone verified the instructions appear in the client's references or diagnostics?
+- Does the file appear under **References** in a chat response?
 
 ## Sources
 

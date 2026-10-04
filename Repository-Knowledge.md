@@ -2,11 +2,9 @@
 
 _For developers and repository maintainers - Last reviewed 4 October 2026_
 
-A small, task-driven knowledge map can help people and agents find the repository information that matters before they start exploring code. The aim is fewer rounds spent re-reading code just to rediscover how an area is meant to work.
+Give the agent a short index that points each kind of task to the two or three documents it needs. It reads those, checks them against the code, and skips the rest. The aim is fewer rounds spent re-reading code to rediscover how an area is meant to work.
 
-The agent should load only the knowledge relevant to the task, then verify it against the repository.
-
-> **Hypothesis, not a saving claim:** creating and maintaining repository knowledge has a cost. Test whether a small routing structure reduces later searches, model calls, mistaken assumptions, corrections and review time without reducing result quality.
+This costs effort to build and maintain, so try it on one area first and see whether it helps.
 
 [[_TOC_]]
 
@@ -24,11 +22,9 @@ Repository knowledge is not one large briefing that every agent should read. It 
 
 In one small internal trial the agent read fewer files before its first edit when the routes were present, and passed the same acceptance checks. The cost difference was too small and the sample too small to call a saving.
 
-The index is a router, not a manifest to ingest. A link tells the agent where to look when a question makes that document relevant. It does not mean that the whole documentation tree should become model input at the start of every model call.
-
 The index is the building directory in the lobby. It tells you which floor to go to, not what is in every office. The agent still has to walk in and look, by verifying against the code.
 
-Repository knowledge is independently useful. [Spec-Driven Development](Spec-Driven-Development.md) can consume it, but SDD is neither a prerequisite nor the source of any benefit the knowledge map might produce.
+You do not need [Spec-Driven Development](Spec-Driven-Development.md) to use this, though SDD can use it.
 
 ## Put each kind of guidance in the right place
 
@@ -46,7 +42,7 @@ Do not copy information merely to make the knowledge tree look complete. Prefer 
 
 ## Design a routing tree
 
-Use one consistent documentation location that fits the repository. It might be `.docs/`, `docs/`, `.knowledge/` or a small set of existing root documents. The name is less important than discoverability, ownership and consistent links.
+Use one consistent documentation location that fits the repository. It might be `.docs/`, `docs/`, `.knowledge/` or a small set of existing root documents. The name matters less than everyone knowing where it is.
 
 For a larger repository, an illustrative shape is:
 
@@ -146,15 +142,15 @@ Treat the repository as implementation evidence. If it contradicts a document, r
 
 Include canonical build, test and lint commands alongside this pointer when they are short and apply broadly. Link to a runbook when the workflow has many variants or troubleshooting steps. Do not duplicate the same commands in several knowledge documents.
 
-A Markdown link is a direction to read the target, not a promise that every linked file is eagerly added to every model call. Loading behaviour depends on the client and settings. In VS Code, inspect response references or customisation diagnostics when this matters.
+To check what the agent actually read, open the response references in VS Code.
 
 ## Maintain it without an AI documentation tax
 
 The team should not need to spend AI credits updating a knowledge document after every ticket.
 
-Update a focused document when a change materially alters behaviour, boundaries, commands or constraints that the document actually describes. Otherwise leave it alone. A manual commit-range review can identify likely impact without automatically rewriting anything.
+Update a document only when a change breaks something it says. Otherwise leave it alone. The [maintenance review prompt](Repository-Knowledge/Bootstrap-and-Evaluate.md#focused-maintenance-review) will tell you which documents a set of commits affects.
 
-| Trigger | Proportionate response |
+| Trigger | What to do |
 | --- | --- |
 | A documented contract or boundary changes | Update the affected leaf and its route if necessary |
 | A new subsystem or recurring task cannot be routed | Add the smallest useful route or document |
@@ -170,17 +166,9 @@ Start with one representative task area and its normal change workflow. Do not b
 
 [Bootstrap and evaluate a repository-knowledge pilot](Repository-Knowledge/Bootstrap-and-Evaluate.md) contains copy-ready planning, implementation, review and maintenance prompts for the trial.
 
-## Test the hypothesis separately
+## Did it help?
 
-Do not count the bootstrap alone as a success or failure. Its proposed benefit is amortised across later work.
-
-Emerging studies of always-loaded `AGENTS.md` and similar context files report mixed results: some found higher inference cost without a measurable correctness gain, while another found lower output and elapsed time but did not evaluate correctness. Those treatments are not the indexed, on-demand pattern described here. They reinforce the need to test task outcomes rather than the presence of documentation or one usage measure in isolation.
-
-Compare representative tasks from the same repository state with and without the reviewed routes. Record first-pass correctness, acceptance-test results, exploratory searches, model calls, tool failures, human corrections, review time, latency and total AI credits. Include the pilot creation and maintenance cost when judging longer-term value.
-
-A lower token or tool-call count is useful only when the result still meets the quality bar.
-
-> **Test separately:** evaluate SDD and model routing in different comparisons so that any repository-orientation benefit is not attributed to SDD.
+After the pilot, try two or three ordinary tasks in that area. Did Copilot find the right files sooner and need fewer corrections? If not, remove the routes. Studies of always-loaded `AGENTS.md` files have found mixed results, so judge by your own tasks.
 
 ## What to read next
 

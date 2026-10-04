@@ -2,13 +2,13 @@
 
 _A first-day guide to working with Copilot. Last reviewed 4 October 2026._
 
-GitHub Copilot can help with small questions, focused edits and larger tasks. Start with a request you can easily check, then give it only as much access and scope as the work needs.
+Start with something you can check in a minute. Give Copilot more room only once you trust what it does with less.
 
 [[_TOC_]]
 
 ## What Copilot can help with
 
-Choose the smallest interaction that fits the job:
+Use the lightest option that does the job:
 
 | Interaction | Useful for | What happens |
 | --- | --- | --- |
@@ -16,9 +16,9 @@ Choose the smallest interaction that fits the job:
 | Ask or read-only chat | Explanations, questions and investigation | Copilot answers without editing your code |
 | Inline chat | A question or edit tied to selected code | The conversation stays beside that code |
 | Agent mode | Investigation, multi-file work and validation | Copilot can use enabled tools, edit files, run commands and respond to results |
-| Plan (VS Code, Visual Studio and JetBrains) | Researching and agreeing an approach before edits | Copilot investigates and proposes a plan |
+| Plan | Researching and agreeing an approach before edits | Copilot investigates and proposes a plan |
 
-Inline suggestions do not currently use AI credits on paid plans. Chat, Plan and Agent requests use your organisation's AI credits, and Agent tasks use the most. See [Working efficiently and managing cost](Working-Efficiently-and-Managing-Cost.md).
+Inline suggestions are free. Chat, Plan and Agent all cost credits, and Agent costs the most because one message can trigger many model calls. See [Working efficiently and managing cost](Working-Efficiently-and-Managing-Cost.md).
 
 Use Agent mode when the task needs Copilot to look around, change files and check its own work. Keep the task bounded and review what it does.
 
@@ -26,9 +26,9 @@ Use Agent mode when the task needs Copilot to look around, change files and chec
 
 - **VS Code:** open the Chat view and use the picker to choose Ask, Plan or Agent mode
 - **Visual Studio:** select the Copilot badge or use **View > GitHub Copilot Chat**, then use the controls in the chat box
-- **JetBrains:** open the Copilot Chat tool window and use the controls offered by your installed plugin version
+- **Rider and WebStorm:** open the Copilot Chat tool window and pick the mode from the chat box
 
-Controls and names can vary by version. If a particular mode is unavailable, use a chat request that states whether you want an explanation only or permission to make edits.
+If you cannot find a mode, say what you want in the message instead: "explain only" or "you may edit these files".
 
 ## Try a read-only first request
 
@@ -38,9 +38,7 @@ Open a file you recognise and ask:
 Explain what this file does and identify its main dependencies. Do not change anything.
 ```
 
-Give Copilot useful, explicit context. Refer to the current file or selected code when that is the relevant evidence; name another file or folder when the answer depends on it. Start with the smallest useful scope rather than asking about the whole repository.
-
-In every IDE, make the boundary clear in the request: say "do not change anything" for an explanation, or name the files you want it to consider. The answer is easier to review when you have asked one checkable question.
+Point Copilot at what matters: the open file, a selection, or a named file or folder. Ask about one thing, not the whole repository. Say "do not change anything" when you only want an explanation. One checkable question gives you one checkable answer.
 
 ## Try your first Agent task
 
@@ -50,13 +48,13 @@ Here is a bounded first task that has a clear finish line:
 Find the test project for this service. Do not edit files. Run the focused tests for this service if you can, then report the command used, the result and any blockers.
 ```
 
-This gives Copilot an outcome, a boundary and the evidence you want back. In Agent mode you may see status updates, tool activity, proposed edits or approval requests before the final response. Read those updates as progress information, not as hidden reasoning. Approve a command or edit only when you understand its purpose and scope.
+The prompt has an outcome, a limit and the evidence you want back. While it works you will see progress messages, tool activity and approval prompts. These are summaries of what it is doing, not its reasoning. Approve a command or edit only when you understand its purpose and scope.
 
-For your first editing task, keep the same pattern: name one small outcome, identify the allowed area, and ask for tests or another check. For example, ask it to update one validation message in a named file and run the focused test. Review the resulting diff before accepting it.
+Your first editing task should follow the same shape. For example, ask it to update one validation message in a named file and run the focused test. Review the resulting diff before accepting it.
 
 ## Review the result
 
-Copilot can be useful and still be wrong. Compare its answer or changes with the request, the relevant code and the evidence it reports.
+Copilot can be wrong while sounding sure. Check its work against what you asked for.
 
 - Check that it stayed within the requested files and behaviour
 - Read the diff, especially generated or broadly formatted changes

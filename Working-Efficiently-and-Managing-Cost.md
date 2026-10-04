@@ -4,31 +4,28 @@ _For regular Copilot users - Last reviewed 4 October 2026_
 
 > **Three useful habits:** start a fresh session for unrelated work, describe the outcome and evidence, and keep always-on instructions short.
 
-Efficient Copilot use comes from clear tasks, relevant context and timely steering. Saving a few words rarely helps if Copilot then searches the wrong area or needs several corrections.
+Trimming words from your request saves little. A vague request that sends Copilot searching the wrong code, or needs three corrections, costs far more.
 
 [[_TOC_]]
 
-## What drives usage
+## What uses credits
 
-GitHub's usage-based billing measures model interactions in AI credits. The cost of an interaction depends on factors including:
+Chat, Edit and Agent use AI credits. Code completions and next-edit suggestions do not.
 
-- The selected model
-- Input, output and supported reasoning tokens
-- Cached-token pricing
-- The number of model calls needed to complete the turn
+1 AI credit = USD 0.01 (100 credits = 1 dollar). Each model prices tokens differently; GitHub's [models and pricing](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing) page lists the rates.
 
-One GitHub AI Credit corresponds to USD $0.01. Credits are the billing unit; tokens measure model input and output. Different models price tokens differently.
+A turn costs more when:
 
-Code completions and next-edit suggestions are currently not billed in AI credits on paid plans. Chat, Edit and Agent interactions can consume credits under the current usage model.
+- you pick a more expensive model
+- the model reads or writes more tokens
+- the turn needs more model calls (rounds) to finish
 
 ### See your usage
 
-- **GitHub:** open your profile menu, select **Copilot settings**, then **Usage**
 - **VS Code:** select the Copilot icon in the status bar
-- **Visual Studio:** select the Copilot badge, then **Copilot Usage**; older versions may call it **Copilot Consumptions**
-- **JetBrains:** select the Copilot icon, then **View quota usage**
-
-The screens available depend on your organisation's plan, IDE version and policies.
+- **Visual Studio:** select the Copilot badge, then **Copilot Usage**
+- **Rider and WebStorm:** select the Copilot icon, then **View quota usage**
+- **If your Copilot account is linked to github.com:** open your profile menu, select **Copilot settings**, then **Usage**
 
 ## 1. Use the lightest interaction that fits
 
@@ -39,7 +36,7 @@ The screens available depend on your organisation's plan, IDE version and polici
 | Make one bounded edit | Inline chat or edit workflow |
 | Investigate and change several files | Agent |
 
-Agent can complete larger tasks independently, which can involve more rounds and tool output. Use it when that capability helps the task. Skills are reusable guidance used within these interactions; the [technology chooser](Copilot-Technologies/Choose-the-right-technology.md) explains when they fit.
+Agent works through many rounds and reads every tool result, so one turn costs more than a chat answer. Use it when the task spans several files.
 
 ## 2. Define the finish line
 
@@ -58,7 +55,7 @@ Limit changes to the orders API and its tests. Preserve the existing error schem
 Add a regression test and run the focused orders tests.
 ```
 
-This gives Copilot enough direction to avoid broad exploration and unnecessary rework.
+Copilot now knows where to look and when it is done.
 
 If the work comes from a ticket, paste its acceptance criteria as the **Evidence** line; they are already your finish line.
 
@@ -76,7 +73,7 @@ A fresh session removes the previous conversation history. It does not remove re
 - Remove duplicated or contradictory guidance
 - Prefer formatters, analysers and tests for rules they can enforce
 
-If a repository needs more detail, keep a short pointer to a [repository-knowledge index](Repository-Knowledge.md#keep-the-root-index-small) and let the agent read only task-relevant documents. Those documents still consume input when read. The proposed benefit is less repeated orientation and correction across later work, which needs testing rather than assuming.
+If a repository needs more detail, keep a short pointer to a [repository-knowledge index](Repository-Knowledge.md#keep-the-root-index-small) and let the agent read only task-relevant documents. Each document the agent reads still costs input, so link only documents that save it real searching.
 
 ## 5. Choose a model for the task at hand
 
@@ -90,15 +87,13 @@ Experiment with representative tasks and notice:
 - The quality and size of the final diff
 - Latency, AI-credit use and rework
 
-Try stronger reasoning models for difficult debugging and ambiguous design. Faster or lower-cost models can suit routine, well-scoped changes. Include corrections and reruns when judging the real cost of a model for a task.
+Use a stronger reasoning model for hard debugging and unclear design. Use a cheaper model for routine, well-scoped changes and simple questions about the code. A cheap model that needs two reruns is not cheap.
 
-For a simple read-only question, try a low-cost model first; a larger model earns its cost on a wide investigation or when speed matters.
-
-Changing the model, reasoning effort or enabled tools during a task can stop the next model call from matching the previously cached input. Choose them before starting when practical, but do not turn configuration into a ritual for every request you send.
+Changing the model, reasoning effort or enabled tools during a task can stop the next model call from matching the previously cached input. Pick them when you start a turn, then leave them alone until it finishes.
 
 ### Why a long pause can matter
 
-When the start of a model call's input matches a recent model call, the provider can reuse that prefix at the lower cached-input rate. After an idle period it expires. For Claude models, assume that a pause of more than about five minutes means the next model call pays full price to re-read the conversation; some models keep it for longer. The next model call can therefore cost more even when your new message is short.
+When the start of a model call's input matches a recent model call, the provider reuses that prefix at the cheaper cached rate. The cache expires after an idle period. For Claude models, assume more than about five minutes; some models keep it longer. After that, your next message pays full price to re-read the whole conversation, however short the message is.
 
 For example, using GitHub's rates reviewed on 27 August 2026:
 
@@ -107,7 +102,7 @@ For example, using GitHub's rates reviewed on 27 August 2026:
 | Claude Sonnet 4.6 | 3 AI credits | 37.5 AI credits |
 | Claude Opus 4.8 | 5 AI credits | 62.5 AI credits |
 
-This example counts only those 100,000 input tokens. It excludes new input, output and reasoning, and it illustrates the size of the difference rather than predicting when a cache miss will occur. Cache retention can vary by model, Copilot route and service load.
+The table counts only the repeated input, not new input or output.
 
 If a turn is unexpectedly slow or expensive, VS Code's Cache Explorer can show how much input each model call reused and where the matching prefix changed. Cache Explorer lists each model call as a "model turn"; this wiki calls it a round.
 
@@ -117,38 +112,36 @@ Anything the model writes, including tool requests and file content, is output. 
 
 ## 6. Use Plan when the work is unclear
 
-Current VS Code and Visual Studio versions include a built-in Plan agent that performs read-only research, asks clarifying questions and prepares an implementation plan. JetBrains also provides Plan. In an older or policy-restricted client without Plan, use Ask or another read-only chat request to agree an implementation plan, then switch to Agent when edits are appropriate.
+Current VS Code and Visual Studio versions include a built-in Plan agent that performs read-only research, asks clarifying questions and prepares an implementation plan. Rider and WebStorm also provide Plan.
 
 Use planning when scope or design needs agreement before code changes. Skip it for obvious, small work.
 
 In VS Code, **Start Implementation** carries the plan and conversation context to the chosen implementation agent. The Plan agent's automatic memory file is cleared when the conversation ends. If you want a durable plan and clear context boundary, use **Open in Editor**, save the concise agreed plan, and begin a new Agent session from it.
 
-See [Spec-Driven Development](Spec-Driven-Development.md) for durable specification, plan and task options.
-
 A handoff is changing driver without stopping: the new driver is handed the full journey log. A fresh chat with a saved plan is a new car that gets only the printed route.
 
 ![Same-agent continuation retains accumulated context, a custom-agent handoff changes instructions while retaining the transcript, and a fresh chat can start from a bounded saved plan](Media/context-cost-options.svg =760x)
 
+See [Spec-Driven Development](Spec-Driven-Development.md) for durable specification, plan and task options.
+
 ## 7. Guide tools without micromanaging every call
 
-The model requests tools and the harness defines how they operate. You normally do not write every search or terminal command yourself.
-
-For an ordinary request, the default tool selection is usually a sensible starting point. Available tools can vary with the client, model, session and organisation policy. Adjust the selection when it becomes confusing, exceeds a client limit or exposes capabilities unrelated to the task.
+You do not need to tell Copilot which search or command to run. The default tools are fine for most turns. Narrow them when Copilot keeps picking irrelevant tools or hits a tool limit.
 
 Useful controls include:
 
-- Use Ask for ordinary read-only investigation where your IDE provides it
+- Use Ask for ordinary read-only investigation
 - Point Copilot to the relevant file, failing test or error when you know it
-- In VS Code, use the **Configure Tools** control when irrelevant tools cause confusion; use the equivalent in another client only where it is available
+- In VS Code, use **Configure Tools** to switch off tools the task does not need
 - Put the correct focused build or test command in repository instructions
 - Use existing quiet or filtered command options when large logs repeatedly flood the conversation
-- Keep generated, vendored and build-output directories out of broad searches where practical
+- Keep generated, vendored and build-output directories out of broad searches
 
 If a repeatable command helps developers and CI as well as Copilot, give it a clear script or task name. Keep scripts tied to a normal team or build need so somebody owns and maintains them.
 
 ## 8. Steer when progress drifts
 
-You are the expert on the repository and intended behaviour. Intervene when Copilot appears stuck in a negative loop, searches unrelated areas, misunderstands the goal or continues without useful progress.
+You are the expert on the repository and intended behaviour. Intervene when Copilot goes round in circles, searches the wrong code or misreads the goal.
 
 Tell it what it missed, point it towards the right component or command, reduce the scope or ask for a plan. A useful correction states the observed problem, the intended boundary and the next check, for example:
 
@@ -157,18 +150,7 @@ Stop changing the Angular client. The defect is in the orders API mapping.
 Inspect OrdersController and its focused tests, then explain the proposed fix before editing.
 ```
 
-Steer early when the current direction is clearly wrong. If useful work is nearly complete, waiting for the final response and then reviewing the IDE's **Files changed** view can be less disruptive. After a large correction, restate the finish line so later rounds do not continue from the earlier misunderstanding.
-
-## A compact working pattern
-
-1. Start a suitable session for the task
-2. State the outcome, scope, constraints and evidence
-3. Point Copilot to the best starting file, test or error
-4. Plan first when the task is genuinely unclear
-5. Let Copilot investigate, implement and validate
-6. Steer when it lacks repository knowledge or drifts
-7. Review the diff and test evidence
-8. Record durable decisions in repository or workspace files
+Steer early when the current direction is clearly wrong. If useful work is nearly complete, let it finish and review the **Files changed** view. After a large correction, restate the finish line so later rounds do not continue from the earlier misunderstanding.
 
 ## What to read next
 
@@ -178,7 +160,6 @@ Steer early when the current direction is clearly wrong. If useful work is nearl
 ## Sources
 
 - [Improving agent quality to optimize AI usage](https://docs.github.com/en/copilot/tutorials/optimize-ai-usage)
-- [Usage-based billing for organisations and enterprises](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises)
 - [Monitoring GitHub AI Credits usage](https://docs.github.com/en/copilot/how-tos/manage-and-track-spending/monitor-ai-usage)
 - [Best practices for using AI in VS Code](https://code.visualstudio.com/docs/agents/best-practices)
 - [Planning with agents in VS Code](https://code.visualstudio.com/docs/agents/run/planning)

@@ -12,13 +12,13 @@ If terms such as model input, harness or tool request are new to you, [How Copil
 
 | Term | Meaning here | What you see |
 | --- | --- | --- |
-| **Turn** | The complete exchange from one user message to the final answer | One message, then zero or more progress updates, tool executions, approvals and file edits, followed by one final answer |
-| **Round** | One internal pass that builds model input, makes one model call and, when requested, executes one or more tools | Status updates, tool activity and approvals may appear while it works |
+| **Turn** | The complete exchange from one user message to the final answer | Your message, then progress, approvals and edits, then one answer |
+| **Round** | One model call, plus any tools it asks for | A progress message or an approval prompt |
 | **Agent loop** | The harness mechanism that runs those rounds | Copilot continues until it can answer or needs you |
 
 ![One user turn containing six rounds of model calls, tool activity and a final response](Media/turns-rounds-agent-loop.svg =820x)
 
-> **A word about "turn".** Different documentation uses it differently. Some count every step as a turn: a *user turn* when you send a message, an *LLM turn* each time the model is called, a *tool turn* when a tool runs. VS Code's Cache Explorer lists each model call as a "model turn", and several SDKs count model calls in their `max_turns` limits. **In this wiki a turn is the whole exchange: your message, all the work Copilot does, and its final answer. Each model call inside it is a round.** When you read "turn" elsewhere, check which meaning is in use.
+> **A word about "turn".** Different documentation uses it differently. Some count every step as a turn: a *user turn* when you send a message, an *LLM turn* each time the model is called, a *tool turn* when a tool runs. VS Code's Cache Explorer lists each model call as a "model turn", and several SDKs count model calls in their `max_turns` limits. **In this wiki a turn is the whole exchange: your message, all the work Copilot does, and its final answer. Each model call inside it is a round.** We never qualify "turn"; for the steps inside a round we say *your request*, *model input*, *model call*, *model output* (which may contain *tool requests*), *tool result* and *final response*. When you read "turn" elsewhere, check which meaning is in use.
 
 ## Follow one turn from start to finish
 
@@ -28,7 +28,7 @@ You send:
 The checkout tests are failing. Find the failing test, fix the cause and verify the result.
 ```
 
-A plausible turn looks like this:
+Here is how that turn might go:
 
 | Round | Model output (tool request) | Harness action | New result, which feeds the next round |
 | ---: | --- | --- | --- |
@@ -39,32 +39,26 @@ A plausible turn looks like this:
 | 5 | Run the same `dotnet test` command again | Runs it | 1 passed |
 | 6 | Final answer, no tool request | Stops the loop and returns the text | "The discount was applied per line item. Fixed in `ApplyDiscounts`; the Checkout tests pass." |
 
-Each row only exists because of the row above it: the command found in round 1 is what round 2 runs, the failure in round 2 is what round 3 reads, and so on. The person initiated one turn. In this example, the harness sends model input to the model six times. Your next message starts a new turn, and those six rounds travel with it as history.
-
-## What happens in a round
-
-Each round follows the loop in [How Copilot works](How-Copilot-Works.md#the-30-second-explanation): build model input, make one model call, then run any requested tools and record the results.
-
-For example, the model might request reads of both the failing test and its implementation in one round. The harness performs the permitted reads and their results can enter the next round's model input. The model requests; the harness validates and executes; a person may approve.
-
-Generated tool requests count as model output. Tool results can become model input in a later round. Large generated edits and large tool results can therefore affect usage, but a tool request does not have one fixed token or credit price.
+Each row depends on the one above: round 1 finds the command that round 2 runs, round 2 finds the failure that round 3 reads. You sent one message; the model was called six times. Your next message starts a new turn, and all six rounds go with it as history.
 
 The progress messages you see are summaries, not the model's private reasoning.
 
-## Why later rounds can be larger
+## Why later rounds cost more
 
-Later model input can carry conversation state forward and add search results, file contents, terminal output or edits. Accumulated context can contain both useful evidence and noise.
+Each round's model input carries everything from the rounds before it, plus the new tool results. By round 5 in the example, the model is re-reading the search results, both files, the first test run and the diff before it decides to rerun the test.
 
-The harness may select, truncate or compact material as the session grows, but this does not guarantee that irrelevant material disappears. This affects:
+That has two effects:
 
-- **Quality:** relevant evidence helps; noisy results can distract
-- **Usage:** accumulated input can be processed again in later rounds, subject to caching and context management
+- **Quality:** useful results help the next decision; a long test log mostly gets in the way
+- **Cost:** you pay to process the earlier input again in every round, though repeated input is cheaper when the provider has it cached
 
-[Tokens and context windows](Tokens-and-Context-Windows.md#how-context-grows-during-a-turn) illustrates this accumulation.
+Tool requests are model output and tool results become model input, so a large edit or a noisy command costs more than a small one. The harness can trim or summarise old material when the session grows, but it does not reliably remove the noise for you.
+
+[Tokens and context windows](Tokens-and-Context-Windows.md#how-context-grows-during-a-turn) shows this growth as a diagram.
 
 ## When to steer
 
-Step in when the loop drifts, repeats work or lacks a constraint you know; [Working efficiently and managing cost](Working-Efficiently-and-Managing-Cost.md#8-steer-when-progress-drifts) explains how to redirect it and review the result.
+Step in when Copilot goes in circles, wanders off the task, or is missing something you know. [How to steer](Working-Efficiently-and-Managing-Cost.md#8-steer-when-progress-drifts).
 
 ## What to read next
 

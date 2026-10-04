@@ -2,9 +2,9 @@
 
 _A practical guide for new and regular Copilot users. Last reviewed 4 October 2026._
 
-This wiki helps people use GitHub Copilot confidently in day-to-day development. It covers the ideas behind Copilot, practical ways to work with it, and the customisations a team can share.
+How to get useful work out of GitHub Copilot in your IDE, and what is going on when it works for you.
 
-Examples are VS Code-first where products differ. The guidance also covers Visual Studio and JetBrains, but feature availability can change with the installed IDE and Copilot extension or plugin.
+Examples use VS Code. Visual Studio, Rider and WebStorm work the same way; where a menu or button differs, the linked GitHub docs show it.
 
 ## Start here
 
@@ -19,7 +19,7 @@ Examples are VS Code-first where products differ. The guidance also covers Visua
 - [Look up a term in the Copilot glossary](Copilot-Glossary.md)
 - [Choose instructions, a skill, prompt file or custom agent](Copilot-Technologies/Choose-the-right-technology.md)
 
-### Team practices (once you are comfortable)
+### Team practices
 
 - [Build concise repository knowledge for people and agents](Repository-Knowledge.md)
 - [Use Spec-Driven Development and reviewed plans](Spec-Driven-Development.md)
@@ -30,7 +30,7 @@ Examples are VS Code-first where products differ. The guidance also covers Visua
 
 ## About this guidance
 
-Each page includes a review date and links to first-party documentation where support or behaviour matters. Check those links if a feature is missing from your IDE or behaves differently from an example.
+If a feature is missing or behaves differently, check the sources at the bottom of the page.
 
 ## Sources
 

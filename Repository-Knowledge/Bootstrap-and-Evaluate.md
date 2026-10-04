@@ -2,7 +2,7 @@
 
 _For a repository maintainer piloting this once; most readers only need the [parent page](../Repository-Knowledge.md) - Last reviewed 4 October 2026_
 
-This runbook creates a small task-driven knowledge router for one representative area. It deliberately avoids generating a repository encyclopaedia.
+This runbook creates a small task-driven knowledge router for one representative area. It does not try to document the whole repository.
 
 [[_TOC_]]
 
@@ -13,15 +13,15 @@ Choose:
 - One representative application area, such as back-end persistence
 - One normal activity, such as planning and implementing a bounded change
 - Two or three later tasks that can test whether the routes reduce rediscovery
-- A repository commit and success criteria that can be reused for matched comparisons
+- A commit to start from, so you can rerun the same task with and without the routes
 
-Write the task contract precisely enough that both conditions implement the same behaviour. Spell out details that could be read two ways, such as exact validation rules and who may access a page.
+Write each task precisely enough that both runs build the same thing. Spell out details that could be read two ways, such as exact validation rules and who may access a page.
 
-Record the AI credits and human review time spent creating the pilot. Those costs belong in the eventual evaluation.
+Note roughly how much time the pilot took to build, so you can judge whether it paid off.
 
 ## 1. Plan the routing structure
 
-In VS Code, select the built-in **Plan** agent, deliberately choose an available reasoning-capable model, and paste:
+In VS Code, select the built-in **Plan** agent, pick a stronger reasoning model, and paste:
 
 ```text
 Plan a small repository-knowledge pilot for one representative task area in this repository.
@@ -52,8 +52,6 @@ Choose repository-specific boundaries. Do not impose a generic architecture taxo
 
 Stop when the pilot can route the selected task area without documenting unrelated parts of the repository.
 ```
-
-The prompt leaves the model unset so that the person running the trial can choose from the models available to their plan.
 
 ### Human review point
 
@@ -91,7 +89,7 @@ Do not add the standing instruction pointer yet. First return:
 - commands or checks used to validate links and structure
 ```
 
-Use one agent for the pilot.
+Use one agent for the whole implementation, not subagents, so the result is easy to review.
 
 ## 3. Review the routes before enabling them
 
@@ -121,7 +119,7 @@ Correct confirmed defects without expanding the pilot into unrelated areas.
 
 Only after the review passes, add or refine the concise repository-wide pointer shown in [Keep the entry point small](../Repository-Knowledge.md#keep-the-entry-point-small).
 
-Add short canonical build, test and lint commands alongside it only when they apply broadly. Do not automatically include the contents of every linked document.
+Add short canonical build, test and lint commands alongside it only when they apply broadly. Link to the index; do not paste its documents into the instructions file.
 
 ## 5. Evaluate later tasks
 
@@ -145,7 +143,7 @@ Do not edit files. Report:
 Do not propose an update for incidental implementation work that leaves the documented contract unchanged. Do not copy ticket history or duplicate an existing maintained source. If no update is needed, say why.
 ```
 
-Prefer this manual signal before considering hooks or automatic semantic rewrites.
+Run this by hand. Do not automate documentation rewrites.
 
 ## Related guidance
 
