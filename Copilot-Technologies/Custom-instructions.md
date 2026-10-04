@@ -80,7 +80,7 @@ An instruction can direct Copilot to a repository document when a task needs ful
 
 Link to a file in the repository so Copilot can open it. The detail stays out of every model call, and the team can still review it. Any folder works: `.docs`, `docs/` or a file in the root.
 
-A link does not mean Copilot reads the file. In VS Code, linked instruction files are added automatically only if the `chat.includeReferencedInstructions` setting allows it. Other documents are read only when the agent opens them, for example because your request tells it to. Check **References** in the response to see what was used.
+A link does not mean Copilot reads the file. In VS Code Local sessions, linked instruction files are added automatically only if the `chat.includeReferencedInstructions` setting allows it. Other documents are read only when the agent opens them, for example because your request tells it to. Check **References** in the response to see what was used.
 
 See [Repository knowledge for people and agents](../Repository-Knowledge.md) for the task-routing pattern, and use its [bounded pilot](../Repository-Knowledge/Bootstrap-and-Evaluate.md) when trialling the approach.
 

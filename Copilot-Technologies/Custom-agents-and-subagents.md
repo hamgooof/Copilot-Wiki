@@ -120,7 +120,7 @@ A strong planner plus a cheaper implementer makes each step easier to check. It 
 
 ## Subagents
 
-Current VS Code documentation describes a subagent as a stateless delegated worker with its own context. The parent passes a task, the child works independently, and only its result returns to the parent.
+In VS Code Local sessions, a subagent is a stateless delegated worker with its own context. The parent passes a task, the child works independently, and only its result returns to the parent.
 
 A subagent is a second vehicle sent on an errand: only its delivery note comes back.
 
@@ -146,7 +146,7 @@ Current VS Code documentation gives this model priority for a subagent:
 2. The custom agent's top-level `model`, including its fallback array
 3. The parent conversation's model
 
-A subagent can run on the same model as the parent or a cheaper one, never a more expensive one. It can still cost more overall, because it builds its own context and makes its own model calls.
+When you pick its model yourself, a subagent can run on the same model as the parent or a cheaper one, never a more expensive one; letting VS Code choose the model (Auto) is the exception. It can still cost more overall, because it builds its own context and makes its own model calls.
 
 Subagents are documented in detail for VS Code and are in preview in JetBrains IDEs. Visual Studio does not list them.
 

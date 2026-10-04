@@ -36,7 +36,7 @@ A turn costs more when:
 | Make one bounded edit | Inline chat or edit workflow |
 | Investigate and change several files | Agent |
 
-Agent works through many rounds and reads every tool result, so one turn costs more than a chat answer. Use it when the task spans several files.
+Agent works through many rounds and reads every tool result, so one turn usually costs more than a chat answer. Use it when the task spans several files.
 
 ## 2. Define the finish line
 

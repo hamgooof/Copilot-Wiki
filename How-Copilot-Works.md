@@ -23,17 +23,17 @@ A quick question takes one round. Fixing a bug can take several rounds of search
 
 ![A user request passing through the harness and model, with an optional tool loop, before a final response returns](Media/agent-loop.svg =760x)
 
-The model keeps no memory between calls. Every call, including the first call of your next message, is sent the whole conversation again by the harness. That is why long sessions get slower and dearer, and why a new session "forgets". The [whiteboard analogy](Tokens-and-Context-Windows.md#the-whiteboard-analogy) pictures this.
+The model keeps no memory between calls. Every call, including the first call of your next message, is sent the whole conversation again by the harness (or a summary of the older part, once it has been compacted). That is why long sessions get slower and dearer, and why a new session "forgets" the conversation; only your instruction files, and any notes Copilot has saved to memory, come back. The [whiteboard analogy](Tokens-and-Context-Windows.md#the-whiteboard-analogy) pictures this.
 
 ![Two stacked model inputs: the second turn's input contains everything from the first turn again, plus the tool results, the reply and your new message](Media/turn-two-resends-turn-one.svg =760x)
 
 ## How the model works
 
-A language model is trained on an enormous amount of text to do one job: given the text so far, predict the next token. If the training text were only "It is a good morning" and "They shouted good morning!", then after the input "He shouted good" the model would put almost all of its probability on "morning", because that is the only continuation it has ever seen. Real models are trained on far more text, so they learn patterns rather than memorising sentences, and the same word gets different predictions depending on everything that came before it.
+A language model is trained on an enormous amount of text to do one job: given the text so far, predict the next token. If the training text were only "It is a good morning" and "They shouted good morning!", then after the input "They shouted good" the model would predict "morning", because that is the only continuation it has ever seen. Real models are trained on far more text, so they learn patterns rather than only memorising sentences, and the same word gets different predictions depending on everything that came before it.
 
 That is the whole generation step: tokens in, a probability for every possible next token out. One token is chosen and appended, and the model runs again, until it produces a stop token. Prose, tool requests and any reasoning text are all produced this way.
 
-![Measured next-token probabilities from GPT-2 for three short inputs. "It is a good" is followed by idea 18 percent, thing 13 percent, time 6 percent. "He shouted good" is followed by a hyphen 30 percent, night 17 percent, morning 12 percent. "public static void" is followed by main 62 percent, Main 12 percent, set 1 percent](Media/next-token-probabilities.svg =760x)
+![Measured next-token probabilities from GPT-2 for three short inputs. "It is a good" is followed by idea 18 percent, thing 13 percent, time 6 percent. "He shouted good" is followed by a hyphen 29 percent, night 17 percent, morning 12 percent. "public static void" is followed by main 62 percent, Main 12 percent, set 1 percent](Media/next-token-probabilities.svg =760x)
 
 The numbers in the diagram are real: they come from GPT-2, the smallest public GPT model, run locally. Current models are far larger and are tuned further after training, so their numbers differ, but the mechanism is the same.
 
@@ -43,7 +43,7 @@ Three things follow:
 - **Everything in the window counts.** The prediction depends on the whole input, not just the last few words. "good" on its own predicts punctuation; after "He shouted" it predicts "night" and "morning". An irrelevant file in the window is not harmless padding: it is part of what the next token is predicted from.
 - **Reasoning is more tokens.** Text the model writes becomes part of what it predicts from next, so good intermediate text makes good later text more likely, and junk makes junk more likely.
 
-Irrelevant context does harm, not just take up space. Models get worse at using a fact when it sits in the middle of a long input, and as the input grows longer and noisier, even when the fact is there ([Liu et al., 2023](https://arxiv.org/abs/2307.03172); [Chroma, 2025](https://www.trychroma.com/research/context-rot)).
+Irrelevant context can do harm, not just take up space. Models tend to get worse at using a fact when it sits in the middle of a long input, and as the input grows longer and noisier, even when the fact is there ([Liu et al., 2023](https://arxiv.org/abs/2307.03172); [Chroma, 2025](https://www.trychroma.com/research/context-rot)).
 
 ## What reaches the model
 
@@ -61,7 +61,7 @@ That input can include:
 - File content or other material you explicitly reference
 - Search, file, terminal and editing results from earlier rounds
 
-Copilot does not send your whole repository. A file reaches the model only if it is open, you attach it, or the model asks to search or read it.
+Copilot does not send your whole repository. A source file reaches the model only if it is open, you attach it, or the model asks to search or read it. Instruction files are the exception: those are added automatically.
 
 ## The four parts worth remembering
 

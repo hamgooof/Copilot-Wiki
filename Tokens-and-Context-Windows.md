@@ -25,7 +25,7 @@ A **tokeniser** splits text into pieces (a word, part of a word, or punctuation)
 
 ![One tokeniser turning pieces of text into numeric token IDs](Media/tokenisation-example.svg =720x)
 
-Each model has its own tokeniser, so the same text gives different counts on different models. You never need to count tokens yourself.
+Different models often use different tokenisers, so the same text can give different counts on different models. You never need to count tokens yourself.
 
 ## Token counts in more detail
 

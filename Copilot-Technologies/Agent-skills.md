@@ -15,7 +15,7 @@ Use a skill when a task needs:
 - Detailed guidance that should load only for relevant work
 - Supporting scripts, examples or references
 
-A skill changes how Copilot does the task, not who does it. The agent, its model and its tools stay the same.
+A skill changes how Copilot does the task, not who does it. The agent, its model and its tools stay the same (unless the skill is set to run in its own subagent, an experimental option).
 
 ## Project and personal skills
 
