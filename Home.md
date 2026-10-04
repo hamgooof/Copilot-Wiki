@@ -4,7 +4,7 @@ _A practical guide for new and regular Copilot users. Last reviewed 4 October 20
 
 How to get useful work out of GitHub Copilot in your IDE, and what is going on when it works for you.
 
-Examples use VS Code. Visual Studio, Rider and WebStorm work the same way; where a menu or button differs, the linked GitHub docs show it.
+Examples use VS Code. Visual Studio works the same way, and so do the JetBrains IDEs (Rider, WebStorm, IntelliJ IDEA), which share one Copilot plugin; where a menu or button differs, the linked GitHub docs show it.
 
 ## Start here
 

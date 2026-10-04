@@ -1,6 +1,6 @@
 # Prompt files
 
-_For Copilot users in VS Code, Visual Studio, Rider and WebStorm - Last reviewed 4 October 2026_
+_For Copilot users in VS Code, Visual Studio and JetBrains IDEs - Last reviewed 4 October 2026_
 
 A prompt file is a saved request you run yourself, with new inputs each time. Copilot never runs it on its own. A prompt file is like a saved sat-nav destination: nothing happens until you choose to start it.
 
@@ -60,7 +60,7 @@ Write the `argument-hint` and placeholder so the input is obvious even if your I
 
 - **VS Code:** type `/` followed by the prompt name, run **Chat: Run Prompt**, or open the file and select the play button
 - **Visual Studio:** use `#prompt:` in chat or the context picker
-- **Rider and WebStorm (preview):** type `/` followed by the prompt name in Copilot Chat, or manage the files through **Settings > Tools > GitHub Copilot > Customizations**
+- **JetBrains IDEs (preview):** type `/` followed by the prompt name in Copilot Chat, or manage the files through **Settings > Tools > GitHub Copilot > Customizations**
 
 ## When a custom agent fits instead
 

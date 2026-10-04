@@ -83,7 +83,7 @@ Use skills in each IDE:
 
 - **VS Code:** describe the task and Copilot picks the skill, or run `/review-changes develop`
 - **Visual Studio 2026 18.5 or later:** Copilot discovers applicable skills automatically. To make your intent clear, ask it to use the named `review-changes` skill; do not rely on the VS Code slash-command syntax
-- **Rider and WebStorm (preview):** describe the task, or ask Copilot to use the `review-changes` skill by name
+- **JetBrains IDEs (preview):** describe the task, or ask Copilot to use the `review-changes` skill by name
 
 If you need a particular skill, name it in your request and check the response shows it was used.
 

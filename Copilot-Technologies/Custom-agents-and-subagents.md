@@ -44,7 +44,7 @@ Save a shared repository agent as `.github/agents/<name>.agent.md`, for example 
 
 - **VS Code:** choose it from the agent picker in Copilot Chat
 - **Visual Studio 2026 18.4 or later:** choose it from the agent picker or type `@` followed by the custom-agent name
-- **Rider and WebStorm (preview):** choose it from Copilot Chat's agent selector
+- **JetBrains IDEs (preview):** choose it from Copilot Chat's agent selector
 
 If the agent does not appear, check the file is in `.github/agents/` and that your IDE or plugin is up to date.
 
@@ -148,7 +148,7 @@ Current VS Code documentation gives this model priority for a subagent:
 
 A subagent can run on the same model as the parent or a cheaper one, never a more expensive one. It can still cost more overall, because it builds its own context and makes its own model calls.
 
-Subagents are documented in detail for VS Code and are in preview in Rider and WebStorm. Visual Studio does not list them.
+Subagents are documented in detail for VS Code and are in preview in JetBrains IDEs. Visual Studio does not list them.
 
 ## When a subagent helps
 

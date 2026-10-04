@@ -26,7 +26,7 @@ Use Agent mode when the task needs Copilot to look around, change files and chec
 
 - **VS Code:** open the Chat view and use the picker to choose Ask, Plan or Agent mode
 - **Visual Studio:** select the Copilot badge or use **View > GitHub Copilot Chat**, then use the controls in the chat box
-- **Rider and WebStorm:** open the Copilot Chat tool window and pick the mode from the chat box
+- **JetBrains IDEs:** open the Copilot Chat tool window and pick the mode from the chat box
 
 If you cannot find a mode, say what you want in the message instead: "explain only" or "you may edit these files".
 

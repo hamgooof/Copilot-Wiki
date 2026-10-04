@@ -24,7 +24,7 @@ A turn costs more when:
 
 - **VS Code:** select the Copilot icon in the status bar
 - **Visual Studio:** select the Copilot badge, then **Copilot Usage**
-- **Rider and WebStorm:** select the Copilot icon, then **View quota usage**
+- **JetBrains IDEs:** select the Copilot icon, then **View quota usage**
 - **If your Copilot account is linked to github.com:** open your profile menu, select **Copilot settings**, then **Usage**
 
 ## 1. Use the lightest interaction that fits
@@ -112,7 +112,7 @@ Anything the model writes, including tool requests and file content, is output. 
 
 ## 6. Use Plan when the work is unclear
 
-Current VS Code and Visual Studio versions include a built-in Plan agent that performs read-only research, asks clarifying questions and prepares an implementation plan. Rider and WebStorm also provide Plan.
+Current VS Code and Visual Studio versions include a built-in Plan agent that performs read-only research, asks clarifying questions and prepares an implementation plan. JetBrains IDEs also provide Plan.
 
 Use planning when scope or design needs agreement before code changes. Skip it for obvious, small work.
 

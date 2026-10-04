@@ -13,7 +13,7 @@ Custom instructions are Markdown files that Copilot adds to your chat automatica
 | Repository-wide instructions | `.github/copilot-instructions.md` | Work across the repository |
 | Path-specific instructions | `.github/instructions/NAME.instructions.md` | Files matching the YAML `applyTo` pattern |
 
-Both forms work in VS Code, Visual Studio, Rider and WebStorm (preview in Rider and WebStorm).
+Both forms work in VS Code, Visual Studio and JetBrains IDEs (preview in JetBrains IDEs).
 
 ## Create your first file
 
@@ -92,7 +92,7 @@ Keep instructions short enough to review regularly. Put longer, occasional workf
 
 ## Advanced note: `AGENTS.md`
 
-VS Code reads `AGENTS.md`, but Visual Studio, Rider and WebStorm do not list it for Copilot Chat. If your team uses more than VS Code, stick to the `.github` files.
+VS Code reads `AGENTS.md`, but Visual Studio and JetBrains IDEs do not list it for Copilot Chat. If your team uses more than VS Code, stick to the `.github` files.
 
 ## Review checklist
 
