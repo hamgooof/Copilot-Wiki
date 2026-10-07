@@ -20,13 +20,6 @@ Every customisation is text that ends up in the [model input](How-Copilot-Works.
 
 Most teams start with repository instructions, add one skill for a procedure they repeat, and only later create a custom agent. Skip prompt files for new work: VS Code is replacing them with skills ([details](Copilot-Technologies/Prompt-files.md#vs-code-deprecation)).
 
-## Use these building blocks in wider practices
-
-Two team practices build on these technologies:
-
-- [Repository knowledge](Repository-Knowledge.md): documentation written for people and agents, with your instructions file as the entry point
-- [Spec-Driven Development](Spec-Driven-Development.md): agree the intent in writing before code. It can use Plan, custom agents and subagents, but it needs none of them, and repository knowledge does not need SDD.
-
 ## Try ideas without changing the shared repository
 
 Review and commit shared customisations like any other code. While experimenting, add an untracked local file to `.git/info/exclude` to keep it out of Git status. This only affects your clone. It does not change the team's `.gitignore` or hide files Git already tracks, and Copilot still reads the file. Move a useful experiment into the repository and review it before the team relies on it.

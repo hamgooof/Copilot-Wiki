@@ -76,13 +76,13 @@ A one-line example helps, such as `Method_Condition_Result` for C# test names. L
 
 ## Link to detail instead of copying it
 
-An instruction can direct Copilot to a repository document when a task needs fuller guidance. For a larger codebase, point to a small index and let the agent select relevant detail; [Keep the entry point small](../Repository-Knowledge.md#keep-the-entry-point-small) shows the pointer to use.
+An instruction can direct Copilot to a repository document when a task needs fuller guidance. For a larger codebase, point to a small index and let the agent select relevant detail. **[DEFERRED, not in 2.0]** [Keep the entry point small](../Repository-Knowledge.md#keep-the-entry-point-small) shows the pointer to use.
 
 Link to a file in the repository so Copilot can open it. The detail stays out of every model call, and the team can still review it. Any folder works: `.docs`, `docs/` or a file in the root.
 
 A link does not mean Copilot reads the file. In VS Code Local sessions, linked instruction files are added automatically only if the `chat.includeReferencedInstructions` setting allows it. Other documents are read only when the agent opens them, for example because your request tells it to. Check **References** in the response to see what was used.
 
-See [Repository knowledge for people and agents](../Repository-Knowledge.md) for the task-routing pattern, and use its [bounded pilot](../Repository-Knowledge/Bootstrap-and-Evaluate.md) when trialling the approach.
+**[DEFERRED, not in 2.0]** See [Repository knowledge for people and agents](../Repository-Knowledge.md) for the task-routing pattern, and use its [bounded pilot](../Repository-Knowledge/Bootstrap-and-Evaluate.md) when trialling the approach.
 
 ## Context and usage
 

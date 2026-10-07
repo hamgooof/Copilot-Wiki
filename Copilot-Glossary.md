@@ -74,7 +74,7 @@ In this wiki, the harness is GitHub Copilot.
 | **Prompt file** | A saved job request that a person deliberately invokes |
 | **Custom agent** | A reusable worker configuration with a role, instructions, tools and optional model choice |
 | **Subagent** | A separate worker invoked to handle a delegated task and return a result |
-| **Spec-Driven Development (SDD)** | Agreeing a specification and a reviewed plan before the agent edits code, then reviewing the result against the specification. A ticket's acceptance criteria can be the specification |
+| **[DEFERRED, not in 2.0]** **Spec-Driven Development (SDD)** | Agreeing a specification and a reviewed plan before the agent edits code, then reviewing the result against the specification. A ticket's acceptance criteria can be the specification |
 | **Repository-knowledge index** | Short index pages that route a task to the few documents that matter, so the agent reads only what is relevant. Like the lobby directory: it tells you which floor, not what is in every office |
 
 See [Choose the right Copilot technology](Copilot-Technologies/Choose-the-right-technology.md) for the practical skill, custom-agent and prompt-file comparisons.

@@ -19,11 +19,6 @@ Examples use VS Code. Visual Studio works the same way, and so do the JetBrains 
 - [Look up a term in the Copilot glossary](Copilot-Glossary.md)
 - [Choose instructions, a skill, prompt file or custom agent](Copilot-Technologies/Choose-the-right-technology.md)
 
-### Team practices
-
-- [Build concise repository knowledge for people and agents](Repository-Knowledge.md)
-- [Use Spec-Driven Development and reviewed plans](Spec-Driven-Development.md)
-
 ## Browse Copilot customisations
 
 [Copilot technologies](Copilot-Technologies.md) is the directory for shared instructions, skills, custom agents, subagents and prompt files.

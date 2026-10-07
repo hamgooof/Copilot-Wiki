@@ -120,7 +120,7 @@ A handoff is changing driver without stopping: the new driver is handed the full
 
 ![Same-agent continuation retains accumulated context, a custom-agent handoff changes instructions while retaining the transcript, and a fresh chat can start from a bounded saved plan](Media/context-cost-options.svg =760x)
 
-See [Spec-Driven Development](Spec-Driven-Development.md) for durable specification, plan and task options.
+**[DEFERRED, not in 2.0]** See [Spec-Driven Development](Spec-Driven-Development.md) for durable specification, plan and task options.
 
 ## 7. Guide tools without micromanaging every call
 

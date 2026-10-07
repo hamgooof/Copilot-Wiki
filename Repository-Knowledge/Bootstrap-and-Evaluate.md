@@ -1,5 +1,7 @@
 # Bootstrap and evaluate a repository-knowledge pilot
 
+> **[DEFERRED, not in 2.0]** This page is not published yet. Do not copy it to Confluence.
+
 _For a repository maintainer piloting this once; most readers only need the [parent page](../Repository-Knowledge.md) - Last reviewed 4 October 2026_
 
 This runbook creates a small task-driven knowledge router for one representative area. It does not try to document the whole repository.

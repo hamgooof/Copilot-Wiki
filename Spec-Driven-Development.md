@@ -1,5 +1,7 @@
 # Spec-Driven Development
 
+> **[DEFERRED, not in 2.0]** This page is not published yet. Do not copy it to Confluence.
+
 _For developers planning and delivering non-trivial changes - Last reviewed 4 October 2026_
 
 **Spec-Driven Development (SDD)** puts durable intent before implementation. A specification defines what should be built, then planning and task stages refine how it will be delivered before code is changed.

@@ -65,7 +65,7 @@ Use the built-in Plan agent when a cross-cutting change needs investigation, the
 
 Plan, Implement, Test and Review are workflow phases. They do not each need to become a custom agent.
 
-If you want the plan saved and reviewed before any code is written, see [Spec-Driven Development](../Spec-Driven-Development.md). Outside VS Code, ask for a plan without edits and save it to a file yourself.
+If you want the plan saved and reviewed before any code is written, use Plan and save the plan to a file. **[DEFERRED, not in 2.0]** [Spec-Driven Development](../Spec-Driven-Development.md) goes further. Outside VS Code, ask for a plan without edits and save it to a file yourself.
 
 ## Prompt file or skill
 
@@ -92,7 +92,7 @@ Use a skill for the detailed procedure: which tests to select, how to interpret 
 
 Not every IDE supports every option. See the [support table](../Copilot-Technologies.md#current-ide-support).
 
-Open the implementation page for the option you chose, build [repository knowledge](../Repository-Knowledge.md), or use the [Copilot glossary](../Copilot-Glossary.md) when two terms still seem close.
+Open the implementation page for the option you chose, or use the [Copilot glossary](../Copilot-Glossary.md) when two terms still seem close.
 
 ## Sources
 

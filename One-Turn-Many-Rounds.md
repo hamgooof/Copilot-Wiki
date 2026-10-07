@@ -32,7 +32,7 @@ Here is how that turn might go:
 
 | Round | Model output (tool request) | Harness action | New result, which feeds the next round |
 | ---: | --- | --- | --- |
-| 1 | Search for `*Checkout*Tests*.cs` | Runs the search tool | `tests/Shop.Tests/CheckoutTests.cs`, so the command is `dotnet test tests/Shop.Tests --filter Checkout` |
+| 1 | Search for test files matching `*Checkout*Tests*` or `*Checkout*spec*` | Runs the search tool | `tests/Shop.Tests/CheckoutTests.cs`, so the command is `dotnet test tests/Shop.Tests --filter Checkout` |
 | 2 | Run `dotnet test tests/Shop.Tests --filter Checkout` | Asks you to approve the command, then runs it in the terminal | One failure: `Voucher_is_applied_once` expected 90.00 but got 81.00, at line 42 |
 | 3 | Read `CheckoutTests.cs` around line 42 and `src/Shop/Checkout/CheckoutService.cs` | Reads both files | The test applies a 10 percent voucher to a two-item order; `ApplyVoucher` is called once per line item, so the voucher is applied twice |
 | 4 | Edit `CheckoutService.cs` so `ApplyVoucher` runs once per order | Applies the edit and shows you the diff | Updated file |

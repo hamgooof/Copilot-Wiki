@@ -1,5 +1,7 @@
 # Repository knowledge for people and agents
 
+> **[DEFERRED, not in 2.0]** This page is not published yet. Do not copy it to Confluence.
+
 _For developers and repository maintainers - Last reviewed 4 October 2026_
 
 Give the agent a short index that points each kind of task to the two or three documents it needs. It reads those, checks them against the code, and skips the rest. The aim is fewer rounds spent re-reading code to rediscover how an area is meant to work.

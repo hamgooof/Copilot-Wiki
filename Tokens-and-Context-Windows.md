@@ -47,7 +47,7 @@ Each round adds a block and resends all the earlier ones, so four rounds process
 
 ## What happens when the window fills
 
-Before the window runs out, VS Code [summarises older parts of the conversation](https://code.visualstudio.com/docs/agents/concepts/context#_context-window-and-compaction) to free space. You can also do this yourself with **Compact Conversation**. Summaries lose detail: an exact command, a decision, an edge case. Compaction is itself a model call that reads the whole conversation, so it is not free, and the calls after it start with a changed input, so the cache is rebuilt.
+Before the window runs out, VS Code [summarises older parts of the conversation](https://code.visualstudio.com/docs/agents/concepts/context#_context-window-and-compaction) to free space. You can also do this yourself with **Compact Conversation**. Summaries lose detail: an exact command, a decision, an edge case. Compaction is itself a model call that reads the whole conversation, so it is not free. What follows is in effect a new conversation that starts from the summary.
 
 If something must survive, write it in a file in the repository, where Copilot can read it again.
 

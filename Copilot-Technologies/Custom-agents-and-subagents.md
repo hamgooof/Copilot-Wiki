@@ -82,7 +82,7 @@ handoffs:
 
 `send` defaults to `false`. Setting it to `true` submits the next request automatically and removes that manual pause.
 
-For a review that is not swayed by the earlier conversation, start a new chat or use a subagent. [Spec-Driven Development](../Spec-Driven-Development.md#move-from-planning-to-implementation-in-vs-code) explains when each transition fits.
+For a review that is not swayed by the earlier conversation, start a new chat or use a subagent. **[DEFERRED, not in 2.0]** [Spec-Driven Development](../Spec-Driven-Development.md#move-from-planning-to-implementation-in-vs-code) explains when each transition fits.
 
 ## Select models for each phase
 
