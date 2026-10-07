@@ -18,7 +18,7 @@ If terms such as model input, harness or tool request are new to you, [How Copil
 
 ![One user turn containing six rounds of model calls, tool activity and a final response](Media/turns-rounds-agent-loop.svg =820x)
 
-> **A word about "turn".** Different documentation uses it differently. Some count every step as a turn: a *user turn* when you send a message, an *LLM turn* each time the model is called, a *tool turn* when a tool runs. VS Code's Cache Explorer lists each model call as a "model turn", and several SDKs count model calls in their `max_turns` limits. **In this wiki a turn is the whole exchange: your message, all the work Copilot does, and its final answer. Each model call inside it is a round.** We never qualify "turn"; for the steps inside a round we say *your request*, *model input*, *model call*, *model output* (which may contain *tool requests*), *tool result* and *final response*. When you read "turn" elsewhere, check which meaning is in use.
+> **"Turn" means different things in different tools.** In this wiki a turn is your message, all the work Copilot does, and its final answer; each model call inside it is a round. See [How Copilot works](How-Copilot-Works.md#the-30-second-explanation) for the full note.
 
 ## Follow one turn from start to finish
 
@@ -32,20 +32,20 @@ Here is how that turn might go:
 
 | Round | Model output (tool request) | Harness action | New result, which feeds the next round |
 | ---: | --- | --- | --- |
-| 1 | Search for `*Checkout*Tests*.cs` and read `tests/Shop.Tests/Shop.Tests.csproj` | Runs the search and read tools | `tests/Shop.Tests/CheckoutTests.cs` exists; the project uses xUnit, so the command is `dotnet test tests/Shop.Tests --filter Checkout` |
-| 2 | Run `dotnet test tests/Shop.Tests --filter Checkout` | Asks you to approve the command, then runs it in the terminal | One failure: `Applies_discount_once` expected 90.00 but got 81.00, at line 42 |
-| 3 | Read `CheckoutTests.cs` around line 42 and `src/Shop/Checkout/CheckoutService.cs` | Reads both files | The test applies one 10 percent code; `ApplyDiscounts` applies the code to every line item instead of once per order |
-| 4 | Edit `CheckoutService.cs` so the discount is applied once per order | Applies the edit and shows you the diff | Updated file |
+| 1 | Search for `*Checkout*Tests*.cs` | Runs the search tool | `tests/Shop.Tests/CheckoutTests.cs`, so the command is `dotnet test tests/Shop.Tests --filter Checkout` |
+| 2 | Run `dotnet test tests/Shop.Tests --filter Checkout` | Asks you to approve the command, then runs it in the terminal | One failure: `Voucher_is_applied_once` expected 90.00 but got 81.00, at line 42 |
+| 3 | Read `CheckoutTests.cs` around line 42 and `src/Shop/Checkout/CheckoutService.cs` | Reads both files | The test applies a 10 percent voucher to a two-item order; `ApplyVoucher` is called once per line item, so the voucher is applied twice |
+| 4 | Edit `CheckoutService.cs` so `ApplyVoucher` runs once per order | Applies the edit and shows you the diff | Updated file |
 | 5 | Run the same `dotnet test` command again | Runs it | 1 passed |
-| 6 | Final answer, no tool request | Stops the loop and returns the text | "The discount was applied per line item. Fixed in `ApplyDiscounts`; the Checkout tests pass." |
+| 6 | Final answer, no tool request | Stops the loop and returns the text | "The voucher was applied once per line item. Fixed in `ApplyVoucher`; the Checkout tests pass." |
 
-Each row depends on the one above: round 1 finds the command that round 2 runs, round 2 finds the failure that round 3 reads. You sent one message; the model was called six times. Your next message starts a new turn, and all six rounds go with it as history.
+Each row depends on the one above: round 1 finds the command that round 2 runs, round 2 finds the failure that round 3 reads. A model call can ask for several tools at once (round 3 reads two files), but only when they do not depend on each other; a read that needs a search result has to wait for the next round. You sent one message; the model was called six times. Your next message starts a new turn, and all six rounds go with it as history.
 
 The progress messages you see are summaries, not the model's private reasoning.
 
 ## Why later rounds cost more
 
-Each round's model input carries everything from the rounds before it, plus the new tool results. By round 5 in the example, the model is re-reading the search results, both files, the first test run and the diff before it decides to rerun the test.
+Each round's model input carries everything from the rounds before it, plus the new tool results. By round 5 in the example, the model is sent the search results, both files, the first test run and the diff all over again before it decides to rerun the test.
 
 That has two effects:
 

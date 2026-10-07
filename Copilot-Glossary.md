@@ -34,7 +34,7 @@ In this wiki, the harness is GitHub Copilot.
 
 ## Conversation and agent terms
 
-> **A word about "turn".** Different documentation uses it differently. Some count every step as a turn: a *user turn* when you send a message, an *LLM turn* each time the model is called, a *tool turn* when a tool runs. VS Code's Cache Explorer lists each model call as a "model turn", and several SDKs count model calls in their `max_turns` limits. **In this wiki a turn is the whole exchange: your message, all the work Copilot does, and its final answer. Each model call inside it is a round.** We never qualify "turn"; for the steps inside a round we say *your request*, *model input*, *model call*, *model output* (which may contain *tool requests*), *tool result* and *final response*. When you read "turn" elsewhere, check which meaning is in use.
+> **"Turn" means different things in different tools.** In this wiki a turn is your message, all the work Copilot does, and its final answer; each model call inside it is a round. See [How Copilot works](How-Copilot-Works.md#the-30-second-explanation) for the full note.
 
 | Term | Meaning used in this wiki | Also called |
 | --- | --- | --- |

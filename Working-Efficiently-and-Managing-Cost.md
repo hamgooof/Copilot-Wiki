@@ -57,11 +57,11 @@ Add a regression test and run the focused orders tests.
 
 Copilot now knows where to look and when it is done.
 
-If the work comes from a ticket, paste its acceptance criteria as the **Evidence** line; they are already your finish line.
+Treat the **Evidence** line like the acceptance criteria on a ticket: if you cannot say how you will check it, the request is not ready.
 
 ## 3. Start a new session for unrelated work
 
-Continue a session while its earlier decisions and evidence remain useful. Start a new one when the goal, repository or problem changes.
+Continue a session while its earlier decisions and evidence remain useful. Start a new one when the goal, repository or problem changes. Weigh the cost too: coming back to a long session after a break means the whole history is re-read at full price, and a new session with a short brief can be cheaper than waking an old one.
 
 A fresh session removes the previous conversation history. It does not remove repository instructions or other customisations that apply automatically.
 
@@ -72,8 +72,6 @@ A fresh session removes the previous conversation history. It does not remove re
 - Move occasional detailed workflows into skills
 - Remove duplicated or contradictory guidance
 - Prefer formatters, analysers and tests for rules they can enforce
-
-If a repository needs more detail, keep a short pointer to a [repository-knowledge index](Repository-Knowledge.md#keep-the-root-index-small) and let the agent read only task-relevant documents. Each document the agent reads still costs input, so link only documents that save it real searching.
 
 ## 5. Choose a model for the task at hand
 
@@ -116,7 +114,7 @@ Current VS Code and Visual Studio versions include a built-in Plan agent that pe
 
 Use planning when scope or design needs agreement before code changes. Skip it for obvious, small work.
 
-In VS Code, **Start Implementation** carries the plan and conversation context to the chosen implementation agent. The Plan agent's automatic memory file is cleared when the conversation ends. If you want a durable plan and clear context boundary, use **Open in Editor**, save the concise agreed plan, and begin a new Agent session from it.
+In VS Code the Plan agent keeps the plan in a session memory file, which lives only as long as that conversation. **Start Implementation** stays in the same conversation, so the implementing agent gets the plan and everything discussed so far. If you want the plan to outlive the conversation, or a clean start for implementation, use **Open in Editor**, save the agreed plan as a file, and begin a new Agent session from it.
 
 A handoff is changing driver without stopping: the new driver is handed the full journey log. A fresh chat with a saved plan is a new car that gets only the printed route.
 
@@ -126,7 +124,7 @@ See [Spec-Driven Development](Spec-Driven-Development.md) for durable specificat
 
 ## 7. Guide tools without micromanaging every call
 
-You do not need to tell Copilot which search or command to run. The default tools are fine for most turns. Narrow them when Copilot keeps picking irrelevant tools or hits a tool limit.
+You do not need to tell Copilot which search or command to run. The default tools are fine for most turns. Narrow them when Copilot keeps picking irrelevant tools or hits a tool limit. If the same narrow set is useful every time, put it in a [custom agent](Copilot-Technologies/Custom-agents-and-subagents.md) so nobody has to set it up by hand.
 
 Useful controls include:
 

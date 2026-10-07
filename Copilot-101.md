@@ -28,7 +28,7 @@ Use Agent mode when the task needs Copilot to look around, change files and chec
 - **Visual Studio:** select the Copilot badge or use **View > GitHub Copilot Chat**, then use the controls in the chat box
 - **JetBrains IDEs:** open the Copilot Chat tool window and pick the mode from the chat box
 
-If you cannot find a mode, say what you want in the message instead: "explain only" or "you may edit these files".
+Use Ask mode when you only want an explanation. In Agent mode, add "read only, do not change anything" to the message when you want investigation without edits.
 
 ## Try a read-only first request
 
@@ -38,7 +38,7 @@ Open a file you recognise and ask:
 Explain what this file does and identify its main dependencies. Do not change anything.
 ```
 
-Point Copilot at what matters: the open file, a selection, or a named file or folder. Ask about one thing, not the whole repository. Say "do not change anything" when you only want an explanation. One checkable question gives you one checkable answer.
+Attach or name the files that matter (the + button, or the file path in your message) and ask about one thing, not the whole repository. One checkable question gives you one checkable answer.
 
 ## Try your first Agent task
 

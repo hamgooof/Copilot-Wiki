@@ -37,13 +37,8 @@ That is the whole generation step: tokens in, a probability for every possible n
 
 The numbers in the diagram are real: they come from GPT-2, the smallest public GPT model, run locally. Current models are far larger and are tuned further after training, so their numbers differ, but the mechanism is the same.
 
-Three things follow:
+So the model has no memory of its own: the only "memory" is whatever text the harness puts back in the window. And everything in the window counts. The prediction depends on the whole input, not just the last few words: "good" on its own predicts punctuation, but after "He shouted" it predicts "night" and "morning". An irrelevant file in the window is not harmless padding; it is part of what the next token is predicted from, and research on long inputs shows models tend to get worse at using a fact as the input grows longer and noisier (see Sources).
 
-- **No state between calls.** The only "memory" is whatever text the harness puts back in the window.
-- **Everything in the window counts.** The prediction depends on the whole input, not just the last few words. "good" on its own predicts punctuation; after "He shouted" it predicts "night" and "morning". An irrelevant file in the window is not harmless padding: it is part of what the next token is predicted from.
-- **Reasoning is more tokens.** Text the model writes becomes part of what it predicts from next, so good intermediate text makes good later text more likely, and junk makes junk more likely.
-
-Irrelevant context can do harm, not just take up space. Models tend to get worse at using a fact when it sits in the middle of a long input, and as the input grows longer and noisier, even when the fact is there ([Liu et al., 2023](https://arxiv.org/abs/2307.03172); [Chroma, 2025](https://www.trychroma.com/research/context-rot)).
 
 ## What reaches the model
 
@@ -61,7 +56,7 @@ That input can include:
 - File content or other material you explicitly reference
 - Search, file, terminal and editing results from earlier rounds
 
-Copilot does not send your whole repository. A source file reaches the model only if it is open, you attach it, or the model asks to search or read it. Instruction files are the exception: those are added automatically.
+Copilot does not send your whole repository. In Agent mode the model is told which file you have open, but its contents are sent only if you attach it (the + button) or the model asks to read it. In Ask mode the open file's contents are included. Instruction files are added automatically.
 
 ## The four parts worth remembering
 
@@ -78,7 +73,7 @@ The harness is the software around the model. It:
 - Validates and executes tool requests
 - Returns tool results as context for later calls
 - Manages the agent loop, approvals and limits
-- Gives each model family its own tools and system prompt, because models are trained differently: Claude models edit files with `replace_string_in_file`, GPT models with `apply_patch`, and Gemini models get reminders to call tools instead of narrating them
+- Gives each model family its own tools and system prompt, because models are trained differently. For example, Claude models edit files with `replace_string_in_file` and GPT models with `apply_patch`
 
 The VS Code team puts it this way: *the model is the engine; the harness is the car.* Swapping the engine changes performance, but the car decides where the engine's power goes.
 
@@ -102,7 +97,7 @@ Common tools can:
 - Run terminal commands and tests
 - Inspect errors and source-control changes
 
-The model requests one or more tools and supplies their arguments. The harness checks and performs the actions, asking you to approve them where required, then returns the results. A failed test can therefore guide the next edit in another round.
+The model requests one or more tools and supplies their arguments. The harness checks and performs the actions, asking you to approve them where required, then sends the results back to the model in the next round. A failed test can therefore guide the next edit.
 
 ## What Copilot does not automatically know
 
